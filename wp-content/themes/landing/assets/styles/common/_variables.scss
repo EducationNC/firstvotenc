@@ -1,0 +1,239 @@
+// Grid settings
+// -------------------------
+
+$main-sm-columns:       12;
+$sidebar-sm-columns:    4;
+
+$grid-gutter-width:     20px;
+
+$container-lg:          1260px;
+$container-md:          100%;
+// Navbar collapse
+//** Point at which the navbar becomes uncollapsed.
+$grid-float-breakpoint:     992px;
+
+
+
+// Media queries breakpoints
+$screen-lg-min:         1280px;
+$screen-md-max:         ($screen-lg-min - 1);
+
+// Colors
+// -------------------------
+
+$teal-lightest: #B6D8D1;
+$teal-lighter: #72B9B2;
+$teal-light: #1B9F97;
+$teal: #008A80;
+
+$yellow-lightest: #FEF8E1;
+$yellow-lighter: #FAF3CB;
+$yellow-light: #F7EDB4;
+$yellow: #F5E79E;
+
+$brown-lightest: #E6C8AA;
+$brown-lighter: #CD9B70;
+$brown-light: #B67442;
+$brown: #9E5420;
+
+$rust-lightest: #E5BAA4;
+$rust-lighter: #CB8167;
+$rust-light: #B4533D;
+$rust: #9F2824;
+
+$tomato-lightest: #F5C6AE;
+$tomato-lighter: #EC9575;
+$tomato-light: #E3674A;
+$tomato: #DA322A;
+
+$white: #ffffff;
+$gray-lightest: #D8D7D7;
+$gray-lighter: #B4B3B3;
+$gray-light: #949393;
+$gray: #767575;
+$gray-dark: #373636;
+$black: #000000;
+
+$black-transparent:     rgba(0, 0, 0, 0);
+$white-80:              rgba(255, 255, 255, .8);
+$gray-transparent:      rgba(118, 117, 117, 0);
+$gray-60:               rgba(118, 117, 117, .6);
+$gray-dark-60:          rgba(55, 54, 54, .6);
+$teal-35:               rgba(0, 138, 128, .35);
+$teal-lighter-50:       rgba(117, 185, 178, .5);
+$teal-lightest-50:      rgba(183, 216, 209, .5);
+$teal-lightest-75:      rgba(183, 216, 209, .75);
+
+// Set standards
+$brand-primary:         $teal;
+$brand-success:         $teal;
+
+$text-color:            $gray-dark;
+
+$link-color:            $teal;
+$link-hover-color:      $teal-light;
+
+// Gradients
+// -------------------------
+
+// Utility mixin from Compass
+@mixin filter-gradient($start-color, $end-color, $orientation: vertical) {
+  $gradient-type: if($orientation == vertical, 0, 1);
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=#{$gradient-type}, startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}');
+}
+
+@mixin trans-gray-gradient-bottom() {
+  @include filter-gradient($gray-transparent, $gray-dark-60, vertical);
+  background-image: -o-linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
+  background-image: -moz-linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
+  background-image: -ms-linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
+  background-image: linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
+}
+
+@mixin trans-black-gradient-right() {
+  @include filter-gradient($black-transparent, $black, horizontal);
+  background-image: -o-linear-gradient(90deg, $black-transparent 50%, $black 100%);
+  background-image: -moz-linear-gradient(90deg, $black-transparent 50%, $black 100%);
+  background-image: -ms-linear-gradient(90deg, $black-transparent 50%, $black 100%);
+  background-image: linear-gradient(90deg, $black-transparent 50%, $black 100%);
+}
+
+@mixin teal-yellow-gradient-bottom() {
+  @include filter-gradient($teal-lightest, $yellow-lighter, vertical);
+  background-image: -o-linear-gradient(180deg, $teal-lightest 0%, $yellow-lighter 100%);
+  background-image: -moz-linear-gradient(180deg, $teal-lightest 0%, $yellow-lighter 100%);
+  background-image: -ms-linear-gradient(180deg, $teal-lightest 0%, $yellow-lighter 100%);
+  background-image: linear-gradient(180deg, $teal-lightest 0%, $yellow-lighter 100%);
+}
+
+@mixin teal-yellow-gradient-right() {
+  @include filter-gradient($teal-lightest, $yellow-lighter, horizontal);
+  background-image: -o-linear-gradient(90deg, $teal-lightest 0%, $yellow-lighter 100%);
+  background-image: -moz-linear-gradient(90deg, $teal-lightest 0%, $yellow-lighter 100%);
+  background-image: -ms-linear-gradient(90deg, $teal-lightest 0%, $yellow-lighter 100%);
+  background-image: linear-gradient(90deg, $teal-lightest 0%, $yellow-lighter 100%);
+}
+
+@mixin teal-lightest-slant() {
+  @include filter-gradient($teal-lightest, darken($teal-lightest, 5%), horizontal);
+  background-image: -o-linear-gradient(60deg, $teal-lightest 50%, darken($teal-lightest, 5%) 50%);
+  background-image: -moz-linear-gradient(60deg, $teal-lightest 50%, darken($teal-lightest, 5%) 50%);
+  background-image: -ms-linear-gradient(60deg, $teal-lightest 50%, darken($teal-lightest, 5%) 50%);
+  background-image: linear-gradient(60deg, $teal-lightest 50%, darken($teal-lightest, 5%) 50%);
+}
+
+@mixin trans-teal-light-to-dark-slant() {
+  @include filter-gradient($teal-lightest-75, $teal, horizontal);
+  background-image: -o-linear-gradient(60deg, $teal-lightest-75 50%, $teal 50%);
+  background-image: -moz-linear-gradient(60deg, $teal-lightest-75 50%, $teal 50%);
+  background-image: -ms-linear-gradient(60deg, $teal-lightest-75 50%, $teal 50%);
+  background-image: linear-gradient(60deg, $teal-lightest-75 50%, $teal 50%);
+}
+
+@mixin trans-teal-dark-slant() {
+  @include filter-gradient($teal-35, $teal, horizontal);
+  background-image: -o-linear-gradient(60deg, $teal-35 50%, $teal 50%);
+  background-image: -moz-linear-gradient(60deg, $teal-35 50%, $teal 50%);
+  background-image: -ms-linear-gradient(60deg, $teal-35 50%, $teal 50%);
+  background-image: linear-gradient(60deg, $teal-35 50%, $teal 50%);
+}
+
+@mixin teal-dark-right() {
+  @include filter-gradient($teal, darken($teal, 5%), horizontal);
+  background-image: -o-linear-gradient(90deg, $teal 50%, darken($teal, 5%) 50%);
+  background-image: -moz-linear-gradient(90deg, $teal 50%, darken($teal, 5%) 50%);
+  background-image: -ms-linear-gradient(90deg, $teal 50%, darken($teal, 5%) 50%);
+  background-image: linear-gradient(90deg, $teal 50%, darken($teal, 5%) 50%);
+}
+
+@mixin tomato-right() {
+  @include filter-gradient($tomato-light, $tomato, horizontal);
+  background-image: -o-linear-gradient(90deg, $tomato-light 50%, $tomato 50%);
+  background-image: -moz-linear-gradient(90deg, $tomato-light 50%, $tomato 50%);
+  background-image: -ms-linear-gradient(90deg, $tomato-light 50%, $tomato 50%);
+  background-image: linear-gradient(90deg, $tomato-light 50%, $tomato 50%);
+}
+
+
+// Typography
+// -------------------------
+
+$font-family-sans-serif:  "Raleway", sans-serif;
+$font-family-serif:       "Libre Baskerville", serif;
+
+$font-family-base:      $font-family-serif;
+$headings-font-family:  $font-family-sans-serif;
+
+// Buttons
+// -------------------------
+
+$btn-default-color:     $white;
+$btn-default-bg:        $tomato-light;
+$btn-default-border:    transparent;
+
+$btn-primary-color:     $white;
+$btn-primary-bg:        $teal-light;
+$btn-primary-border:    transparent;
+
+
+// Glyphicons path
+// -------------------------
+$icon-font-path:        "../fonts/";
+
+
+// Navbar
+// -------------------------
+
+$navbar-height:         44px;
+$navbar-margin-bottom:  0;
+$navbar-border-radius:  0;
+$navbar-padding-vertical: 12px;
+$navbar-padding-horizontal: 8px;
+
+$navbar-default-bg:     transparent;
+$navbar-default-color:  $gray-dark;
+$navbar-default-border: transparent;
+
+$navbar-default-link-color:         $gray;
+$navbar-default-link-hover-color:   $teal-light;
+$navbar-default-link-active-color:  $teal-light;
+$navbar-default-link-active-bg:     transparent;
+
+
+// Dropdowns
+// -------------------------
+
+$dropdown-bg:                    $teal-lightest;
+$dropdown-border:                transparent;
+$dropdown-fallback-border:       transparent;
+$dropdown-divider-bg:            transparent;
+
+$dropdown-link-color:            $gray-dark;
+$dropdown-link-hover-color:      $white;
+$dropdown-link-hover-bg:         $teal;
+
+$dropdown-link-active-color:     $teal;
+$dropdown-link-active-bg:        lighten($teal-lightest, 5%);
+
+
+// Thumbnails
+// -------------------------
+
+$thumbnail-padding:       0;
+$thumbnail-border:        none;
+$thumbnail-border-radius: 0;
+
+
+// Alerts
+// -------------------------
+
+$alert-padding:               10px;
+$alert-border-radius:         0px;
+
+$alert-danger-bg:             $rust-lightest;
+$alert-danger-text:           $rust;
+$alert-danger-border:         $rust-lighter;
+
+$alert-warning-bg:            $brown-lightest;
+$alert-warning-text:          $brown;
+$alert-warning-border:        $brown-lighter;

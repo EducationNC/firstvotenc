@@ -1,0 +1,42 @@
+.wp-pagenavi {
+  font-family: $font-family-sans-serif;
+  margin-bottom: 2em;
+
+  a, span {
+    border: 1px solid $teal;
+    border-radius: 0 !important;
+    min-width: 32px;
+    height: 32px;
+    display: inline-block;
+    text-align: center;
+    background: $teal-lightest;
+    color: $gray-dark;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+
+  a:hover, a:active, a:focus {
+    text-decoration: none;
+    border-color: $teal;
+    background: $teal-light;
+    color: $white;
+  }
+
+  span.current {
+    background: $teal;
+    color: $white;
+    border-color: $teal;
+    font-weight: normal;
+  }
+
+  span.pages {
+    border: none;
+    color: $gray;
+    font-weight: 300;
+    background: none;
+  }
+
+  @media (min-width: $screen-md-min) {
+    margin-bottom: 0;
+  }
+}

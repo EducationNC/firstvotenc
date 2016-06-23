@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="77px" height="73px" viewBox="0 0 77 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>people-2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path id="path-1" d="M25.50625,42.2631579 C23.58125,42.2631579 21.175,41.3026316 21.175,39.3815789 C21.175,37.4605263 23.58125,37.9407895 25.50625,34.5789474 C25.50625,34.5789474 34.16875,11.0460526 16.84375,11.0460526 C-0.48125,11.0460526 8.18125,34.5789474 8.18125,34.5789474 C10.10625,37.9407895 12.5125,37.4605263 12.5125,39.3815789 C12.5125,41.3026316 10.10625,42.2631579 8.18125,42.2631579 C5.29375,42.7434211 2.8875,42.2631579 -1.77635684e-15,45.1447368 L-1.77635684e-15,72.5197368 L24.0625,72.5197368 C25.025,64.3552632 27.43125,47.5460526 29.35625,43.2236842 L29.8375,42.7434211 C28.875,42.2631579 27.43125,42.2631579 25.50625,42.2631579 L25.50625,42.2631579 Z"></path>
+        <path id="path-3" d="M77,41.3026316 C73.63125,37.4605263 70.74375,37.9407895 67.375,37.4605263 C64.96875,36.9802632 62.08125,36.5 62.08125,34.0986842 C62.08125,31.6973684 64.96875,32.6578947 67.375,28.3355263 C67.375,28.3355263 77.48125,6.39488462e-14 56.7875,6.39488462e-14 C35.6125,0.480263158 45.71875,28.8157895 45.71875,28.8157895 C48.125,32.6578947 51.0125,32.1776316 51.0125,34.0986842 C51.0125,36.5 48.125,36.9802632 45.71875,37.4605263 C41.3875,37.9407895 37.5375,37.4605263 33.6875,44.6644737 C31.7625,48.9868421 28.875,72.5197368 28.875,72.5197368 L77,72.5197368 L77,41.3026316 L77,41.3026316 Z"></path>
+    </defs>
+    <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Desktop-HD-Copy-3" sketch:type="MSArtboardGroup" transform="translate(-30.000000, -252.000000)">
+            <g id="Banner3" sketch:type="MSLayerGroup" transform="translate(-36.000000, 145.000000)">
+                <g id="people-2-+-1-in-5-North-Carolin-+-1-in-4-children-live-+-Shape-+-Little-investment-in-+-and-loans-are-diffic-+-Group" transform="translate(36.000000, -8.000000)">
+                    <g id="people-2-+-1-in-5-North-Carolin-+-1-in-4-children-live" transform="translate(30.000000, 115.000000)">
+                        <g id="people-2" transform="translate(38.500000, 36.500000) scale(-1, 1) translate(-38.500000, -36.500000) ">
+                            <mask id="mask-2" sketch:name="Mask" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Mask" fill="#FFFFFF" sketch:type="MSShapeGroup" xlink:href="#path-1"></use>
+                            <mask id="mask-4" sketch:name="Mask" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <use id="Mask" fill="#FFFFFF" sketch:type="MSShapeGroup" xlink:href="#path-3"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

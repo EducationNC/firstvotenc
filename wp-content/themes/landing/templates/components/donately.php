@@ -1,0 +1,1 @@
+<script src="https://www.dntly.com/assets/js/v1/form.js" data-donately-id="act_21d323e401bc" data-stripe-publishable-key="pk_live_jfgIyJtLJvDo55PZvHz43u13" data-donately-address="true" data-donately-onbehalf="true" ></script>
