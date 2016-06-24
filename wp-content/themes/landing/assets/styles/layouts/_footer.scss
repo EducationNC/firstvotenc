@@ -1,35 +1,14 @@
 .global-footer {
-  background: $teal-lighter;
-
-  .striped-line {
-    height: 40px;
-  }
-
-  .h4 {
-    font-weight: 800;
-    font-size: 20px;
-  }
+  background-image: url('../images/footer.jpg');
+  background-size: cover;
+  padding: 30px 0 25px;
 
   a {
-    color: $gray-dark;
-
-    &.btn {
-      vertical-align: 2px;
-    }
-
-    &[class^='icon-'] {
-      text-decoration: none;
-      font-size: 26px;
-      vertical-align: -4px;
-      padding: 0 5px;
-    }
+    color: $jet;
+    text-decoration: underline;
 
     &:hover {
-      color: darken($teal, 10%);
-
-      &.btn {
-        color: $white;
-      }
+      color: $navy;
     }
   }
 }

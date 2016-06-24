@@ -13,7 +13,7 @@ use Roots\Sage\Nav;
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo Assets\asset_path('images/logo-new.png'); ?>" alt="NC Community Development Initiative" /></a>
+      <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo Assets\asset_path('images/logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/logo@2x.png'); ?> 2x" alt="First Vote NC" /></a>
     </div>
 
     <nav class="navbar collapse navbar-collapse" data-topbar role="navigation" id="navbar-collapse-1">

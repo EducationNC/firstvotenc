@@ -19,12 +19,14 @@
 }
 
 .navbar {
-  padding-top: 31px;
+  padding-top: 19px;
 
   a {
     font-size: 18px;
+    text-transform: uppercase;
     text-decoration: none;
     font-family: $font-family-sans-serif;
+    color: $jet;
     cursor: pointer;
 
     @media (min-width: $screen-md-min) {
@@ -34,20 +36,11 @@
     }
   }
 
-  .open.open > a {
-    color: $teal;
-  }
-
-  @media (max-width: 1125px) {
-    padding-top: 21px;
-  }
-
   .navbar-nav > li > a {
-    color: $gray;
     background: none !important;
 
-    &:hover {
-      color: $teal;
+    &:hover, &:active {
+      color: $scarlet;
     }
 
     @media (max-width: 1125px) {
@@ -80,7 +73,7 @@
 
   &:hover {
     & > a {
-      color: $teal !important;
+      // color: $teal !important;
     }
 
     @media (min-width: $screen-md-min) {

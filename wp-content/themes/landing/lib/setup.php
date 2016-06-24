@@ -60,7 +60,7 @@ function display_sidebar() {
     is_404(),
     is_front_page(),
     is_singular('post'),
-    is_page('donate'),
+    // is_page('donate'),
     is_search(),
     is_page_template('template-events.php'),
   ]);
@@ -83,26 +83,26 @@ function assets() {
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 function google_fonts() {
-  echo '<link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700|Raleway:400,800" rel="stylesheet" type="text/css">';
+  echo '<link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic|Merriweather:400,400italic,700italic,700" rel="stylesheet" type="text/css">';
 }
 add_action('wp_head', __NAMESPACE__ . '\\google_fonts');
 add_action('embed_head', __NAMESPACE__ . '\\google_fonts');
 
-
-/**
- * Make sure WP SEO isn't adding meta tags to the head of data dashboard
- */
-function remove_yoast_data_dashboard() {
-  if (is_post_type_archive('data') || is_singular('data-viz')) {
-    if (defined('WPSEO_VERSION')) { // Yoast SEO
-      global $wpseo_og;
-      remove_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ), 30 );
-      remove_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
-    }
-  }
-}
-add_filter('wp_enqueue_scripts', __NAMESPACE__ . '\\remove_yoast_data_dashboard', 10);
-
+//
+// /**
+//  * Make sure WP SEO isn't adding meta tags to the head of data dashboard
+//  */
+// function remove_yoast_data_dashboard() {
+//   if (is_post_type_archive('data') || is_singular('data-viz')) {
+//     if (defined('WPSEO_VERSION')) { // Yoast SEO
+//       global $wpseo_og;
+//       remove_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ), 30 );
+//       remove_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
+//     }
+//   }
+// }
+// add_filter('wp_enqueue_scripts', __NAMESPACE__ . '\\remove_yoast_data_dashboard', 10);
+//
 
 /**
  * Assets for embeds

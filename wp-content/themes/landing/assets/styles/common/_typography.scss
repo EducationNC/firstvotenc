@@ -81,7 +81,7 @@ h6, .h6 {
   margin: 0 0 1.5em;
 
   a {
-    color: $gray;
+    // color: $gray;
   }
 }
 
@@ -89,7 +89,7 @@ h6, .h6 {
   font-size: 15px;
   line-height: 1.593em;
   background: none;
-  color: $gray-light;
+  // color: $gray-light;
   font-family: $font-family-sans-serif;
 }
 
@@ -110,8 +110,8 @@ blockquote, .blockquote {
   p {
     font-family: $font-family-sans-serif;
     padding: 10px 20px;
-    border-left: 20px solid $gray-lightest;
-    background: lighten($gray-lightest, 9%);
+    // border-left: 20px solid $gray-lightest;
+    // background: lighten($gray-lightest, 9%);
     margin: 0;
 
     @include respondto(xs) {
@@ -139,8 +139,6 @@ blockquote, .blockquote {
 
     &[style*=left], &[style*=right] {
       position: relative;
-      // border-top: 3px solid $ice;
-      // border-bottom: 3px solid $ice;
       margin: 0 0 1.25rem;
 
       &:before {
@@ -149,7 +147,7 @@ blockquote, .blockquote {
         top: -22px;
         left: -24px;
         z-index: -1;
-        color: $gray-lightest;
+        // color: $gray-lightest;
         font-size: 144px;
         line-height: 1em;
       }
@@ -199,7 +197,7 @@ blockquote, .blockquote {
     }
 
     &[style*=center] {
-      color: $gray-light;
+      // color: $gray-light;
       margin: 2.5rem 0;
 
       @media (min-width: 893px) {

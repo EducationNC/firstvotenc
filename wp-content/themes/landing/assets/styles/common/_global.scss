@@ -76,6 +76,12 @@
   }
 }
 
+@media (min-width: $screen-sm-min) {
+  .flex-sm-up {
+    display: flex;
+  }
+}
+
 @media (min-width: $screen-md-min) {
   .flex-md-up {
     display: flex;
@@ -160,12 +166,6 @@
   }
 }
 
-.circle-image {
-  img {
-    border-radius: 50%;
-  }
-}
-
 .overflow-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -183,98 +183,10 @@
   overflow: hidden;
 }
 
-// Fixed background image
-.fixed-background-image {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  z-index: 0;
-  background-position: center;
-  background-size: cover;
-
-  &:before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    background-color: $gray-dark-60;
-    position: absolute;
-    z-index: 100;
-  }
+.white-bg {
+  background: $white;
 }
 
-.skew {
-  position: relative;
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: skewX(30deg);
-    z-index: -1;
-  }
-}
-
-.notch-img {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 66%;
-  overflow: hidden;
-
-  .notch-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotate(60deg);
-    transform-origin: 60.5% 35%;
-    overflow: hidden;
-    width: 112.5%;
-    padding-bottom: 112.5%;
-    height: 0;
-
-    img {
-      transform: rotate(-60deg);
-      transform-origin: 68% 59%;
-      width: 89%;
-    }
-  }
-}
-
-.has-notch {
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    border-style: solid;
-    border-color: transparent $white transparent transparent;
-    border-width: 0 21.8px 37.5px 0;
-  }
-}
-
-.striped-line {
-  background-image: repeating-linear-gradient(
-    60deg,
-    $teal,
-    $teal 2px,
-    transparent 2px,
-    transparent 8px
-  );
-  height: 10px;
-  position: relative;
-  margin: 3em 0 3em;
-
-  .h2 {
-    background: $white;
-    position: absolute;
-    left: 50%;
-    transform: translate3d(-50%, 0, 0);
-    top: -15px;
-    margin: 0;
-    padding: 0 30px;
-  }
+.gray-bg {
+  background: $steel;
 }

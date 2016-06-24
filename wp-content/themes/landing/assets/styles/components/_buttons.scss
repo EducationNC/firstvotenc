@@ -1,61 +1,28 @@
 .btn.btn {
-  background: $teal-light;
-  font-family: $font-family-sans-serif;
-  border-radius: 0;
-  color: $white;
   text-transform: uppercase;
   text-decoration: none;
-  z-index: 1;
   transition: all .3s ease;
 
   &.menu-item {
     margin-left: 15px;
     padding: 0;
+    background: $navy-lighter;
 
     @media (max-width: $screen-sm-max) {
       max-width: 200px;
     }
 
-    & > a, a:hover, a:focus, a:active {
+    a {
       color: $white;
     }
-  }
 
-  &:hover {
-    background: $teal;
+    a:hover, a:focus, a:active {
+      color: $white;
+      background: $navy-darker !important;
+    }
   }
 
   &:focus {
     outline: none;
   }
-}
-
-.btn.btn-skew {
-  @extend .skew;
-  background: none;
-  font-size: 18px;
-
-  &:before {
-    @include tomato-right;
-    background-size: 200% 100%;
-    background-position: 0 0;
-    transition: background-position .4s ease;
-  }
-
-  &:hover {
-    background: none;
-
-    &:before {
-      background-position: 100% 0;
-    }
-  }
-}
-
-.btn.btn-teal:before {
-  @include teal-dark-right;
-}
-
-.donately-submit {
-  @extend .btn;
-  @extend .btn-skew;
 }

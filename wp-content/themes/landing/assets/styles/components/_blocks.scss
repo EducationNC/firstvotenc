@@ -21,28 +21,20 @@
     z-index: 3;
   }
 
-  .avatar {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 1;
-    width: 140px;
-  }
-
   .entry-header {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 10px 111px 10px 15px;
-    @include trans-teal-light-to-dark-slant;
+    // @include trans-teal-light-to-dark-slant;
     background-size: 230% 100%;
     background-position: -111px 0;
     z-index: 2;
     transition: background-position .4s ease;
 
     .post-title {
-      color: $gray-dark;
+      // color: $gray-dark;
       font-size: 16px;
       line-height: 1.5em;
     }
@@ -100,7 +92,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    // @include trans-gray-gradient-bottom;
     transition: transform .5s;
   }
 
@@ -131,7 +122,7 @@
     }
 
     .entry-meta {
-      color: $teal;
+      // color: $teal;
 
       &:before {
         color: $text-color;
@@ -159,7 +150,7 @@
   }
 
   .entry-meta {
-    color: $gray;
+    // color: $gray;
   }
 
   .author {
@@ -182,7 +173,7 @@
     }
 
     .post-title {
-      color: $teal;
+      // color: $teal;
     }
   }
 }
