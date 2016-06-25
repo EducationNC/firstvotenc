@@ -51,6 +51,10 @@ $raven: #2B2E34;
 $jet: #12151B;
 $black: #000000;
 
+$pearl-60: rgba(195, 198, 204, .6);
+$stone-transparent: rgba(93, 96, 102, 0);
+$stone-60: rgba(93, 96, 102, .6);
+
 // Set standards
 $brand-primary:         $scarlet-darkest;
 $brand-success:         $navy;
@@ -69,13 +73,13 @@ $link-hover-color:      $navy-darkest;
   filter: progid:DXImageTransform.Microsoft.gradient(gradientType=#{$gradient-type}, startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}');
 }
 
-// @mixin trans-gray-gradient-bottom() {
-//   @include filter-gradient($gray-transparent, $gray-dark-60, vertical);
-//   background-image: -o-linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
-//   background-image: -moz-linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
-//   background-image: -ms-linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
-//   background-image: linear-gradient(180deg, $gray-transparent 0%, $gray-dark-60 100%);
-// }
+@mixin trans-gray-gradient-bottom() {
+  @include filter-gradient($stone-transparent, $stone-60, vertical);
+  background-image: -o-linear-gradient(180deg, $stone-transparent 0%, $stone-60 100%);
+  background-image: -moz-linear-gradient(180deg, $stone-transparent 0%, $stone-60 100%);
+  background-image: -ms-linear-gradient(180deg, $stone-transparent 0%, $stone-60 100%);
+  background-image: linear-gradient(180deg, $stone-transparent 0%, $stone-60 100%);
+}
 
 
 // Typography

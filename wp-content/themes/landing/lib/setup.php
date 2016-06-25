@@ -60,7 +60,7 @@ function display_sidebar() {
     is_404(),
     is_front_page(),
     is_singular('post'),
-    // is_page('donate'),
+    is_page(),
     is_search(),
     is_page_template('template-events.php'),
   ]);

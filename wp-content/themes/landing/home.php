@@ -69,7 +69,7 @@ use Roots\Sage\Assets;
       <div class="col-md-8 col-centered text-center">
         <p class="h2 bottom-margin-important">It isn’t enough to just register &mdash; it isn’t even enough to just vote. Our aim is to create an informed and involved citizenry.</p>
         <?php echo apply_filters('the_content', '[embed]https://www.youtube.com/watch?v=wMTtdvbtQ5c[/embed]'); ?>
-        <p class="caption">Thanks to the future voters at Enloe High School in Raleigh, NC for this video.</p>
+        <p class="caption extra-bottom-margin">Thanks to the future voters at Enloe High School in Raleigh, NC for this video.</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Get Started Today</a></p>
       </div>
     </div>

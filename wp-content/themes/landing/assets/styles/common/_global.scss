@@ -27,9 +27,16 @@
 
 .main {
   @include make-md-column(7);
-  @include make-md-column-push(1);
-  @include make-lg-column-push(0);
   margin-bottom: 2em;
+
+  .sidebar-primary & {
+    @include make-md-column-push(1);
+    @include make-lg-column-push(0);
+  }
+
+  :not(.sidebar-primary) & {
+    @extend .col-centered;
+  }
 }
 
 .sidebar {

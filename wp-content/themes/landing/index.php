@@ -37,7 +37,7 @@ get_template_part('templates/components/header', get_post_type());
 
 <?php if ($wp_query->max_num_pages > 1) : ?>
   <nav class="post-nav container">
-    <?php if (function_exists('wp_pagenavi') {
+    <?php if (function_exists('wp_pagenavi')) {
       wp_pagenavi();
     } ?>
   </nav>

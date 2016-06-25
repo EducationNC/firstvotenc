@@ -36,17 +36,23 @@
     }
   }
 
-  .navbar-nav > li > a {
-    background: none !important;
+  .navbar-nav > li {
+    a {
+      background: none !important;
 
-    &:hover, &:active {
-      color: $scarlet;
+      &:hover, &:active {
+        color: $scarlet;
+      }
+
+      @media (max-width: 1125px) {
+        font-size: 16x;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
     }
 
-    @media (max-width: 1125px) {
-      font-size: 16x;
-      padding-left: 8px;
-      padding-right: 8px;
+    &.active > a {
+      color: $navy;
     }
   }
 }

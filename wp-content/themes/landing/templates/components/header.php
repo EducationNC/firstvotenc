@@ -12,7 +12,7 @@ if (!is_singular('post')) {
   <div class="article-title-overlay">
     <div class="container">
       <div class="row">
-        <div class="col-md-10 col-md-push-1 col-lg-push-0">
+        <div class="col-md-8 col-centered">
           <h1 class="entry-title"><?= Titles\title(); ?></h1>
         </div>
       </div>
