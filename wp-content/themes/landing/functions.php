@@ -16,6 +16,7 @@ $sage_includes = [
   'lib/customizer.php',// Theme customizer
   'lib/extras.php',    // Custom functions
   // 'lib/facebook-auth.php', // Facebook auth - PRIVATE
+  'lib/forms.php',      // Caldera Forms actions
   'lib/http_build_url.php', // Required for resize
   'lib/media.php',     // Media functions
   'lib/nav-walker.php',// Nav walker

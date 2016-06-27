@@ -11,7 +11,6 @@ add_filter( 'caldera_forms_render_get_entry', 'cf_custom_fields_get_post_type_en
 add_filter( 'caldera_forms_get_entry_meta_db_storage', 'cf_custom_fields_meta_view');
 add_action( 'caldera_forms_processor_templates', 'cf_custom_fields_meta_template');
 add_filter( 'caldera_forms_render_pre_get_entry', 'cf_custom_fields_populate_form_edit', 11, 3 );
-add_action( 'wp_ajax_cf_custom_fields_taxonomies', 'cf_custom_fields_taxonomies');
 add_filter( 'caldera_forms_get_addons', 'cf_custom_fields_savetoposttype_addon' );
 
 /**
@@ -26,9 +25,9 @@ add_filter( 'caldera_forms_get_addons', 'cf_custom_fields_savetoposttype_addon' 
 function cf_custom_fields_posttype_process($processors){
 
 	$processors['post_type'] = array(
-		"name"				=>	__( 'Save as Post Type', 'caldera-custom-fields' ),
+		"name"				=>	__( 'Save as Post Type', 'caldera-forms-metabox' ),
 		"author"            =>  'David Cramer',
-		"description"		=>	__( 'Store form entries as a post with custom fields.', 'caldera-custom-fields' ),
+		"description"		=>	__( 'Store form entries as a post with custom fields.', 'caldera-forms-metabox' ),
 		"post_processor"	=>	'cf_custom_fields_capture_entry',
 		"template"			=>	trailingslashit( CCF_PATH ) . "includes/to-post-type-config.php",
 		"icon"				=>	CCF_URL . "/post-type.png",
@@ -127,19 +126,6 @@ function cf_custom_fields_meta_template(){
 }
 
 /**
- * Get taxonomies
- *
- * @since 1.1.0
- *
- * @uses "wp_ajax_cf_custom_fields_taxonomies" action
- */
-function cf_custom_fields_taxonomies(){
-
-	$taxonomy_objects = get_object_taxonomies( $_POST['_value'], 'objects' );
-	var_dump( $taxonomy_objects );
-}
-
-/**
  * Prepare DB storage
  *
  * @uses "caldera_forms_get_entry_meta_db_storage" filter
@@ -150,7 +136,7 @@ function cf_custom_fields_taxonomies(){
  */
 function cf_custom_fields_meta_view($meta){
 	$postid = $meta['meta_value'];
-	$meta['meta_key'] = _('Post Name', 'caldera-custom-fields' );
+	$meta['meta_key'] = _('Post Name', 'caldera-forms-metabox' );
 	$meta['meta_value'] = get_the_title($meta['meta_value']);
 	$meta['meta_value'] .= '<div><a href="post.php?post='.$postid.'&action=edit" target="_blank">'.__('Edit').'</a> | <a href="' . get_permalink( $postid ) . '" target="_blank">'.__('View').'</a></div>';
 	$meta['post'] = get_post( $postid );
@@ -283,6 +269,10 @@ function cf_custom_fields_capture_entry($config, $form){
 		'post_excerpt'	=> Caldera_Forms::do_magic_tags( $config['post_excerpt'] ),
 		'comment_status'=> $config['comment_status'],
 	);
+	
+	if( empty( $entry[ 'post_content' ] ) ){
+		$entry[ 'post_content' ] = '';
+	}
 
 	// set the ID
 	if( !empty( $config['ID'] ) ){
@@ -322,6 +312,16 @@ function cf_custom_fields_capture_entry($config, $form){
 
 	}
 
+	//handle taxonomies
+	$terms_saved = false;
+	$tax_fields = cf_custom_fields_get_taxonomy_fields( $config );
+	if ( ! empty( $tax_fields ) ) {
+		$terms_saved = cf_custom_fields_save_terms( $tax_fields, $entry_id );
+		if ( $terms_saved ) {
+			$term_values = wp_list_pluck( $tax_fields, 'terms' );
+		}
+	}
+
 	//get post fields into an array of fields not to save as meta.
 	$post_fields = array_keys( $entry );
 	// get all submission data
@@ -329,10 +329,27 @@ function cf_custom_fields_capture_entry($config, $form){
 	update_post_meta( $entry_id, '_cf_form_id', $form['ID'] );
 	foreach($data as $field=>$value){
 		if ( '_entry_token' != $field && '_entry_id' != $field ) {
-			if ( in_array( $field, $post_fields ) || in_array( $form['fields'][ $field ]['ID'], $post_fields ) ) {
+			if ( in_array( $field, $post_fields )  || in_array( $form['fields'][ $field ]['ID'], $post_fields ) ) {
 				continue;
 			}
+
 		}
+
+		if ( $terms_saved ) {
+			if ( is_array( $value ) ) {
+				$_value = implode( ', ', $value );
+			} else {
+				$_value = $value;
+			}
+
+			if( in_array( $_value, $term_values  ) ){
+				continue;
+
+			}
+		}
+
+
+
 		if(empty($form['fields'][$field])){
 			continue;
 		}
@@ -405,4 +422,71 @@ function cf_custom_fields_attach_file( $file, $entry_id ){
 
 	return $attach_id;
 
+}
+
+
+function cf_custom_fields_taxonomy_ui(){
+	$taxonomies = get_taxonomies( array(), 'objects' );
+	$fields = array();
+	$args = array(
+		'magic' => true,
+		'block' => true,
+		'type'  => 'text',
+	);
+	foreach( $taxonomies as $taxonomy => $obj ){
+		$args[ 'id' ] = 'cf-custom-fields-tax-' . $taxonomy;
+		$args[ 'label' ] = $obj->labels->singular_name;
+		$args[ 'extra_classes' ] = $taxonomy;
+		$fields[] = Caldera_Forms_Processor_UI::config_field(  $args );
+	}
+
+	return implode( "\n\n", $fields );
+}
+
+/**
+ * Find taxonomy fields and values
+ *
+ * @since 2.1.0
+ * 
+ * @param $all_fields
+ *
+ * @return array
+ */
+function cf_custom_fields_get_taxonomy_fields( $all_fields ){
+	$tax_fields = array();
+	foreach( $all_fields as $field => $value ){
+		if( false !== strpos( $field, 'cf-custom-fields-tax-') ){
+			if ( ! empty( $value ) ) {
+				$tax_fields[ $field ] = array(
+					'taxonomy' => str_replace( 'cf-custom-fields-tax-', '', $field ),
+					'terms'    => Caldera_Forms::do_magic_tags( $value )
+				);
+			}
+		}
+	}
+
+	return $tax_fields;
+}
+
+/**
+ * Save taxonomy terms
+ * 
+ * @since 2.1.0
+ * 
+ * @param array $tax_fields Taxonomy fields to save
+ * @param int $post_id Post ID
+ *
+ * @return bool
+ */
+function cf_custom_fields_save_terms( $tax_fields, $post_id ){
+	if ( is_array( $tax_fields ) ) {
+		foreach ( $tax_fields as $taxonomy => $data ) {
+			$updated = wp_set_object_terms( $post_id, $data[ 'terms' ], $data[ 'taxonomy'] );
+			
+		}
+
+
+	}
+
+	return true;
 }

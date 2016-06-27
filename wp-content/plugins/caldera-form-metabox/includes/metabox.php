@@ -15,14 +15,40 @@ add_filter('caldera_forms_get_form_processors', 'cf_custom_fields_register_metab
 
 // admin filters & actions
 if( is_admin() ){
+
 	// disable redirect
 	add_filter('caldera_forms_redirect_url', 'cf_custom_fields_prevent_redirect', 1, 4);
+
+	// disable mailer
+	add_filter('caldera_forms_get_form', 'cf_custom_fields_prevent_mailer', 1, 4);
+
 	// save action to disable mailer
-	add_action('caldera_forms_save_form_register', 'cf_custom_fields_metabox_save_form');
+	add_filter('caldera_forms_presave_form', 'cf_custom_fields_metabox_save_form');
 
 
 }
 
+/**
+ * Filter form database and mailer options if is set as a metabox
+ *
+ * @uses "caldera_forms_get_form"
+ *
+ * @param $form
+ *
+ * @return array
+ */
+function cf_custom_fields_prevent_mailer( $form ){
+	$processors = Caldera_Forms::get_processor_by_type('cf_asmetabox', $form);
+	if( !empty( $processors ) ){
+		if( isset( $form['mailer']['on_insert'] ) ){
+			unset( $form['mailer']['on_insert'] );
+		}
+		if( !empty( $form['mailer']['db_support'] ) ){
+			$form['mailer']['db_support'] = false;
+		}
+	}
+	return $form;
+}
 /**
  * Add the processor.
  *
@@ -34,9 +60,9 @@ if( is_admin() ){
  */
 function cf_custom_fields_register_metabox_processor($processors){
 	$processors['cf_asmetabox'] = array(
-		"name"				=>	__( 'Custom Fields Post Metabox', 'caldera-custom-fields' ),
+		"name"				=>	__( 'Custom Fields Post Metabox', 'caldera-forms-metabox' ),
 		"author"            =>  'David Cramer',
-		"description"		=>	__( 'Use a form as a custom metabox in the post editor.', 'caldera-custom-fields' ),
+		"description"		=>	__( 'Use a form as a custom metabox in the post editor.', 'caldera-forms-metabox' ),
 		"single"			=>	true,
 		"processor"			=>	'cf_custom_fields_save_meta_data',
 		"template"			=>	trailingslashit( CCF_PATH ) . "includes/metabox-config.php",
@@ -52,35 +78,40 @@ function cf_custom_fields_register_metabox_processor($processors){
  *
  * @since 1.?.?
  *
- * @uses "caldera_forms_save_form_register" action
+ * @uses "caldera_forms_presave_form" filter
  *
  * @param $form
  */
 function cf_custom_fields_metabox_save_form($form){
-	if(!empty($form['is_metabox'])){
+	if ( isset( $form[ 'processors' ] ) ) {
+		foreach ( $form[ 'processors' ] as $processor ) {
+			if ( 'cf_asmetabox' == $processor[ 'type' ] ) {
+				$form[ 'is_metabox' ] = true;
+				// disable DB support
+				$form['db_support'] = 0;
 
-		// disable DB support
-		$form['db_support'] = 0;
+				// no ajax forms
+				if( isset( $form['form_ajax'] ) ){
+					unset( $form['form_ajax'] );
+				}
 
-		// no ajax forms
-		if( isset( $form['form_ajax'] ) ){
-			unset( $form['form_ajax'] );
+				// disable mailer
+				$form['mailer']['enable_mailer'] = 0;
+				$form['db_support'] = 0;
+				$form['mailer']['enable_mailer'] = 0;
+
+				return $form;
+
+			}
 		}
 
-		// disable mailer
-		$form['mailer']['enable_mailer'] = 0;
-
-		// update form
-		update_option( $form['ID'], $form );
-
-		// update register
-		$forms = Caldera_Forms::get_forms( true );
-		$forms[$form['ID']]['db_support'] = 0;
-		$forms[$form['ID']]['mailer']['enable_mailer'] = 0;
-		update_option( '_caldera_forms', $forms );
 	}
 
+	return $form;
+
 }
+
+
 
 
 /**
@@ -167,16 +198,23 @@ function cf_custom_fields_save_meta_data($config, $form){
  * @since 1.?.?
  */
 function cf_custom_fields_form_as_metabox() {
-	$forms = get_option( '_caldera_forms' );
+	$forms = cf_custom_fields_get_forms();
 	if(empty($forms)){
 		return;
 	}
 	foreach($forms as $form){
+		$form = cf_custom_fields_get_form( $form[ 'ID' ] );
+		if( ! is_array( $form ) ){
+			continue;
+		}
+		$processors = Caldera_Forms::get_processor_by_type('cf_asmetabox', $form);
+		
+		if(!empty( $processors )){
+		
+			$processor = $processors[0];
 
-		if(!empty($form['is_metabox'])){
-			$form = get_option($form['ID']);
 			// is metabox processor
-			if(!empty($form['processors'][$form['is_metabox']]['config']['posttypes'])){
+			if(!empty($form['processors'][ $processor['ID'] ]['config']['posttypes'])){
 
 				// add filter to get details of entry
 				add_filter('caldera_forms_get_entry_detail', 'cf_custom_fields_get_post_details', 10, 3);
@@ -184,14 +222,14 @@ function cf_custom_fields_form_as_metabox() {
 				// add filter to remove submit buttons
 				add_filter('caldera_forms_render_setup_field', 'cf_custom_fields_submit_button_removal');
 
-				foreach( $form['processors'][$form['is_metabox']]['config']['posttypes'] as $screen=>$enabled){
+				foreach( $form['processors'][ $processor['ID'] ]['config']['posttypes'] as $screen=>$enabled){
 					add_meta_box(
 						$form['ID'],
 						$form['name'],
 						'cf_custom_fields_render',
 						$screen,
-						$form['processors'][$form['is_metabox']]['config']['context'],
-						$form['processors'][$form['is_metabox']]['config']['priority']
+						$form['processors'][ $processor['ID'] ]['config']['context'],
+						$form['processors'][ $processor['ID'] ]['config']['priority']
 					);
 				}
 			}
