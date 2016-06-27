@@ -9,7 +9,7 @@ use Roots\Sage\Assets;
     <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" />
     <h2 class="h1">Engage Today.<br /><em>Impact Tomorrow.</em></h2>
     <p>Keeping civics lessons real &amp; making them meaningful.</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Teachers, Get your free toolkit</a></p>
+    <p><a class="btn btn-primary btn-lg" href="/sign-up" role="button">Teachers, Get your free toolkit</a></p>
   </div>
 </section>
 
@@ -70,7 +70,7 @@ use Roots\Sage\Assets;
         <p class="h2 bottom-margin-important">It isn’t enough to just register &mdash; it isn’t even enough to just vote. Our aim is to create an informed and involved citizenry.</p>
         <?php echo apply_filters('the_content', '[embed]https://www.youtube.com/watch?v=wMTtdvbtQ5c[/embed]'); ?>
         <p class="caption extra-bottom-margin">Thanks to the future voters at Enloe High School in Raleigh, NC for this video.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Get Started Today</a></p>
+        <p><a class="btn btn-primary btn-lg" href="/sign-up" role="button">Get Started Today</a></p>
       </div>
     </div>
   </div>
