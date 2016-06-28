@@ -12,7 +12,7 @@
 $sage_includes = [
   'lib/assets.php',    // Scripts and stylesheets
   // 'lib/cmb-fields.php', // Custom Meta Box fields
-  // 'lib/custom-post-types.php', // Custom post types
+  'lib/custom-post-types.php', // Custom post types
   'lib/customizer.php',// Theme customizer
   'lib/extras.php',    // Custom functions
   // 'lib/facebook-auth.php', // Facebook auth - PRIVATE

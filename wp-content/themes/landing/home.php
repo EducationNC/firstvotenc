@@ -6,7 +6,7 @@ use Roots\Sage\Assets;
 <section class="jumbotron">
   <div class="parallax-img hidden-xs" style="background-image:url('<?php echo Assets\asset_path('images/banner.jpg'); ?>')"></div>
   <div class="container">
-    <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" />
+    <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" alt="" />
     <h2 class="h1">Engage Today.<br /><em>Impact Tomorrow.</em></h2>
     <p>Keeping civics lessons real &amp; making them meaningful.</p>
     <p><a class="btn btn-primary btn-lg" href="/sign-up" role="button">Teachers, Get your free toolkit</a></p>
@@ -30,7 +30,7 @@ use Roots\Sage\Assets;
         <img src="<?php echo Assets\asset_path('images/standards-aligned.svg'); ?>" alt="Standards Aligned" />
       </div>
       <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-2">
-        <p>First Vote NC is a free project-based initiative designed around the North Carolina Essential Standards. The <a href="http://humanities.unc.edu/civics/" target="_blank">NC Civic Education Consortium</a> is developing a toolkit of resources, action plans, and implementation guides, giving you the structure and flexibility to bring this program into your classroom and school.</p>
+        <p>First Vote NC is a free project-based initiative designed around the North Carolina Essential Standards. The <a href="http://humanities.unc.edu/civics/" target="_blank">NC Civic Education Consortium</a> is developing a toolkit including an implementation guide, lesson plans, and additional resources, giving you the structure and flexibility to bring this program into your classroom and school.</p>
       </div>
     </div>
 
@@ -48,7 +48,7 @@ use Roots\Sage\Assets;
         <img src="<?php echo Assets\asset_path('images/project-based.svg'); ?>" alt="Project Based" />
       </div>
       <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-2">
-        <p>First Vote NC is designed to tie in with the <em>American History: Founding Principles, Civics and Economics</em> course. It teaches real-world knowledge and asks students to reflect, solve problems, answer complex questions, work with others, lead, and produce a public product.</p>
+        <p>First Vote NC is designed to tie in with the <em>American History: Founding Principles, Civics and Economics</em> course. It teaches real-world knowledge and higher order thinking as it asks students to reflect, solve problems, answer complex questions, work with others, lead, and produce a public product.</p>
       </div>
     </div>
 
