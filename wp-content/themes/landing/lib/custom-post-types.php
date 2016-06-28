@@ -3,33 +3,92 @@
 namespace Roots\Sage\CPT;
 
 add_action( 'init', function() {
-	register_post_type( 'resource',
+	register_post_type( 'election',
 		array('labels' => array(
-				'name' => 'Resources',
-				'singular_name' => 'Resource',
+				'name' => 'Elections',
+				'singular_name' => 'Election',
 				'add_new' => 'Add New',
-				'add_new_item' => 'Add New Resource',
+				'add_new_item' => 'Add New Election',
 				'edit' => 'Edit',
-				'edit_item' => 'Edit Resource',
-				'new_item' => 'New Resource',
-				'view_item' => 'View Resource',
-				'search_items' => 'Search Resources',
+				'edit_item' => 'Edit Election',
+				'new_item' => 'New Election',
+				'view_item' => 'View Election',
+				'search_items' => 'Search Elections',
 				'not_found' =>  'Nothing found in the Database.',
 				'not_found_in_trash' => 'Nothing found in Trash',
 				'parent_item_colon' => ''
 			), /* end of arrays */
-			'public' => true,
 			'exclude_from_search' => true,
-			'publicly_queryable' => true,
+			'publicly_queryable' => false,
 			'show_ui' => true,
 			'show_in_nav_menus' => false,
 			'menu_position' => 8,
 			//'menu_icon' => get_stylesheet_directory_uri() . '/library/images/custom-post-icon.png',
 			'capability_type' => 'post',
 			'hierarchical' => false,
-			'supports' => array( 'title', 'editor', 'revisions'),
-			'has_archive' => 'resource-center',
-			'rewrite' => true,
+			'supports' => array( 'title', 'revisions'),
+			'has_archive' => false,
+			'rewrite' => false,
+			'query_var' => true
+		)
+	);
+
+	register_post_type( 'ballot',
+		array('labels' => array(
+				'name' => 'Ballots',
+				'singular_name' => 'Ballot',
+				'add_new' => 'Add New',
+				'add_new_item' => 'Add New Ballot',
+				'edit' => 'Edit',
+				'edit_item' => 'Edit Ballot',
+				'new_item' => 'New Ballot',
+				'view_item' => 'View Ballot',
+				'search_items' => 'Search Ballots',
+				'not_found' =>  'Nothing found in the Database.',
+				'not_found_in_trash' => 'Nothing found in Trash',
+				'parent_item_colon' => ''
+			), /* end of arrays */
+			'exclude_from_search' => true,
+			'publicly_queryable' => false,
+			'show_ui' => true,
+			'show_in_nav_menus' => false,
+			'menu_position' => 8,
+			//'menu_icon' => get_stylesheet_directory_uri() . '/library/images/custom-post-icon.png',
+			'capability_type' => 'post',
+			'hierarchical' => false,
+			'supports' => array( 'title', 'revisions'),
+			'has_archive' => false,
+			'rewrite' => false,
+			'query_var' => true
+		)
+	);
+
+	register_post_type( 'exit-poll',
+		array('labels' => array(
+				'name' => 'Exit Polls',
+				'singular_name' => 'Exit Poll',
+				'add_new' => 'Add New',
+				'add_new_item' => 'Add New Exit Poll',
+				'edit' => 'Edit',
+				'edit_item' => 'Edit Exit Poll',
+				'new_item' => 'New Exit Poll',
+				'view_item' => 'View Exit Poll',
+				'search_items' => 'Search Exit Polls',
+				'not_found' =>  'Nothing found in the Database.',
+				'not_found_in_trash' => 'Nothing found in Trash',
+				'parent_item_colon' => ''
+			), /* end of arrays */
+			'exclude_from_search' => true,
+			'publicly_queryable' => false,
+			'show_ui' => true,
+			'show_in_nav_menus' => false,
+			'menu_position' => 8,
+			//'menu_icon' => get_stylesheet_directory_uri() . '/library/images/custom-post-icon.png',
+			'capability_type' => 'post',
+			'hierarchical' => false,
+			'supports' => array( 'title', 'revisions'),
+			'has_archive' => false,
+			'rewrite' => false,
 			'query_var' => true
 		)
 	);
