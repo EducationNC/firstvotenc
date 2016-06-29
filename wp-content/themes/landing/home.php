@@ -8,7 +8,7 @@ use Roots\Sage\Assets;
   <div class="container">
     <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" alt="" />
     <h2 class="h1">Engage Today.<br /><em>Impact Tomorrow.</em></h2>
-    <p>Keeping civics lessons real &amp; making them meaningful.</p>
+    <p>Keeping civics real &amp; making it meaningful.</p>
     <p><a class="btn btn-primary btn-lg" href="/sign-up" role="button">Teachers, Get your free toolkit</a></p>
   </div>
 </section>
@@ -39,7 +39,7 @@ use Roots\Sage\Assets;
         <img src="<?php echo Assets\asset_path('images/user-friendly.svg'); ?>" alt="User Friendly" />
       </div>
       <div class="col-sm-6 col-md-4 col-md-push-2">
-        <p>All you need is any device connected to the internet &mdash; computer, tablet, or smartphone. Simply register your school to participate and the mock election platform built by <a href="https://www.ednc.org" target="_blank">EdNC</a> will automatically generate a customizable ballot, all based on your school’s address.</p>
+        <p>All you need is any device connected to the internet &mdash; computer, tablet, or smartphone. Simply register your school to participate and the simulation election platform built by <a href="https://www.ednc.org" target="_blank">EdNC</a> will automatically generate a customizable ballot, all based on your school’s address.</p>
       </div>
     </div>
 
