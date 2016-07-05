@@ -17,7 +17,7 @@ $sage_includes = [
   'lib/extras.php',    // Custom functions
   // 'lib/facebook-auth.php', // Facebook auth - PRIVATE
   'lib/forms.php',      // Caldera Forms actions
-  'lib/http_build_url.php', // Required for resize
+  // 'lib/http_build_url.php', // Required for resize
   'lib/media.php',     // Media functions
   'lib/nav-walker.php',// Nav walker
   'lib/resize.php',   // Resize images on the fly
