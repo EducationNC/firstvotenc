@@ -25,6 +25,12 @@ use Roots\Sage\Assets;
 
 <section class="gray-bg overview">
   <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-centered text-center">
+        <p class="h2 bottom-margin-important">Launching this fall for the 2016 elections.</p>
+      </div>
+    </div>
+    
     <div class="row flex-sm-up">
       <div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-7 text-center">
         <img src="<?php echo Assets\asset_path('images/standards-aligned.svg'); ?>" alt="Standards Aligned" />

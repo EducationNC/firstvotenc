@@ -9,12 +9,11 @@ namespace Roots\Sage\Forms;
 add_filter('caldera_preprocess_live', function($data){
   global $domain;
 
-  // Create id for selected school
-  $school_code = substr(md5($data['school_name']), 0, 5); // First 5 chars
-  $school_code .= substr(md5($data['school_name']), -5); // Last 5 chars
+  // Get Precinct ID
+  $school = get_page_by_path($data['school_name'], OBJECT, 'precinct');
 
   // Create new precinct site based on school code
-  $school_id = wpmu_create_blog($domain, '/' . $school_code . '/', $data['school_name'], 1);
+  $school_id = wpmu_create_blog($domain, '/nc-' . $school->ID . '/', $school->post_title, 1);
 
   if (is_wp_error($school_id)) {
     // If this school is already registered, return error message.
@@ -46,7 +45,9 @@ add_filter('caldera_preprocess_live', function($data){
 
       // TODO: Add note to check email
     } else {
-      // If user already registered, return error message
+      // If user already registered, delete blog that was created in step 1 and return error message
+      wpmu_delete_blog($school_id, TRUE);
+
       return array(
         'type' => 'error',
         'note'	=> $user_id->get_error_message()
@@ -60,21 +61,20 @@ add_filter('caldera_preprocess_live', function($data){
  * Preprocess function for pre-release sign up form
  *
  */
-add_filter('caldera_preprocess', function($data){
+add_filter('caldera_preprocess_early', function($data){
   global $domain;
 
-  // Create id for selected school
-  $school_code = substr(md5($data['school_name']), 0, 5); // First 5 chars
-  $school_code .= substr(md5($data['school_name']), -5); // Last 5 chars
+  // Get Precinct ID
+  $school = get_page_by_path($data['school_name'], OBJECT, 'precinct');
 
   // Create new precinct site based on school code
-  $school_id = wpmu_create_blog($domain, '/' . $school_code . '/', $data['school_name'], 1);
+  $school_id = wpmu_create_blog($domain, '/nc-' . $school->ID . '/', $school->post_title, 1);
 
   if (is_wp_error($school_id)) {
     // If this school is already registered, return error message.
     return array(
       'type' => 'error',
-      'note'	=>	'School already registered.'
+      'note'	=>	'School already registered.'  // TODO: Add contact info for person who is already registered at this school.
     );
   } else {
 
@@ -98,7 +98,9 @@ add_filter('caldera_preprocess', function($data){
       add_user_to_blog( $school_id, $user_id, 'editor' );
       update_user_meta( $user_id, 'primary_blog', $school_id );
     } else {
-      // If user already registered, return error message
+      // If user already registered, delete blog that was created in step 1 and return error message
+      wpmu_delete_blog($school_id, TRUE);
+
       return array(
         'type' => 'error',
         'note'	=> $user_id->get_error_message()

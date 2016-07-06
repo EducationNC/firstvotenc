@@ -2,27 +2,106 @@
 
 namespace Roots\Sage\CMB;
 
+locate_template('/lib/google-auth.php', true, true);
+
+function fvnc_elections_cb($field) {
+	if (function_exists('google_api_key')) {
+		$api_key = google_api_key();
+
+		// Get available elections from Google's Civic Information API
+		$api_get = wp_remote_get('https://www.googleapis.com/civicinfo/v2/elections?key=' . $api_key);
+
+		if ( ! is_wp_error( $api_get ) ) {
+			$result = json_decode($api_get['body']);
+
+			$term_options = array(
+				false => 'Select one'
+			);
+	    if ( ! empty( $result->elections ) ) {
+	        foreach ( $result->elections as $election ) {
+	            $term_options[ $election->id ] = $election->name . ': ' . $election->electionDay;
+	        }
+	    }
+
+	    return $term_options;
+		} else {
+			echo $api_get->get_error_message();
+		}
+	}
+}
+
 add_action( 'cmb2_init', function() {
+	$prefix = '_cmb_';
 
-	$prefix = '_cdi_';
+	/**
+	 * Precinct Custom Fields
+	 *
+	 */
 
-	$cmb_featured_image = new_cmb2_box( array(
-		'id'           => $prefix . 'featured_image_settings',
-		'title'        => 'Featured Image Settings',
-		'object_types' => array( 'post' ),
-		'context'      => 'side',
-		'priority'     => 'low',
-	) );
+	$cmb_precinct_address = new_cmb2_box([
+		'id'           => $prefix . 'address',
+		'title'        => 'School Location',
+		'object_types' => array( 'precinct' ),
+		'context'      => 'normal',
+		'priority'     => 'high',
+	]);
 
-	$cmb_featured_image->add_field( array(
-		// 'name' => 'Featured Image Alignment',
-		'id' => $prefix . 'featured_image_alignment',
+	$cmb_precinct_address->add_field([
+		'name' => 'Official Name',
+		'id' => $prefix . 'precinct_name',
+		'type' => 'text'
+	]);
+
+	$cmb_precinct_address->add_field([
+		'name' => 'Address Line 1',
+		'id' => $prefix . 'address_1',
+		'type' => 'text'
+	]);
+
+	$cmb_precinct_address->add_field([
+		'name' => 'Address Line 2',
+		'id' => $prefix . 'address_2',
+		'type' => 'text'
+	]);
+
+	$cmb_precinct_address->add_field([
+		'name' => 'City',
+		'id' => $prefix . 'city',
+		'type' => 'text_small'
+	]);
+
+	$cmb_precinct_address->add_field([
+		'name' => 'State',
+		'id' => $prefix . 'state',
+		'type' => 'text_small',
+		'default' => 'NC'
+	]);
+
+	$cmb_precinct_address->add_field([
+		'name' => 'Zip',
+		'id' => $prefix . 'zip',
+		'type' => 'text_small'
+	]);
+
+
+	/**
+	 * Election Custom Fields
+	 *
+	 */
+
+	$cmb_election_box = new_cmb2_box([
+		'id'           => $prefix . 'election',
+		'title'        => 'Election',
+		'object_types' => array( 'election' ),
+		'context'      => 'normal',
+		'priority'     => 'high',
+	]);
+
+	$cmb_election_box->add_field([
+		'name' => 'Election',
+		'id' => $prefix . 'election',
 		'type' => 'select',
-		'options' => array(
-			'contained' => 'Default',
-			'hero' => 'Full-Width',
-			'none' => 'Hidden'
-		)
-	) );
+		'options_cb' => __NAMESPACE__ . '\\fvnc_elections_cb'
+	]);
 
 });

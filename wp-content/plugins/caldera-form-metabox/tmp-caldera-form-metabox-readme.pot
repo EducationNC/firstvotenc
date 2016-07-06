@@ -1,0 +1,92 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "Caldera Custom Fields"
+msgstr ""
+
+#. Short description.
+msgid "Caldera Forms to post types and custom fields: front-end or back-end"
+msgstr ""
+
+#. Screenshot description.
+msgid "Metabox processor config options. Simple but effective."
+msgstr ""
+
+#. Screenshot description.
+msgid "Using conditional logic to make great progressive metaboxes."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "A free addon for <a href=\"http://wordpress.org/plugins/caldera-forms/\">Caldera Forms</a> to create or edit posts, including custom post types and custom fields. Can be used as a standalone form for front-end editing and as a custom metabox generator in the post editor."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Other than using the automatic plugin installer from plugins page, You can extract the contents and upload the cf-metaboxes folder to /wp-content/plugins/ directory."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress"
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Edit or create a new form. Navigate to Processors tab and click \"Add Processor\". Click the \"Use Processor\" button next to the \"Form as Metabox\" item."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "Configure the processor by setting the Post Types you want the metabox to be in, the Context and Priority. Then click Update Form."
+msgstr ""
+
+#. Found in installation paragraph.
+msgid "You will now see your metabox when creating a new post of the type you specified. All entries are save as custom fields for that post using the field slug as the key."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Support to handle multiple form metaboxes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Compatibility for CF 1.9+"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dont allow ajax based forms for metabox"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Fixed a bug that caused saving of said fields not work."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid ""
+"Added visual_editor as accepted type for content area in save to post type\n"
+"Added better icons to the processor selector"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Corrected a bug that prevented saving new posts with CF 1.2+"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Added permalink magic tag for using the posts permalink in another processor."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Fix a broken include for post type config in admin."
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid "Added a second processor for using Caldera Forms to create and edit posts and custom fields"
+msgstr ""
+
+#. Found in changelog paragraph.
+msgid ""
+"1.0.3: Compatibility for CF 1.1.0\n"
+"1.0.2: Multi page compatibility\n"
+"1.0.1: compatibility with CF 1.0.4\n"
+"1.0.0: initial release"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "none yet."
+msgstr ""
