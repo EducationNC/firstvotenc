@@ -35,15 +35,15 @@ add_action( 'init', function() {
 
 	register_post_type( 'election',
 		array('labels' => array(
-				'name' => 'Elections',
-				'singular_name' => 'Election',
+				'name' => 'Master Elections',
+				'singular_name' => 'Master Election',
 				'add_new' => 'Add New',
-				'add_new_item' => 'Add New Election',
+				'add_new_item' => 'Add New Master Election',
 				'edit' => 'Edit',
-				'edit_item' => 'Edit Election',
-				'new_item' => 'New Election',
-				'view_item' => 'View Election',
-				'search_items' => 'Search Elections',
+				'edit_item' => 'Edit Master Election',
+				'new_item' => 'New Master Election',
+				'view_item' => 'View Master Election',
+				'search_items' => 'Search Master Elections',
 				'not_found' =>  'Nothing found in the Database.',
 				'not_found_in_trash' => 'Nothing found in Trash',
 				'parent_item_colon' => ''

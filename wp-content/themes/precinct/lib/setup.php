@@ -11,10 +11,8 @@ function setup() {
   // Enable features from Soil when plugin is activated
   // https://roots.io/plugins/soil/
   add_theme_support('soil-clean-up');
-  add_theme_support('soil-nav-walker');
+  add_theme_support('soil-disable-trackbacks');
   add_theme_support('soil-nice-search');
-  add_theme_support('soil-jquery-cdn');
-  add_theme_support('soil-relative-urls');
 
   // Make theme available for translation
   // Community translations can be found at https://github.com/roots/sage-translations
@@ -38,7 +36,7 @@ function setup() {
 
   // Enable post formats
   // http://codex.wordpress.org/Post_Formats
-  add_theme_support('post-formats', ['aside', 'gallery', 'link', 'image', 'quote', 'video', 'audio']);
+  // add_theme_support('post-formats', ['aside', 'gallery', 'link', 'image', 'quote', 'video', 'audio']);
 
   // Enable HTML5 markup support
   // http://codex.wordpress.org/Function_Reference/add_theme_support#HTML5
@@ -51,30 +49,6 @@ function setup() {
 add_action('after_setup_theme', __NAMESPACE__ . '\\setup');
 
 /**
- * Register sidebars
- */
-function widgets_init() {
-  register_sidebar([
-    'name'          => __('Primary', 'sage'),
-    'id'            => 'sidebar-primary',
-    'before_widget' => '<section class="widget %1$s %2$s">',
-    'after_widget'  => '</section>',
-    'before_title'  => '<h3>',
-    'after_title'   => '</h3>'
-  ]);
-
-  register_sidebar([
-    'name'          => __('Footer', 'sage'),
-    'id'            => 'sidebar-footer',
-    'before_widget' => '<section class="widget %1$s %2$s">',
-    'after_widget'  => '</section>',
-    'before_title'  => '<h3>',
-    'after_title'   => '</h3>'
-  ]);
-}
-add_action('widgets_init', __NAMESPACE__ . '\\widgets_init');
-
-/**
  * Determine which pages should NOT display the sidebar
  */
 function display_sidebar() {
@@ -85,7 +59,10 @@ function display_sidebar() {
     // @link https://codex.wordpress.org/Conditional_Tags
     is_404(),
     is_front_page(),
-    is_page_template('template-custom.php'),
+    is_singular('post'),
+    is_page(),
+    is_search(),
+    is_page_template('template-events.php'),
   ]);
 
   return apply_filters('sage/display_sidebar', $display);
@@ -104,3 +81,47 @@ function assets() {
   wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+
+function google_fonts() {
+  echo '<link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic|Merriweather:400,400italic,700italic,700" rel="stylesheet" type="text/css">';
+}
+add_action('wp_head', __NAMESPACE__ . '\\google_fonts');
+add_action('embed_head', __NAMESPACE__ . '\\google_fonts');
+
+//
+// /**
+//  * Make sure WP SEO isn't adding meta tags to the head of data dashboard
+//  */
+// function remove_yoast_data_dashboard() {
+//   if (is_post_type_archive('data') || is_singular('data-viz')) {
+//     if (defined('WPSEO_VERSION')) { // Yoast SEO
+//       global $wpseo_og;
+//       remove_action( 'wpseo_head', array( $wpseo_og, 'opengraph' ), 30 );
+//       remove_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
+//     }
+//   }
+// }
+// add_filter('wp_enqueue_scripts', __NAMESPACE__ . '\\remove_yoast_data_dashboard', 10);
+//
+
+/**
+ * Assets for embeds
+ */
+function embed_assets() {
+  wp_enqueue_style('sage/css', Assets\asset_path('styles/embed.css'), false, null);
+}
+add_action('enqueue_embed_scripts', __NAMESPACE__ . '\\embed_assets', 100);
+
+
+/**
+ * Replace default inline embed scripts to remove default share fn code and allow links to open in new tabs
+ */
+function print_embed_scripts() {
+	?>
+	<script type="text/javascript">
+	 <?php readfile( Assets\asset_path('scripts/wp-embed-template.js') ); ?>
+	</script>
+	<?php
+}
+remove_action( 'embed_footer', 'print_embed_scripts' );
+add_action( 'embed_footer', __NAMESPACE__ . '\\print_embed_scripts' );

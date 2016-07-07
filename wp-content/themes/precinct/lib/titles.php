@@ -22,3 +22,19 @@ function title() {
     return get_the_title();
   }
 }
+
+/**
+ * Remove prefixes from some titles
+ */
+add_filter( 'get_the_archive_title', function ($title) {
+  if ( is_category() ) {
+     $title = single_cat_title( '', false );
+  }
+  if ( is_tax() ) {
+    $title = single_term_title( '', false );
+  }
+  if ( is_author() ) {
+    $title = get_the_author();
+  }
+  return $title;
+});
