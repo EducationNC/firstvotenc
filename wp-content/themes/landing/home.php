@@ -20,6 +20,7 @@ use Roots\Sage\Assets;
     <a href="http://humanities.unc.edu/civics/" target="_blank"><img src="<?php echo Assets\asset_path('images/CECLogo.png'); ?>" srcset="<?php echo Assets\asset_path('images/CECLogo@2x.png'); ?> 2x" alt="NC Civic Education Consortium" /></a>
     <a href="http://www.ncpublicschools.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/NCDPI.png'); ?>" srcset="<?php echo Assets\asset_path('images/NCDPI@2x.png'); ?> 2x" alt="Public Schools of North Carolina" /></a>
     <a href="https://turbovote.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/TurboVote_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/TurboVote_Logo@2x.png'); ?> 2x" alt="Turbo Vote" /></a>
+    <a href="http://www.lwvnc.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/LWV_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/LWV_Logo@2x.png'); ?> 2x" alt="League of Women Voters of North Carolina" /></a>
   </div>
 </section>
 
