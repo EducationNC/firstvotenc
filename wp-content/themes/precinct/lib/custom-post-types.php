@@ -19,7 +19,7 @@ add_action( 'init', function() {
 				'parent_item_colon' => ''
 			), /* end of arrays */
 			'exclude_from_search' => true,
-			'publicly_queryable' => false,
+			'publicly_queryable' => true,
 			'show_ui' => true,
 			'show_in_nav_menus' => false,
 			'menu_position' => 8,
@@ -28,7 +28,7 @@ add_action( 'init', function() {
 			'hierarchical' => false,
 			'supports' => array('revisions'),
 			'has_archive' => false,
-			'rewrite' => false,
+			'rewrite' => true,
 			'query_var' => true
 		)
 	);
@@ -56,7 +56,7 @@ add_action( 'init', function() {
 			//'menu_icon' => get_stylesheet_directory_uri() . '/library/images/custom-post-icon.png',
 			'capability_type' => 'post',
 			'hierarchical' => false,
-			'supports' => array( 'title', 'revisions'),
+			'supports' => array( 'revisions'),
 			'has_archive' => false,
 			'rewrite' => false,
 			'query_var' => true

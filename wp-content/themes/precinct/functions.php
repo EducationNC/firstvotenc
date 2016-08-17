@@ -17,6 +17,7 @@ $sage_includes = [
   'lib/extras.php',    // Custom functions
   'lib/forms.php',      // Caldera Forms actions
   // 'lib/http_build_url.php', // Required for resize
+  'lib/make-ballot.php', // Dynamically construct ballot for each election
   'lib/media.php',     // Media functions
   'lib/nav-walker.php',// Nav walker
   'lib/resize.php',   // Resize images on the fly

@@ -2,7 +2,97 @@
 
 namespace Roots\Sage\CMB;
 
-locate_template('/lib/google-auth.php', true, true);
+
+add_action( 'cmb2_init', function() {
+	$prefix = '_cmb_';
+
+	/**
+	 * Election options
+	 */
+	$cmb_election_box = new_cmb2_box([
+		'id'           => $prefix . 'election',
+		'title'        => 'Election Options',
+		'object_types' => array( 'election' ),
+		'context'      => 'normal',
+		'priority'     => 'high',
+	]);
+
+	$cmb_election_box->add_field([
+		'name' => 'Election',
+		'id' => $prefix . 'election',
+		'type' => 'select',
+		'options_cb' => __NAMESPACE__ . '\\fvnc_elections_cb',
+		'description' => 'Select an election to use for your simulation election.'
+	]);
+
+	$cmb_election_box->add_field([
+		'name' => 'Election Date',
+		'id' => $prefix . 'election_date',
+		'type' => 'text_date',
+		'attributes' => ['disabled' => 'disabled']
+	]);
+
+	$early_vote_default = get_post_meta($prefix . 'election_date', true);
+
+	$cmb_election_box->add_field([
+		'name' => 'Early Voting Begins',
+		'id' => $prefix . 'early_voting',
+		'type' => 'text_date',
+		'default' => $early_vote_default	// TODO: THIS IS NOT WORKING
+	]);
+
+	$cmb_election_box->add_field([
+    'name' => 'Races',
+    'desc' => 'Check races to include in this election.',
+    'id' => $prefix . 'included_races',
+    'type' => 'multicheck',
+		'select_all_button' => true,
+    'options_cb' => __NAMESPACE__ . '\\races_cb'
+	]);
+
+	$cmb_election_box->add_field([
+    'name' => 'Referenda',
+    'desc' => 'Check referenda to include in this election.',
+    'id' => $prefix . 'included_referenda',
+    'type' => 'multicheck',
+		'select_all_button' => true,
+    'options_cb' => __NAMESPACE__ . '\\referenda_cb'
+	]);
+
+
+	/**
+	 * Ballot votes
+	 */
+
+ 	$cmb_ballot_box = new_cmb2_box([
+ 		'id'           => $prefix . 'ballot',
+ 		'title'        => 'Ballot',
+ 		'object_types' => array( 'ballot' ),
+ 		'context'      => 'normal',
+ 		'priority'     => 'high',
+ 	]);
+
+	$cmb_ballot_box->add_field([
+		'name' => 'Election',
+		'id' => $prefix . 'election_id',
+		'type' => 'select',
+		'options_cb' => __NAMESPACE__ . '\\ballot_election_cb',
+		'attributes' => ['disabled' => 'disabled'],
+		'column' => [
+			'position' => 2,
+			'name' => 'Election'
+		]
+	]);
+
+  $cmb_ballot_box->add_field([
+		'id'   => $prefix . 'races',
+    'name' => 'Races',
+    'type' => 'text',
+    // Add the name of your function to override the default row render method
+    'render_row_cb' => __NAMESPACE__ . '\\make_races_cb'
+  ]);
+});
+
 
 /**
  * Callback function that gets the master elections from the main site as options
@@ -35,135 +125,56 @@ function fvnc_elections_cb($field) {
 	return $term_options;
 }
 
-/**
- * Callback function that gets the master elections from the main site as options
- *
- */
-function fvnc_ballot_cb($field_args, $field) {
+function ballot_election_cb($field) {
+	$elections = get_posts([
+		'post_type' => 'election',
+		'posts_per_page' => -1
+	]);
 
-	// Get ID of master election
-	$master_election = get_post_meta( get_the_id(), '_cmb_election', true );
-	$precinct = get_blog_details();
-	$precinct_id = substr($precinct->path, 4, -1);
+	$term_options = [ false => 'Cannot cast ballot' ];
 
-	switch_to_blog(1);
-		// Get ID of election from Civic Info API
-		$election_id = get_post_meta( $master_election, '_cmb_election', true );
-
-		// Get address of this precinct
-		$loc = array();
-		$loc[] = get_post_meta($precinct_id, '_cmb_address_1', true);
-		$loc[] = get_post_meta($precinct_id, '_cmb_address_2', true);
-		$loc[] = get_post_meta($precinct_id, '_cmb_city', true);
-		$loc[] = get_post_meta($precinct_id, '_cmb_state', true);
-		$loc[] = get_post_meta($precinct_id, '_cmb_zip', true);
-		$address = implode(', ', $loc);
-
-	restore_current_blog();
-
-	if (function_exists('google_api_key')) {
-		$api_key = google_api_key();
-
-		$query_string = 'https://www.googleapis.com/civicinfo/v2/voterinfo?address=' . urlencode($address) . '&electionId=' . $election_id . '&key=' . $api_key;
-
-		// Get available elections from Google's Civic Information API
-		$api_get = wp_remote_get($query_string);
-
-		if ( ! is_wp_error( $api_get ) ) {
-			$result = json_decode($api_get['body']);
-
-			?>
-			<div class="cmb-row">
-				<div class="cmb-th">
-					<label>Election Date</label>
-				</div>
-
-				<div class="cmb-td">
-					<?php echo $result->election->electionDay; ?>
-				</div>
-			</div>
-			<?php
-
-			foreach ($result->contests as $contest) {
-				?>
-
-				<div class="cmb-row">
-					<div class="cmb-th">
-						<label>Type</label>
-					</div>
-
-					<div class="cmb-td">
-						<?php echo $contest->type; ?>
-					</div>
-				</div>
-
-				<div class="cmb-row">
-					<div class="cmb-th">
-						<label>Office</label>
-					</div>
-
-					<div class="cmb-td">
-						<?php echo $contest->office; ?>
-					</div>
-				</div>
-
-				<?php
-			}
-
-			echo '<pre>';
-			print_r($result->contests);
-			echo '</pre>';
-			// $term_options = array(
-			// 	false => 'Select one'
-			// );
-	    // if ( ! empty( $result->elections ) ) {
-	    //     foreach ( $result->elections as $election ) {
-	    //         $term_options[ $election->id ] = $election->name . ': ' . $election->electionDay;
-	    //     }
-	    // }
-			//
-	    // return $term_options;
-		} else {
-			echo $api_get->get_error_message();
-		}
+	foreach ($elections as $election) {
+		$term_options[$election->ID] = $election->post_title;
 	}
+
+	return $term_options;
 }
 
 
-add_action( 'cmb2_init', function() {
-	$prefix = '_cmb_';
+		function get_election_info() {
+			include( locate_template( '/lib/transient-election.php' ) );
+		}
+		add_action( 'cmb2_before_post_form__cmb_election', __NAMESPACE__ . '\\get_election_info' );
 
-	// Elections
-	$cmb_election_box = new_cmb2_box([
-		'id'           => $prefix . 'election',
-		'title'        => 'Election Options',
-		'object_types' => array( 'election' ),
-		'context'      => 'normal',
-		'priority'     => 'high',
-	]);
 
-	$cmb_election_box->add_field([
-		'name' => 'Election',
-		'id' => $prefix . 'election',
-		'type' => 'select',
-		'options_cb' => __NAMESPACE__ . '\\fvnc_elections_cb',
-		'description' => 'Select an election to use for your simulation election.'
-	]);
+			/**
+			 * Callback function that lists races on the ballot
+			 *
+			 */
+			function races_cb($field) {
+				$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
 
-	// Ballots
-	$cmb_ballot_box = new_cmb2_box([
-		'id'           => $prefix . 'ballot',
-		'title'        => 'Ballot Options',
-		'object_types' => array( 'election' ),
-		'context'      => 'normal',
-		'priority'     => 'high',
-	]);
+				foreach($contests as $contest) {
+					if ($contest->type !== 'Referendum') {
+						$options[$contest->office] = $contest->office;
+					}
+				}
 
-	$cmb_ballot_box->add_field([
-		'name' => 'Ballot',
-		'id' => $prefix . 'ballot',
-		'type' => 'text',
-		'render_row_cb' => __NAMESPACE__ . '\\fvnc_ballot_cb',
-	]);
+				return $options;
+			}
 
-});
+				/**
+				 * Callback function that lists referenda on the ballot
+				 *
+				 */
+				function referenda_cb($field) {
+					$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
+
+					foreach($contests as $contest) {
+						if ($contest->type == 'Referendum') {
+							$options[$contest->referendumTitle] = $contest->referendumTitle;
+						}
+					}
+
+					return $options;
+				}
