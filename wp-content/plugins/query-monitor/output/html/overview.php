@@ -112,10 +112,12 @@ class QM_Output_Html_Overview extends QM_Output_Html {
 		if ( isset( $cache_hit_percentage ) ) {
 			echo '<td>';
 			echo esc_html( sprintf(
-				'%s%% hit rate',
+				/* translators: %s: Cache hit rate percentage */
+				__( '%s%% hit rate', 'query-monitor' ),
 				number_format_i18n( $cache_hit_percentage, 1 )
 			) );
 			echo '<br>' . esc_html( sprintf(
+				/* translators: %s: External object cache status */
 				__( 'External object cache: %s'),
 				( $cache_data['ext_object_cache'] ? 'true' : 'false' )
 			) );
@@ -141,11 +143,13 @@ class QM_Output_Html_Overview extends QM_Output_Html {
 		}
 
 		$title[] = sprintf(
-			_x( '%s<small>S</small>', 'page load time', 'query-monitor' ),
+			/* translators: %s: Page load time in seconds */
+			_x( '%s<small>S</small>', 'Page load time', 'query-monitor' ),
 			number_format_i18n( $data['time'], 2 )
 		);
 		$title[] = sprintf(
-			_x( '%s<small>MB</small>', 'memory usage', 'query-monitor' ),
+			/* translators: %s: Memory usage in megabytes */
+			_x( '%s<small>MB</small>', 'Memory usage', 'query-monitor' ),
 			$memory
 		);
 		return $title;
