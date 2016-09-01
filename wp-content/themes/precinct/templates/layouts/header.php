@@ -18,11 +18,17 @@ use Roots\Sage\Nav;
 
     <nav class="navbar collapse navbar-collapse" data-topbar role="navigation" id="navbar-collapse-1">
       <div class="navbar-right">
-        <?php
-        if (has_nav_menu('primary_navigation')) :
-          wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav navbar-nav', 'depth' => 2, 'walker' => new Nav\NavWalker()]);
-        endif;
-        ?>
+        <ul class="nav navbar-nav">
+          <li class=""><a href="#">Help</a></li>
+          <li class="dropdown">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alisa <span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><a href="#">Teacher Portal</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </nav>
   </div>

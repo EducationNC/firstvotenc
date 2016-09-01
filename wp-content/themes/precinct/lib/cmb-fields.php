@@ -14,19 +14,18 @@ add_action( 'cmb2_init', function() {
 		'title'        => 'Election Options',
 		'object_types' => array( 'election' ),
 		'context'      => 'normal',
-		'priority'     => 'high',
+		'priority'     => 'high'
 	]);
 
 	$cmb_election_box->add_field([
-		'name' => 'Election',
+		'name' => 'Select a master election',
 		'id' => $prefix . 'election',
 		'type' => 'select',
 		'options_cb' => __NAMESPACE__ . '\\fvnc_elections_cb',
-		'description' => 'Select an election to use for your simulation election.'
 	]);
 
 	$cmb_election_box->add_field([
-		'name' => 'Election Date',
+		'name' => 'Election day',
 		'id' => $prefix . 'election_date',
 		'type' => 'text_date',
 		'attributes' => ['disabled' => 'disabled']
@@ -35,29 +34,59 @@ add_action( 'cmb2_init', function() {
 	$early_vote_default = get_post_meta($prefix . 'election_date', true);
 
 	$cmb_election_box->add_field([
-		'name' => 'Early Voting Begins',
+		'name' => 'Set early voting start date',
 		'id' => $prefix . 'early_voting',
 		'type' => 'text_date',
-		'default' => $early_vote_default	// TODO: THIS IS NOT WORKING
+		'default' => $early_vote_default,	// TODO: THIS IS NOT WORKING
+		'description' => 'Polls will be open from 7:30am to 7:30pm each day during the early voting period and on election day.'
 	]);
 
 	$cmb_election_box->add_field([
     'name' => 'Races',
-    'desc' => 'Check races to include in this election.',
+    'before_field' => '<p class="cmb2-metabox-description">Check races to include in this election.</p>',
     'id' => $prefix . 'included_races',
     'type' => 'multicheck',
 		'select_all_button' => true,
-    'options_cb' => __NAMESPACE__ . '\\races_cb'
+    'options_cb' => __NAMESPACE__ . '\\races_cb',
 	]);
 
 	$cmb_election_box->add_field([
     'name' => 'Referenda',
-    'desc' => 'Check referenda to include in this election.',
+    'before_field' => '<p class="cmb2-metabox-description">Check referenda to include in this election.</p>',
     'id' => $prefix . 'included_referenda',
     'type' => 'multicheck',
 		'select_all_button' => true,
-    'options_cb' => __NAMESPACE__ . '\\referenda_cb'
+    'options_cb' => __NAMESPACE__ . '\\referenda_cb',
 	]);
+
+	$custom_questions = $cmb_election_box->add_field( array(
+		'name' 				=> 'Issue-Based Questions',
+    'id'          => $prefix . 'custom_questions',
+    'type'        => 'group',
+    'description' => 'Enter customized questions (yes/no answers) for which students may vote in this simulation election.',
+    // 'repeatable'  => false, // use false if you want non-repeatable group
+    'options'     => array(
+      'group_title'   => __( 'Question {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
+      'add_button'    => __( 'Add Another', 'cmb2' ),
+      'remove_button' => __( 'Remove', 'cmb2' ),
+      'sortable'      => true, // beta
+      // 'closed'     => true, // true to have the groups closed by default
+    ),
+	) );
+
+	// Id's for group's fields only need to be unique for the group. Prefix is not needed.
+	$cmb_election_box->add_group_field( $custom_questions, array(
+    'name' => ' Title',
+    'id'   => 'title',
+    'type' => 'text',
+    // 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+	) );
+
+	$cmb_election_box->add_group_field( $custom_questions, array(
+    'name' => 'Question',
+    'id'   => 'question',
+    'type' => 'textarea_small',
+	) );
 
 
 	/**
@@ -141,40 +170,40 @@ function ballot_election_cb($field) {
 }
 
 
-		function get_election_info() {
-			include( locate_template( '/lib/transient-election.php' ) );
+function get_election_info() {
+	include( locate_template( '/lib/transient-election.php' ) );
+}
+add_action( 'cmb2_before_post_form__cmb_election', __NAMESPACE__ . '\\get_election_info' );
+
+
+/**
+ * Callback function that lists races on the ballot
+ *
+ */
+function races_cb($field) {
+	$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
+
+	foreach($contests as $contest) {
+		if ($contest->type !== 'Referendum') {
+			$options[$contest->office] = $contest->office;
 		}
-		add_action( 'cmb2_before_post_form__cmb_election', __NAMESPACE__ . '\\get_election_info' );
+	}
 
+	return $options;
+}
 
-			/**
-			 * Callback function that lists races on the ballot
-			 *
-			 */
-			function races_cb($field) {
-				$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
+/**
+ * Callback function that lists referenda on the ballot
+ *
+ */
+function referenda_cb($field) {
+	$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
 
-				foreach($contests as $contest) {
-					if ($contest->type !== 'Referendum') {
-						$options[$contest->office] = $contest->office;
-					}
-				}
+	foreach($contests as $contest) {
+		if ($contest->type == 'Referendum') {
+			$options[$contest->referendumTitle] = $contest->referendumTitle;
+		}
+	}
 
-				return $options;
-			}
-
-				/**
-				 * Callback function that lists referenda on the ballot
-				 *
-				 */
-				function referenda_cb($field) {
-					$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
-
-					foreach($contests as $contest) {
-						if ($contest->type == 'Referendum') {
-							$options[$contest->referendumTitle] = $contest->referendumTitle;
-						}
-					}
-
-					return $options;
-				}
+	return $options;
+}

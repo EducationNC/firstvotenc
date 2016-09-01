@@ -1,7 +1,5 @@
 <article <?php post_class(); ?>>
-  <header>
-    <h2 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-  </header>
+
   <div class="entry-summary">
     <?php
     /**
@@ -17,11 +15,13 @@
     /**
      * Check if the user has permissions to edit elections
      */
-    if ( ! current_user_can( 'edit_posts' ) ) {
-        return __( 'You do not have permissions to edit this post.', 'lang_domain' );
-    }
+    // if ( ! current_user_can( 'edit_posts' ) ) {
+    //     return __( 'You do not have permissions to edit this post.', 'lang_domain' );
+    // }
 
-    cmb2_metabox_form( '_cmb_ballot', $election_id );
+    cmb2_metabox_form( '_cmb_election', get_the_id(), ['save_button' => 'Save Election'] );
+
+    echo '<a id="btn-preview-ballot" class="btn btn-default" href="' . get_permalink() . '">Preview Ballot</a>';
     ?>
 
   </div>
