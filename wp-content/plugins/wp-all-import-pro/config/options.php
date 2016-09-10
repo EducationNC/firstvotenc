@@ -32,5 +32,6 @@ $config = array(
 	"google_client_id" => "",
 	"google_signature" => "",
 	"licenses" => array(),
-	"statuses" => array()
+	"statuses" => array(),
+	// "enable_xmlreader" => 1
 );if (!defined('WPALLIMPORT_SIGNATURE')) define('WPALLIMPORT_SIGNATURE', 'MTA4NjcwZTEyYzZlMGZjZjRkOTU5ZmM4ZDJlYWJlZjY=');

@@ -12,4 +12,8 @@
     @extend .btn-primary;
     @extend .btn-lg;
   }
+
+  .alert-success {
+    @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
+  }
 }

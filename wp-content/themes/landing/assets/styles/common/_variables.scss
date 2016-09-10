@@ -166,3 +166,7 @@ $alert-danger-border:         $scarlet;
 $alert-warning-bg:            $gold-lightest;
 $alert-warning-text:          $jet;
 $alert-warning-border:        $gold;
+
+$alert-success-bg:            lighten($steel, 8%);
+$alert-success-border:        $pearl;
+$alert-success-text:          $jet;

@@ -13,7 +13,7 @@ add_filter('caldera_preprocess_live', function($data){
   $school = get_page_by_path($data['school_name'], OBJECT, 'precinct');
 
   // Create new precinct site based on school code
-  $school_id = wpmu_create_blog($domain, '/nc-' . $school->ID . '/', $school->post_title, 1);
+  $school_id = wpmu_create_blog($domain, '/nc-' . $school->ID . '/', $school->post_title, 1, ['current_theme' => 'Precinct', 'template' => 'precinct', 'stylesheet' => 'precinct']);
 
   if (is_wp_error($school_id)) {
     // If this school is already registered, set role to contributor.
