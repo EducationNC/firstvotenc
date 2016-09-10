@@ -17,10 +17,11 @@ use Roots\Sage\Assets;
   <div class="container text-center partners">
     <span class="sr-only">In Partnership With</span>
     <a href="https://www.ednc.org" target="_blank"><img src="<?php echo Assets\asset_path('images/ednc.png'); ?>" srcset="<?php echo Assets\asset_path('images/ednc@2x.png'); ?> 2x" alt="EdNC" /></a>
-    <a href="http://humanities.unc.edu/civics/" target="_blank"><img src="<?php echo Assets\asset_path('images/CECLogo.png'); ?>" srcset="<?php echo Assets\asset_path('images/CECLogo@2x.png'); ?> 2x" alt="NC Civic Education Consortium" /></a>
+    <a href="http://carolinak12.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/Carolina_K12.png'); ?>" srcset="<?php echo Assets\asset_path('images/Carolina_K12@2x.png'); ?> 2x" alt="Carolina K12" /></a>
     <a href="http://www.ncpublicschools.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/NCDPI.png'); ?>" srcset="<?php echo Assets\asset_path('images/NCDPI@2x.png'); ?> 2x" alt="Public Schools of North Carolina" /></a>
     <a href="https://turbovote.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/TurboVote_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/TurboVote_Logo@2x.png'); ?> 2x" alt="Turbo Vote" /></a>
     <a href="http://www.lwvnc.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/LWV_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/LWV_Logo@2x.png'); ?> 2x" alt="League of Women Voters of North Carolina" /></a>
+    <a href="http://nationalhumanitiescenter.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/NHC_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/NHC_Logo@2x.png'); ?> 2x" alt="National Humanities Center" /></a>
   </div>
 </section>
 
