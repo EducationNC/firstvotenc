@@ -1,42 +1,15 @@
-.form-inline {
-  .form-group {
-    padding: 0;
-  }
-
+.caldera-grid.caldera-grid {
   .form-control {
-    max-width: 100%;
-    border-radius: 0;
-  }
-}
+    background: lighten($steel, 8%);
+    border: 1px solid $pearl;
 
-#SignUp {
-  table {
-    width: 100%;
-    @extend .table;
-    @extend .table-responsive;
-
-    td {
-      border-top: none !important;
+    &:focus {
+      background: $white;
     }
   }
 
-  input[type="submit"] {
-    @extend .btn;
-    font-size: 18px;
+  .btn-default {
+    @extend .btn-primary;
+    @extend .btn-lg;
   }
-}
-
-.search-form {
-  @extend .form-inline;
-}
-.search-form label {
-  font-weight: normal;
-  @extend .form-group;
-}
-.search-form .search-field {
-  @extend .form-control;
-}
-.search-form .search-submit {
-  @extend .btn;
-  @extend .btn-default;
 }

@@ -66,4 +66,4 @@ function defer_javascripts ( $url ) {
   if ( strpos( $url, 'mediaelement' ) ) return $url;
   return "$url' async='async";
 }
-add_filter( 'clean_url', __NAMESPACE__ . '\\defer_javascripts', 11, 1 );
+// add_filter( 'clean_url', __NAMESPACE__ . '\\defer_javascripts', 11, 1 );
