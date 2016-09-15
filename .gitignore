@@ -26,6 +26,7 @@ wp-content/wp-cache-config.php
 
 # pro plugins
 wp-content/plugins/advanced-custom-fields-pro/*
+wp-content/plugins/caldera-forms/*
 
 # wpengine specific
 .smushit-status
