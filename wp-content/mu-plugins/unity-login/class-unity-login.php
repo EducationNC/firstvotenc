@@ -10,6 +10,7 @@ class Unity_Login {
    */
   public function __construct() {
     $includes = [
+      '/lib/emails.php',  // Customize emails that are sent
       '/lib/errors.php',  // Error messages
       '/lib/login.php',  // Functions that handle logging in
       '/lib/logout.php',  // Functions that handle logging out
@@ -39,11 +40,11 @@ class Unity_Login {
         'content' => '[unity-login-form]'
       ),
       'lost-password' => array(
-        'title' => __( 'Forgot Your Password?', 'personalize-login' ),
+        'title' => __( 'Forgot Your Password?', 'unity-login' ),
         'content' => '[unity-password-lost-form]'
       ),
       'reset-password' => array(
-        'title' => __( 'Pick a New Password', 'personalize-login' ),
+        'title' => __( 'Pick a New Password', 'unity-login' ),
         'content' => '[unity-password-reset-form]'
       )
     );

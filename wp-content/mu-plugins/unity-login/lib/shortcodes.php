@@ -144,7 +144,7 @@ add_shortcode( 'unity-password-lost-form', function($attributes, $content = null
  *
  * @return string  The shortcode output
  */
-add_shortcode( 'custom-password-reset-form', function( $attributes, $content = null ) {
+add_shortcode( 'unity-password-reset-form', function( $attributes, $content = null ) {
     // Parse shortcode attributes
     $default_attributes = array( 'show_title' => false );
     $attributes = shortcode_atts( $default_attributes, $attributes );
