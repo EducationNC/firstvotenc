@@ -59,24 +59,29 @@ add_shortcode( 'unity-login-form', function($attributes, $content = null) {
     }
 
     ob_start();
-    ?>
-      <form method="post" action="<?php echo wp_login_url(); ?>">
-        <div class="form-group">
-          <label for="user_login"><?php _e( 'Email', 'unity-login' ); ?></label>
-          <input type="text" class="form-control" name="log" id="user_login">
-        </div>
-        <div class="form-group">
-          <label for="user_pass"><?php _e( 'Password', 'unity-login' ); ?></label>
-          <input type="password" class="form-control" name="pwd" id="user_pass">
-        </div>
-        <div class="form-group">
-          <label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> Remember Me</label>
-        </div>
-        <div class="form-group">
-          <input type="submit" class="btn btn-default" value="<?php _e( 'Sign In', 'unity-login' ); ?>">
-        </div>
-      </form>
-    <?php
+      // Add wpe-login query arg if we're on production site
+      $loginurl = wp_login_url();
+      if (is_wpe()) {
+        $loginurl = add_query_arg(['wpe-login' => 'firstvotenc'], wp_login_url());
+      }
+      ?>
+        <form method="post" action="<?php echo $loginurl; ?>">
+          <div class="form-group">
+            <label for="user_login"><?php _e( 'Email', 'unity-login' ); ?></label>
+            <input type="text" class="form-control" name="log" id="user_login">
+          </div>
+          <div class="form-group">
+            <label for="user_pass"><?php _e( 'Password', 'unity-login' ); ?></label>
+            <input type="password" class="form-control" name="pwd" id="user_pass">
+          </div>
+          <div class="form-group">
+            <label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> Remember Me</label>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-default" value="<?php _e( 'Sign In', 'unity-login' ); ?>">
+          </div>
+        </form>
+      <?php
     $return .= ob_get_clean();
 
     $return .= '<a href="' . wp_lostpassword_url( get_permalink() ) . '">Lost Password?</a>';
@@ -119,9 +124,15 @@ add_shortcode( 'unity-password-lost-form', function($attributes, $content = null
           echo '<div class="alert alert-danger" role="alert">' .  $error . '</div>';
         }
       }
+
+      // Add wpe-login query arg if we're on production site
+      $lostpassword_url = wp_lostpassword_url();
+      if (is_wpe()) {
+        $lostpassword_url = add_query_arg(['wpe-login' => 'firstvotenc'], wp_lostpassword_url());
+      }
       ?>
       <p>If you forgot your password, no worries. Just enter your email address and we'll send you a link you can use to pick a new password.</p>
-      <form id="lostpasswordform" action="<?php echo wp_lostpassword_url(); ?>" method="post">
+      <form id="lostpasswordform" action="<?php echo $lostpassword_url; ?>" method="post">
         <div class="form-group">
           <label for="user_login">Email</label>
           <input type="text" name="user_login" id="user_login" class="form-control">
@@ -174,8 +185,15 @@ add_shortcode( 'unity-password-reset-form', function( $attributes, $content = nu
                   echo '<div class="alert alert-danger" role="alert">' .  $error . '</div>';
                 }
               }
+
+              // Add wpe-login query arg if we're on production site
+              $loginurl = wp_login_url();
+              $loginurl = add_query_arg(['action' => 'resetpass'], wp_login_url());
+              if (is_wpe()) {
+                $loginurl = add_query_arg(['wpe-login' => 'firstvotenc'], wp_login_url());
+              }
               ?>
-              <form name="resetpassform" id="resetpassform" action="<?php echo site_url( 'wp-login.php?action=resetpass' ); ?>" method="post" autocomplete="off">
+              <form name="resetpassform" id="resetpassform" action="<?php echo $loginurl; ?>" method="post" autocomplete="off">
                 <input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $attributes['login'] ); ?>" autocomplete="off" />
                 <input type="hidden" name="rp_key" value="<?php echo esc_attr( $attributes['key'] ); ?>" />
 
