@@ -17,9 +17,7 @@ get_template_part('templates/components/header', get_post_type());
       endif;
 
       while (have_posts()) : the_post();
-        if (is_page('whats-new')) {
-          get_template_part('templates/layouts/loop', 'blog');
-        } elseif (is_archive()) {
+        if (is_archive()) {
           get_template_part('templates/layouts/block', 'post-side');
         } else {
           get_template_part('templates/layouts/content', get_post_type());

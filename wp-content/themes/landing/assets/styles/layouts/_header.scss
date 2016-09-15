@@ -36,6 +36,12 @@
     }
   }
 
+  .logged-in & {
+    .menu-sign-in, .menu-register {
+      display: none;
+    }
+  }
+
   .navbar-nav > li {
     a {
       background: none !important;

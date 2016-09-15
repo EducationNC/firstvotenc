@@ -48,13 +48,28 @@ use Roots\Sage\Assets;
 
         <?php else : ?>
 
-          <div class="h3">Simulation Elections</div>
+          <div class="well well-sm">
+            <p><em>You're invited to</em></p>
+            <h3 style="margin-top: 0;">First Vote and the 2016 Elections: Engaging the Future Electorate</h3>
+            <h4>A Free Webinar for Teachers</h4>
+            <p>Monday, September 26, 2016<br />
+              4:00 pm - 5:00 pm ET</p>
+            <p>Join us to learn how to use First Vote, a one-of-a-kind online simulation election platform, in your classroom. This webinar will provide an overview of the First Vote project, including implementation ideas, training on customizing your school's online ballot, instruction on utilizing the exit poll data for post-election analysis, and a summary of the adaptable curricular resources.</p>
+            <p>While First Vote NC is designed for public and charter high school students, all educators are welcome to attend the webinar, utilize the materials and participate in a modified simulation election.</p>
+            <p>
+              <a class="btn btn-primary" href="http://r20.rs6.net/tn.jsp?f=001csrsONODIz19dVm4E5DxAJOfyEdIc5g1IEDL-2mFjSnS6vG8qewGi0vPKQCIlon7rF8kbpGVG5pLNhdfG6ZOUbVvCcwZanS4nGT9-msZ76yeKu5jznIGnrLvY6fHrLAmZwKwyooe4h_dOYTWyH36Pg_SImGknhHHcvdzo8O3qxF_nd-s676aGoukHp0KJlR0qk3cqFXyPX6pYZ2eWvRSz5VQj3A3MwL9Gnxr0V1DK_7h4B2tbDH-paigVtqtU9BU84xINXXm7o1VkKVPnPdgV95RNwTTugVLEL4eN6HmQMs=&c=HCLwE839wXF_DvQ18ocFVD92-EAcVpvMlNLh5KJcBDBBKmQUER403Q==&ch=yvEMmb4yxNzOtY2T-gkWVO-_FLRzBRDqHP6vI1rukQQJOIbXeWRZBA==" target="_blank">
+                Register Now
+              </a>
+            </p>
+          </div>
+
+          <!--<div class="h3">Simulation Elections</div>
 
           <div class="well well-sm">
             <p><em>No simulation elections have been created for your precinct.</em></p>
 
             <p><a href="#">Add Simulation Election</a></p>
-          </div>
+          </div>-->
 
         <?php endif; wp_reset_postdata(); ?>
       </div>
@@ -73,41 +88,24 @@ use Roots\Sage\Assets;
 
           <tbody>
 
-            <?php foreach ($officials as $official) : ?>
+            <?php foreach ($officials as $official) : if ($official->ID != 1) : ?>
 
               <tr>
                 <th scope="row">
-                  <a href="#"><?php echo $official->display_name; ?></a><br />
-                  <span class="small">Precinct Director</span>
+                  <a href="mailto:<?php echo $official->user_email; ?>">
+                    <?php echo $official->display_name; ?>
+                  </a><br />
+                  <?php if (current_user_can('edit_pages')) { ?>
+                    <span class="small">Precinct Director</span>
+                  <?php } ?>
                 </th>
-                <td>Civics &amp; Economics</td>
+                <td><?php echo get_user_meta($official->ID, 'classes', true); ?></td>
               </tr>
 
-            <?php endforeach; ?>
+            <?php endif; endforeach; ?>
 
           </tbody>
         </table>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="teacher-resources">
-  <section class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h3>Classroom Resources</h3>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        Implementation guide
-      </div>
-
-      <div class="col-md-6">
-        <h4>Lesson Plans</h4>
 
       </div>
     </div>

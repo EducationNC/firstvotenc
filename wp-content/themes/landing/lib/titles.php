@@ -18,6 +18,8 @@ function title() {
     return sprintf(__('Search Results for %s', 'sage'), get_search_query());
   } elseif (is_404()) {
     return __('Not Found', 'sage');
+  } elseif (get_post_status () == 'private' ) {
+    return str_replace('Private: ', '', get_the_title());
   } else {
     return get_the_title();
   }

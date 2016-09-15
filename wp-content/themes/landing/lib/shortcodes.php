@@ -439,4 +439,3 @@ endif;
     return $output;
   }
   add_shortcode('colophon', __NAMESPACE__ . '\\colophon_shortcode');
-?>
