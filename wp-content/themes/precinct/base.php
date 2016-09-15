@@ -2,6 +2,11 @@
 
 use Roots\Sage\Wrapper;
 
+// Requires users to be logged in to see pages
+if ( !is_user_logged_in() ) {
+  wp_redirect(network_site_url('/teacher-login'));
+  exit;
+}
 ?>
 
 <!doctype html>

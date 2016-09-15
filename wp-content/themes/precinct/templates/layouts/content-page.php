@@ -1,4 +1,5 @@
 <?php
+
 the_content();
 
 if (is_page('donate')) {

@@ -22,17 +22,12 @@ use Roots\Sage\Assets;
     <a href="https://turbovote.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/TurboVote_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/TurboVote_Logo@2x.png'); ?> 2x" alt="Turbo Vote" /></a>
     <a href="http://www.lwvnc.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/LWV_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/LWV_Logo@2x.png'); ?> 2x" alt="League of Women Voters of North Carolina" /></a>
     <a href="http://nationalhumanitiescenter.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/NHC_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/NHC_Logo@2x.png'); ?> 2x" alt="National Humanities Center" /></a>
+    <a href="http://www.techandciviclife.org/" target="_blank"><img src="<?php echo Assets\asset_path('images/CTC_Logo.png'); ?>" srcset="<?php echo Assets\asset_path('images/CTC_Logo@2x.png'); ?> 2x" alt="Center for Technology and Civic Life" /></a>
   </div>
 </section>
 
 <section class="gray-bg overview">
   <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-centered text-center">
-        <p class="h2 bottom-margin-important">Launching this fall for the 2016 elections.</p>
-      </div>
-    </div>
-
     <div class="row flex-sm-up">
       <div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-7 text-center">
         <img src="<?php echo Assets\asset_path('images/standards-aligned.svg'); ?>" alt="Standards Aligned" />

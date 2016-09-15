@@ -20,10 +20,13 @@ add_filter('caldera_preprocess_live', function($data){
     $role = 'contributor';
   } else {
 
+    // Generate the password so that the subscriber will have to check email...
+    $password = wp_generate_password( 12, false );
+
     $userdata = array(
       'user_login'  =>  $data['email_address'],
       'user_email'  =>  $data['email_address'],
-      'user_pass'   =>  wp_generate_password(),
+      'user_pass'   =>  $password,
       'first_name'  =>  $data['first_name'],
       'last_name'   =>  $data['last_name']
     );
@@ -42,7 +45,9 @@ add_filter('caldera_preprocess_live', function($data){
       add_user_to_blog( $school_id, $user_id, $role );
       update_user_meta( $user_id, 'primary_blog', $school_id );
 
-      // TODO: Add note to check email
+      // Send user email
+      wp_new_user_notification( $user_id, $password );
+
     } else {
       // If user already registered, delete blog that was created in step 1 and return error message
       wpmu_delete_blog($school_id, TRUE);

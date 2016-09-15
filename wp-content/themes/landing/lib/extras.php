@@ -131,3 +131,20 @@ function get_adjacent_author_post( $previous = true ) {
 
   return $result;
 }
+
+/**
+ * Prevent non-admins from accessing wp-admin
+ */
+add_action( 'admin_init', function() {
+  $redirect = home_url( '/' );
+  if ( ! ( current_user_can( 'manage_options' ) ) )
+    exit( wp_redirect( $redirect ) );
+}, 100 );
+
+/**
+ * Disable admin bar for all users except admins
+ */
+add_action('after_setup_theme', function() {
+  if ( ! ( current_user_can( 'manage_options' ) ) )
+    show_admin_bar(false);
+});

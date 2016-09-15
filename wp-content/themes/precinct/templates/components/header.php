@@ -25,6 +25,12 @@ $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
             </div>
         </div>
       </div>
+    <?php } elseif (is_page('lesson-plans')) { ?>
+      <div class="row">
+        <div class="col-md-7 col-centered">
+          <h1 class="entry-title">Lesson Plans</h1>
+        </div>
+      </div>
     <?php } else { ?>
       <h1 class="entry-title">
         <?php echo $precinct_name; ?>
