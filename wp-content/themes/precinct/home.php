@@ -76,37 +76,43 @@ use Roots\Sage\Assets;
 
       <div class="col-md-6">
 
-        <?php $officials = get_users(); ?>
+        <?php
+        // Only show for school-specific precincts
+        if (!get_bloginfo('name') == 'North Carolina') :
+          $officials = get_users();
+          ?>
 
-        <table class="table table-hover table-condensed">
-          <thead>
-            <tr>
-              <th scope="col" class="h3">Election Officials</th>
-              <th scope="col">Class</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <?php foreach ($officials as $official) : if ($official->ID != 1) : ?>
-
+          <table class="table table-hover table-condensed">
+            <thead>
               <tr>
-                <th scope="row">
-                  <a href="mailto:<?php echo $official->user_email; ?>">
-                    <?php echo $official->display_name; ?>
-                  </a><br />
-                  <?php if (user_can($official, 'edit_pages')) { ?>
-                    <span class="small">Precinct Director</span>
-                  <?php } ?>
-                </th>
-                <td><?php echo get_user_meta($official->ID, 'classes', true); ?></td>
+                <th scope="col" class="h3">Election Officials</th>
+                <th scope="col">Class</th>
               </tr>
+            </thead>
 
-            <?php endif; endforeach; ?>
+            <tbody>
 
-          </tbody>
-        </table>
+              <?php foreach ($officials as $official) : if ($official->ID != 1) : ?>
 
+                <tr>
+                  <th scope="row">
+                    <a href="mailto:<?php echo $official->user_email; ?>">
+                      <?php echo $official->display_name; ?>
+                    </a><br />
+                    <?php if (user_can($official, 'edit_pages')) { ?>
+                      <span class="small">Precinct Director</span>
+                    <?php } ?>
+                  </th>
+                  <td><?php echo get_user_meta($official->ID, 'classes', true); ?></td>
+                </tr>
+
+              <?php endif; endforeach; ?>
+
+            </tbody>
+          </table>
+
+        <?php endif; ?>
+        
       </div>
     </div>
   </div>
