@@ -30,7 +30,7 @@ add_filter('init', function() {
  */
 add_shortcode( 'lesson-plans', function($attributes, $content = null) {
   switch_to_blog(1);
-    $query = new \WP_Query( ['post_type' => 'page', 'pagename' => 'lesson-plans', 'post_status' => 'private'] );
+    $query = new \WP_Query( ['post_type' => 'page', 'pagename' => 'lesson-plans'] );
     if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
       $results = get_the_content();
     endwhile; else:
