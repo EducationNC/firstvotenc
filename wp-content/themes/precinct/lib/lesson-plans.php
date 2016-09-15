@@ -14,7 +14,7 @@ add_filter('init', function() {
         'post_content'   => '[lesson-plans]',
         'post_name'      => 'lesson-plans',
         'post_title'     => 'Lesson Plans',
-        'post_status'    => 'private',
+        'post_status'    => 'publish',
         'post_type'      => 'page',
         'ping_status'    => 'closed',
         'comment_status' => 'closed',
