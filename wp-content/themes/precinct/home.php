@@ -78,7 +78,7 @@ use Roots\Sage\Assets;
 
         <?php
         // Only show for school-specific precincts
-        if (!get_bloginfo('name') == 'North Carolina') :
+        if (get_bloginfo() !== 'North Carolina') :
           $officials = get_users();
           ?>
 
@@ -112,7 +112,7 @@ use Roots\Sage\Assets;
           </table>
 
         <?php endif; ?>
-        
+
       </div>
     </div>
   </div>
