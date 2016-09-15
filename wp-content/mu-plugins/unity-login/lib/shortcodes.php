@@ -61,8 +61,8 @@ add_shortcode( 'unity-login-form', function($attributes, $content = null) {
     ob_start();
       // Add wpe-login query arg if we're on production site
       $loginurl = wp_login_url();
-      if (is_wpe()) {
-        $loginurl = add_query_arg(['wpe-login' => 'firstvotenc'], wp_login_url());
+      if (function_exists('is_wpe')) {
+        $loginurl = add_query_arg(['wpe-login' => 'firstvotenc'], $loginurl);
       }
       ?>
         <form method="post" action="<?php echo $loginurl; ?>">
@@ -127,8 +127,8 @@ add_shortcode( 'unity-password-lost-form', function($attributes, $content = null
 
       // Add wpe-login query arg if we're on production site
       $lostpassword_url = wp_lostpassword_url();
-      if (is_wpe()) {
-        $lostpassword_url = add_query_arg(['wpe-login' => 'firstvotenc'], wp_lostpassword_url());
+      if (function_exists('is_wpe')) {
+        $lostpassword_url = add_query_arg(['wpe-login' => 'firstvotenc'], $lostpassword_url);
       }
       ?>
       <p>If you forgot your password, no worries. Just enter your email address and we'll send you a link you can use to pick a new password.</p>
@@ -177,7 +177,7 @@ add_shortcode( 'unity-password-reset-form', function( $attributes, $content = nu
                 }
             }
             $attributes['errors'] = $errors;
-
+}
             // Render form
             ob_start();
               if ( count( $attributes['errors'] ) > 0 ) {
@@ -189,8 +189,8 @@ add_shortcode( 'unity-password-reset-form', function( $attributes, $content = nu
               // Add wpe-login query arg if we're on production site
               $loginurl = wp_login_url();
               $loginurl = add_query_arg(['action' => 'resetpass'], wp_login_url());
-              if (is_wpe()) {
-                $loginurl = add_query_arg(['wpe-login' => 'firstvotenc'], wp_login_url());
+              if (function_exists('is_wpe')) {
+                $loginurl = add_query_arg(['wpe-login' => 'firstvotenc'], $loginurl);
               }
               ?>
               <form name="resetpassform" id="resetpassform" action="<?php echo $loginurl; ?>" method="post" autocomplete="off">
@@ -216,8 +216,8 @@ add_shortcode( 'unity-password-reset-form', function( $attributes, $content = nu
             $form = ob_get_clean();
             return $form;
 
-        } else {
-            return __( 'Invalid password reset link.', 'unity-login' );
-        }
+        // } else {
+        //     return __( 'Invalid password reset link.', 'unity-login' );
+        // }
     }
 } );
