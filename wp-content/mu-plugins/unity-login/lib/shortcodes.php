@@ -177,7 +177,7 @@ add_shortcode( 'unity-password-reset-form', function( $attributes, $content = nu
                 }
             }
             $attributes['errors'] = $errors;
-}
+
             // Render form
             ob_start();
               if ( count( $attributes['errors'] ) > 0 ) {
@@ -216,8 +216,8 @@ add_shortcode( 'unity-password-reset-form', function( $attributes, $content = nu
             $form = ob_get_clean();
             return $form;
 
-        // } else {
-        //     return __( 'Invalid password reset link.', 'unity-login' );
-        // }
+        } else {
+            return __( 'Invalid password reset link.', 'unity-login' );
+        }
     }
 } );
