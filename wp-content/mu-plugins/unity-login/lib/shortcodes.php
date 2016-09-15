@@ -36,8 +36,9 @@ add_shortcode( 'unity-login-form', function($attributes, $content = null) {
   $return = '';
 
   if ( is_user_logged_in() ) {
-    print_r(get_blogs_of_user(get_current_user_id()));
-    return '<div class="alert alert-info" role="alert">You are already signed in.</div>';
+    $blog = get_active_blog_for_user( get_current_user_id() );
+    wp_redirect($blog->siteurl);
+    exit;
   } else {
     if ( $attributes['lost_password_sent'] ) {
       $return .= '<div class="alert alert-info" role="alert">Check your email for a link to reset your password.</div>';
