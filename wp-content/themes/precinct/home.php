@@ -95,7 +95,7 @@ use Roots\Sage\Assets;
                   <a href="mailto:<?php echo $official->user_email; ?>">
                     <?php echo $official->display_name; ?>
                   </a><br />
-                  <?php if (current_user_can('edit_pages')) { ?>
+                  <?php if (user_can($official, 'edit_pages')) { ?>
                     <span class="small">Precinct Director</span>
                   <?php } ?>
                 </th>
