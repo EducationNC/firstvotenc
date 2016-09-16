@@ -13,7 +13,7 @@
   <?php wp_head(); ?>
 
   <?php
-  if (!is_user_logged_in()) {
+  if (!current_user_can('manage_options')) {
     get_template_part('templates/components/analytics');
   }
   ?>
