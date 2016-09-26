@@ -5,7 +5,6 @@
     /**
      * Customize ballot settings -- for teachers
      */
-     echo $_GET['edit'];
      if ( ! isset($_GET['edit'])) {
        get_template_part('/templates/layouts/ballot');
 

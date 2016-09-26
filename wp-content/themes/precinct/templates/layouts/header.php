@@ -65,7 +65,7 @@ use Roots\Sage\Nav;
             ?>
             <li class="dropdown">
               <?php $current_user = wp_get_current_user(); ?>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $current_user->user_firstname; ?> <span class="caret"></span></button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $current_user->user_firstname; ?> <?php echo $current_user->user_lastname; ?> <span class="caret"></span></button>
               <ul class="dropdown-menu dropdown-menu-right">
                 <!-- <li><a href="#">Profile</a></li> -->
                 <li><a href="<?php echo wp_logout_url('http://firstvotenc.org'); ?>">Log Out</a></li>

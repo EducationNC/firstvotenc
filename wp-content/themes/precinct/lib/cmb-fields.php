@@ -28,6 +28,7 @@ add_action( 'cmb2_init', function() {
 		'name' => 'Election day',
 		'id' => $prefix . 'election_date',
 		'type' => 'text_date',
+		'date_format' => 'F j, Y',
 		'attributes' => ['disabled' => 'disabled']
 	]);
 
@@ -183,8 +184,9 @@ add_action( 'cmb2_before_post_form__cmb_election', __NAMESPACE__ . '\\get_electi
 function races_cb($field) {
 	$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
 
+	$options = [];
 	foreach($contests as $contest) {
-		if ($contest->type !== 'Referendum') {
+		if ($contest->type == 'GENERAL') {
 			$options[$contest->office] = $contest->office;
 		}
 	}
@@ -199,6 +201,7 @@ function races_cb($field) {
 function referenda_cb($field) {
 	$contests = get_post_meta(get_the_id(), '_cmb_contests', true);
 
+	$options = [];
 	foreach($contests as $contest) {
 		if ($contest->type == 'Referendum') {
 			$options[$contest->referendumTitle] = $contest->referendumTitle;

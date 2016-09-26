@@ -49,16 +49,10 @@ use Roots\Sage\Assets;
         <?php else : ?>
 
           <div class="well well-sm">
-            <p><em>You're invited to</em></p>
-            <h3 style="margin-top: 0;">First Vote and the 2016 Elections: Engaging the Future Electorate</h3>
-            <h4>A Free Webinar for Teachers</h4>
-            <p>Monday, September 26, 2016<br />
-              4:00 pm - 5:00 pm ET</p>
-            <p>Join us to learn how to use First Vote, a one-of-a-kind online simulation election platform, in your classroom. This webinar will provide an overview of the First Vote project, including implementation ideas, training on customizing your school's online ballot, instruction on utilizing the exit poll data for post-election analysis, and a summary of the adaptable curricular resources.</p>
-            <p>While First Vote NC is designed for public and charter high school students, all educators are welcome to attend the webinar, utilize the materials and participate in a modified simulation election.</p>
+            <p><em>No simulation elections have been created for your precinct yet.</em></p>
             <p>
-              <a class="btn btn-primary" href="http://r20.rs6.net/tn.jsp?f=001csrsONODIz19dVm4E5DxAJOfyEdIc5g1IEDL-2mFjSnS6vG8qewGi0vPKQCIlon7rF8kbpGVG5pLNhdfG6ZOUbVvCcwZanS4nGT9-msZ76yeKu5jznIGnrLvY6fHrLAmZwKwyooe4h_dOYTWyH36Pg_SImGknhHHcvdzo8O3qxF_nd-s676aGoukHp0KJlR0qk3cqFXyPX6pYZ2eWvRSz5VQj3A3MwL9Gnxr0V1DK_7h4B2tbDH-paigVtqtU9BU84xINXXm7o1VkKVPnPdgV95RNwTTugVLEL4eN6HmQMs=&c=HCLwE839wXF_DvQ18ocFVD92-EAcVpvMlNLh5KJcBDBBKmQUER403Q==&ch=yvEMmb4yxNzOtY2T-gkWVO-_FLRzBRDqHP6vI1rukQQJOIbXeWRZBA==" target="_blank">
-                Register Now
+              <a class="btn btn-default" href="">
+                Add simulation election
               </a>
             </p>
           </div>

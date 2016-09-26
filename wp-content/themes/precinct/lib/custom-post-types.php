@@ -99,6 +99,7 @@ add_action( 'init', function() {
  */
 add_filter('wp_insert_post_data', function($data, $postarr) {
 	global $post;
+
 	if ( !is_admin() )
 		return $data;
 
@@ -111,6 +112,7 @@ add_filter('wp_insert_post_data', function($data, $postarr) {
 
 		$data['post_name'] = sanitize_title( $election );
 		$data['post_title'] = $election;
+
 		return $data;
 	} else {
 		return $data;

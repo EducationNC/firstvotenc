@@ -4,6 +4,9 @@ use Roots\Sage\Titles;
 
 $precinct_name = get_bloginfo('name');
 $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
+
+if ( ! isset($_GET['edit']))
+  return false;
 ?>
 
 <header class="page-header gray-bg">
