@@ -14,13 +14,19 @@
     /**
      * Check if the user has permissions to edit elections
      */
-    // if ( ! current_user_can( 'edit_posts' ) ) {
-    //     return __( 'You do not have permissions to edit this post.', 'lang_domain' );
-    // }
+    if ( ! current_user_can( 'editor' ) ) {
+      wp_redirect( get_bloginfo('url') );
+      exit;
+    }
+
+    // If edit was saved, delete generated ballot and redirect to non-edit page
+  	if ( isset( $_POST['object_id'] ) ) {
+      update_post_meta( $_POST['object_id'], '_cmb_generated_ballot', '' );
+  		$url = esc_url_raw( get_bloginfo('url') );
+  		echo "<script type='text/javascript'>window.location.href = '$url';</script>";
+  	}
 
     cmb2_metabox_form( '_cmb_election', get_the_id(), ['save_button' => 'Save Election'] );
-
-    echo '<a id="btn-preview-ballot" class="btn btn-default" href="' . get_permalink() . '">Preview Ballot</a>';
     ?>
 
   </div>

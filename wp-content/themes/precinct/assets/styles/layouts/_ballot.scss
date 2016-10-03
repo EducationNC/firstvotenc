@@ -139,6 +139,10 @@
     border-bottom: 1px solid $black;
     padding-bottom: 15px;
 
+    &.error {
+      background: $scarlet-lightest;
+    }
+
     ul {
       list-style: none;
       margin: 15px 0;
@@ -168,6 +172,7 @@
       label {
         position: relative;
         display: block;
+        cursor: pointer;
 
         input + span:before {
           content: '';
@@ -180,6 +185,7 @@
           border-radius: 40px / 20px;
           border: 1px solid $black;
           transition: 0.5s ease all;
+          cursor: pointer;
         }
 
         input:checked + span:before {
@@ -208,6 +214,14 @@
       margin: 0;
       font-size: $font-size-base;
     }
+
+    .uppercase {
+      text-transform: uppercase;
+    }
+  }
+
+  .issue-question {
+    padding: 10px;
   }
 
   .button-primary {
@@ -218,5 +232,7 @@
     left: calc(50% - 30px);
     bottom: -4em;
     transform: translate3d(-50%, 0, 0);
+    cursor: pointer;
+    display: none !important;
   }
 }

@@ -94,66 +94,41 @@ add_action( 'init', function() {
 	);
 });
 
-/**
- * Auto generate title for Elections CPT
- */
-add_filter('wp_insert_post_data', function($data, $postarr) {
-	global $post;
-
-	if ( !is_admin() )
-		return $data;
-
-	if ($data['post_type'] == 'election') {
-		$election_id = get_post_meta( get_the_id(), '_cmb_election', true );
-
-		switch_to_blog(1);
-		$election = get_the_title($election_id);
-		restore_current_blog();
-
-		$data['post_name'] = sanitize_title( $election );
-		$data['post_title'] = $election;
-
-		return $data;
-	} else {
-		return $data;
-	}
-}, 99, 2);
-
 
 /**
  * Modify queries on specific templates
  */
-add_action('pre_get_posts', function($query) {
-	if ($query->is_post_type_archive('resource')) {
-		$query->set('posts_per_page', -1);
-		$query->set('orderby', 'title');
-		$query->set('order', 'ASC');
-	}
-	if ($query->is_tax('resource-type')) {
-		// resource-type should query the resource CPT
-		$query->set('post_type', 'resource');
-		$query->set('posts_per_page', -1);
-		$query->set('orderby', 'title');
-		$query->set('order', 'ASC');
-	}
-});
-
-
-/**
- * Add columns to admin screen
- */
-add_filter( 'manage_resource_posts_columns', function($columns) {
-	$new_columns['cb'] = 'cb';
-	$new_columns['title'] = 'Title';
-	$new_columns['resource-type'] = 'Resource Type';
-	$new_columns['date'] = 'Date';
-
-	$columns = $new_columns;
-	return $columns;
-}, 10, 1);
-
-add_filter( 'manage_resource_posts_custom_column', function($column_name, $id) {
-	if ( 'resource-type' == $column_name ) {
-		echo get_the_term_list($id, 'resource-type', '', ', ', '');
-	}
-}, 10, 2);
+// add_action('pre_get_posts', function($query) {
+// 	if ($query->is_post_type_archive('resource')) {
+// 		$query->set('posts_per_page', -1);
+// 		$query->set('orderby', 'title');
+// 		$query->set('order', 'ASC');
+// 	}
+// 	if ($query->is_tax('resource-type')) {
+// 		// resource-type should query the resource CPT
+// 		$query->set('post_type', 'resource');
+// 		$query->set('posts_per_page', -1);
+// 		$query->set('orderby', 'title');
+// 		$query->set('order', 'ASC');
+// 	}
+// });
+//
+//
+// /**
+//  * Add columns to admin screen
+//  */
+// add_filter( 'manage_resource_posts_columns', function($columns) {
+// 	$new_columns['cb'] = 'cb';
+// 	$new_columns['title'] = 'Title';
+// 	$new_columns['resource-type'] = 'Resource Type';
+// 	$new_columns['date'] = 'Date';
+//
+// 	$columns = $new_columns;
+// 	return $columns;
+// }, 10, 1);
+//
+// add_filter( 'manage_resource_posts_custom_column', function($column_name, $id) {
+// 	if ( 'resource-type' == $column_name ) {
+// 		echo get_the_term_list($id, 'resource-type', '', ', ', '');
+// 	}
+// }, 10, 2);

@@ -25,7 +25,7 @@ use Roots\Sage\Nav;
             <?php
             $navs = array(
               array(
-                'title' => 'Teacher Portal',
+                'title' => 'Teacher Dashboard',
                 'type' => 'home'
               ),
               array(

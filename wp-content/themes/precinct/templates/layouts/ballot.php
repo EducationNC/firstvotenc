@@ -14,7 +14,7 @@ $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
   <div class="col-md-6">
     <strong>First Vote NC<br />
       <?php echo $precinct_name; ?><br />
-      <?php echo date('F j, Y', strtotime(get_post_meta(get_the_id(), '_cmb_election_date', true))); ?>
+      <?php echo date('F j, Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
     </strong>
   </div>
 
@@ -81,4 +81,28 @@ $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
   }
   echo $output;
   ?>
+
+  <div class="ballot-footer">
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-sm-3">
+          A
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-sm-3">
+          B
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-sm-3">
+          C
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

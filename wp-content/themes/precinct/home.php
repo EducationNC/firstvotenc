@@ -4,11 +4,19 @@ use Roots\Sage\Assets;
 
 ?>
 
-<?php get_template_part('templates/components/header'); ?>
+<?php
+get_template_part('templates/components/header');
+
+if (isset($_GET['add'])) {
+  get_template_part('/templates/layouts/add_election');
+
+  return false;
+}
+?>
 
 <section class="precinct-admin">
   <div class="container">
-    <div class="row">
+    <div class="row extra-bottom-margin">
       <div class="col-md-6">
 
         <?php
@@ -16,56 +24,64 @@ use Roots\Sage\Assets;
           'post_type' => 'election',
           'posts_per_page' => -1
         ]);
+        ?>
 
-        if ($election->have_posts()) : ?>
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th scope="col" class="h3">Simulation Elections</th>
+              <th scope="col">Dates</th>
+            </tr>
+          </thead>
 
-          <table class="table table-hover table-condensed">
-            <thead>
-              <tr>
-                <th scope="col" class="h3">Simulation Elections</th>
-                <th scope="col">Dates</th>
-              </tr>
-            </thead>
+          <tbody>
 
-            <tbody>
-
-            <?php while ($election->have_posts()): $election->the_post(); ?>
+          <?php if ($election->have_posts()) : while ($election->have_posts()): $election->the_post();
+            if ( current_user_can( 'editor' ) ) { ?>
 
               <tr>
                 <th scope="row">
                   <a href="<?php the_permalink(); ?>?edit"><?php the_title(); ?></a><br />
-                  <span class="small"><a href="<?php the_permalink(); ?>?edit">Edit</a> | <a href="<?php the_permalink(); ?>">Preview Ballot</a> | <a href="#">Delete</a></span>
+                  <span class="small"><a href="<?php the_permalink(); ?>?edit">Edit</a> | <a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
                 </th>
-                <td>11/01/16 - 11/08/16</td>
+                <td>
+                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_early_voting', true)); ?> -
+                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+                </td>
               </tr>
 
-            <?php endwhile; ?>
+            <?php } else { ?>
 
-            </tbody>
-          </table>
+              <tr>
+                <th scope="row">
+                  <?php the_title(); ?><br />
+                  <span class="small"><a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
+                </th>
+                <td>
+                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_early_voting', true)); ?> -
+                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+                </td>
+              </tr>
 
-          <a class="btn btn-default" href="#">Add Election</a>
+            <?php }
+          endwhile; else: ?>
 
-        <?php else : ?>
+            <tr>
+              <td colspan="2">
+                <div class="well well-sm">
+                  <p><em>No simulation elections have been created for your precinct yet.</em></p>
+                </div>
+              </td>
+            </tr>
 
-          <div class="well well-sm">
-            <p><em>No simulation elections have been created for your precinct yet.</em></p>
-            <p>
-              <a class="btn btn-default" href="">
-                Add simulation election
-              </a>
-            </p>
-          </div>
+          <?php endif; wp_reset_postdata(); ?>
+          </tbody>
+        </table>
 
-          <!--<div class="h3">Simulation Elections</div>
+        <?php if ( current_user_can( 'editor' ) ) { ?>
+          <a class="btn btn-default" href="?add">Add Simulation Election</a>
+        <?php } ?>
 
-          <div class="well well-sm">
-            <p><em>No simulation elections have been created for your precinct.</em></p>
-
-            <p><a href="#">Add Simulation Election</a></p>
-          </div>-->
-
-        <?php endif; wp_reset_postdata(); ?>
       </div>
 
       <div class="col-md-6">
@@ -109,5 +125,21 @@ use Roots\Sage\Assets;
 
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>TurboVote for Teachers</h3>
+        <div class="entry-content-asset" style="height: 500px;"><iframe src="https://firstvotenc.turbovote.org"></iframe></div>
+        <p class="small">Powered by TurboVote: <a href="https://firstvotenc.turbovote.org">register to vote, request absentee ballots, and get election reminders</a></p>
+      </div>
+
+      <div class="col-md-6">
+        <h3>Informational Webinar</h3>
+        <div class="entry-content-asset"><iframe width="560" height="315" src="https://www.youtube.com/embed/_ZYJYFWe8Dg" frameborder="0" allowfullscreen></iframe></div>
+        <p>This webinar provides an overview of the First Vote North Carolina project, including implementation ideas, training on customizing your school's online ballot, instruction on utilizing the exit poll data for post-election analysis, and a summary of the adaptable curricular resources.</p>
+        <p><strong>Questions?</strong> We're here to help: <a href="mailto:help@firstvotenc.org">help@firstvotenc.org</a></p>
+      </div>
+    </div>
+
   </div>
 </section>
