@@ -1,6 +1,15 @@
 .page-header {
   margin-top: 0;
 
+  .entry-title {
+    small {
+      float: right;
+      font-weight: 300;
+      color: $text-color;
+      font-size: 16px;
+    }
+  }
+
   &.photo-overlay {
     position: relative;
     margin-bottom: 2em;
