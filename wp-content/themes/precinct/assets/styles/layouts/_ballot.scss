@@ -1,0 +1,238 @@
+.single.ballot {
+
+  .global-footer {
+    display: none;
+  }
+
+  &, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .wrap {
+    background: $steel;
+    padding-bottom: 10em;
+
+    .container {
+      background: $white;
+      box-shadow: 0 0 5px 0 $stone;
+      margin-top: 2em;
+      position: relative;
+      padding-left: 100px;
+      padding-right: 40px;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 20px;
+        top: 120px;
+        bottom: 80px;
+        width: 25px;
+        background-color: $white;
+        background-image: linear-gradient(transparent 50%, $black 50%);
+        background-size: 25px 40px;
+      }
+    }
+  }
+
+  [class*="cross"] {
+    position: absolute;
+    top: 30px;
+  }
+
+  .cross-left {
+    left: -60px;
+  }
+
+  .cross-right {
+    right: 0px;
+  }
+
+  .cmb2-metabox {
+    column-gap: 1px;
+    column-rule: 1px solid $black;
+    border: 1px solid $black;
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+  }
+
+  .ballot-head {
+    font-weight: bold;
+    line-height: 1.2em;
+    padding: 15px 0;
+
+    .h2 {
+      margin: 0;
+      padding-top: 25px;
+      padding-right: 30px;
+      font-weight: bold;
+    }
+  }
+
+  .ballot-wrap {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .ballot-footer {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 30px;
+    border: 1px solid $black;
+  }
+
+  .ballot-wrap-head {
+    position: relative;
+  }
+
+  .ballot-wrap-head, .ballot-footer {
+    border: 1px solid $black;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 60px;
+      height: 25px;
+      background: $black;
+      top: 0;
+      left: -81px;
+    }
+
+    div[class*="col"] {
+      &:not(:last-child), &:only-child {
+        border-right: 1px solid $black;
+      }
+    }
+  }
+
+  .ballot-inst {
+    border-left: 1px solid $black;
+    border-right: 1px solid $black;
+
+    h6 {
+      font-size: $font-size-base;
+    }
+
+    ol {
+      list-style: upper-alpha;
+      padding-left: 1.25em;
+
+      li {
+        padding-left: 1.25em;
+        line-height: 1.2em;
+      }
+    }
+
+    .example {
+      display: block;
+      margin-top: 2em;
+    }
+  }
+
+  .cmb-form {
+    @extend .row;
+  }
+
+  .cmb-row {
+    border-bottom: 1px solid $black;
+    padding-bottom: 15px;
+
+    &.error {
+      background: $scarlet-lightest;
+    }
+
+    ul {
+      list-style: none;
+      margin: 15px 0;
+      padding-left: 25%;
+    }
+
+    li {
+      font-size: $font-size-base;
+      position: relative;
+      overflow: visible;
+      margin-bottom: .75em;
+
+      .cmb2-option {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px; margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+
+      .small {
+        font-weight: normal;
+      }
+
+      label {
+        position: relative;
+        display: block;
+        cursor: pointer;
+
+        input + span:before {
+          content: '';
+          position: absolute;
+          left: -20%;
+          display: block;
+          height: 20px;
+          width: 40px;
+          vertical-align: -0.25em;
+          border-radius: 40px / 20px;
+          border: 1px solid $black;
+          transition: 0.5s ease all;
+          cursor: pointer;
+        }
+
+        input:checked + span:before {
+          background: $black;
+        }
+      }
+    }
+  }
+
+  .section-head {
+    background: $black;
+    color: $white;
+    text-align: center;
+    font-size: $font-size-base;
+    padding: 8px;
+    margin: 0;
+  }
+
+  .contest-head {
+    background: $steel;
+    text-align: center;
+    padding: 15px 8px;
+    border-bottom: 1px solid $black;
+
+    h3, p {
+      margin: 0;
+      font-size: $font-size-base;
+    }
+
+    .uppercase {
+      text-transform: uppercase;
+    }
+  }
+
+  .issue-question {
+    padding: 10px;
+  }
+
+  .button-primary {
+    @extend .btn;
+    @extend .btn-lg;
+    @extend .btn-primary;
+    position: absolute;
+    left: calc(50% - 30px);
+    bottom: -4em;
+    transform: translate3d(-50%, 0, 0);
+    cursor: pointer;
+    display: none !important;
+  }
+}

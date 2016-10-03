@@ -97,11 +97,38 @@ add_action( 'cmb2_init', function() {
 		'priority'     => 'high',
 	]);
 
+	// $cmb_election_box->add_field([
+	// 	'name' => 'Election',
+	// 	'id' => $prefix . 'election',
+	// 	'type' => 'select',
+	// 	'options_cb' => __NAMESPACE__ . '\\fvnc_elections_cb'
+	// ]);
+
 	$cmb_election_box->add_field([
-		'name' => 'Election',
-		'id' => $prefix . 'election',
-		'type' => 'select',
-		'options_cb' => __NAMESPACE__ . '\\fvnc_elections_cb'
+		'name' => 'Voting Day',
+		'id' => $prefix . 'voting_day',
+		'type' => 'text_date'
+	]);
+
+	$cmb_election_box->add_field([
+		'name' => 'Default Early Voting Start',
+		'id' => $prefix . 'early_voting',
+		'type' => 'text_date'
+	]);
+
+	$cmb_election_box->add_field([
+		'name' => 'Statewide Ballot XML File',
+		'id' => $prefix . 'ballot_xml_file',
+		'type' => 'file'
 	]);
 
 });
+
+
+/**
+ * Allow XML file uploads
+ */
+add_filter('upload_mimes', function($mime_types){
+  $mime_types['xml'] = 'application/xml'; //Adding xml extension
+  return $mime_types;
+}, 1, 1);

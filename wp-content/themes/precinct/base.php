@@ -7,12 +7,17 @@ if ( !is_user_logged_in() ) {
   wp_redirect(network_site_url('/teacher-login'));
   exit;
 }
+
+$class = '';
+if ( is_singular('election') && !isset($_GET['edit'])) {
+  $class = 'ballot';
+}
 ?>
 
 <!doctype html>
 <html <?php language_attributes(); ?>>
   <?php get_template_part('templates/layouts/head'); ?>
-  <body <?php body_class(); ?>>
+  <body <?php body_class($class); ?>>
     <!--[if IE]>
       <div class="alert alert-warning">
         <?php _e('You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.', 'sage'); ?>

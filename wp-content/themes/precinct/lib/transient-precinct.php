@@ -1,5 +1,5 @@
 <?php
-
+delete_transient('master_election_' . $election_id);
 if ( false === ($master = get_transient('master_election_' . $election_id))) {
 
   // Get ID of master election
@@ -8,8 +8,10 @@ if ( false === ($master = get_transient('master_election_' . $election_id))) {
   $precinct_id = substr($precinct->path, 4, -1);
 
   switch_to_blog(1);
-    // Get ID of election from Civic Info API
-    $master['election_id'] = get_post_meta( $master_election, '_cmb_election', true );
+    // Get voting day
+    $master['voting_day'] = get_post_meta( $master_election, '_cmb_voting_day', true );
+    $master['early_voting'] = get_post_meta( $master_election, '_cmb_early_voting', true );
+    $master['ballot_xml_file'] = get_post_meta( $master_election, '_cmb_ballot_xml_file', true);
 
     // Get address of this precinct
     $loc = array();
@@ -23,5 +25,4 @@ if ( false === ($master = get_transient('master_election_' . $election_id))) {
   restore_current_blog();
 
   set_transient('master_election_' . $election_id, $master, 6 * HOUR_IN_SECONDS);
-
 }
