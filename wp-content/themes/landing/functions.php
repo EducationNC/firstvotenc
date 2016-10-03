@@ -22,7 +22,7 @@ $sage_includes = [
   'lib/nav-walker.php',// Nav walker
   'lib/resize.php',   // Resize images on the fly
   'lib/setup.php',     // Theme setup
-  'lib/social-share-count.php', // Share count class
+  // 'lib/social-share-count.php', // Share count class
   'lib/shortcodes.php',  // Shortcodes
   'lib/titles.php',    // Page titles
   'lib/wrapper.php',   // Theme wrapper class

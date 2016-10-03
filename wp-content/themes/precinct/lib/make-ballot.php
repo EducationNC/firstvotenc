@@ -83,13 +83,13 @@ function make_races_cb($field_args, $field) {
             // Find this race in the election data
             $key = array_search($race['ballot_title'], $included_races);
             if ($key !== FALSE && $race['votes_allowed'] > 0) {
-              $number = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
+              // $number = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
               ?>
               <div class="cmb-row cmb2-id-<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>">
 
                 <div class="contest-head">
                   <h3><?php echo str_replace(['(',')'], ['<br /><span>','</span>'], $race['ballot_title']); ?></h3>
-                  <p>(You may vote for <span class="uppercase"><?php echo $number->format($race['votes_allowed']); ?>)</span></p>
+                  <p>(You may vote for <span class="uppercase"><?php /*echo $number->format($race['votes_allowed']);*/ echo $race['votes_allowed']; ?>)</span></p>
                 </div>
 
                 <ul class="cmb2-radio-list cmb2-list">
