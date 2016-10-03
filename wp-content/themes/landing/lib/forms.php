@@ -43,6 +43,7 @@ add_filter('caldera_preprocess_live', function($data){
 
     // Move user to correct precinct
     remove_user_from_blog($user_id, get_current_site()->blog_id); // remove user from main blog.
+    remove_user_from_blog(1, $school_id); // remove wpengine from new blog.
     add_user_to_blog( $school_id, $user_id, $role );
     update_user_meta( $user_id, 'primary_blog', $school_id );
 
