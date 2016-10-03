@@ -38,11 +38,3 @@ foreach ($sage_includes as $file) {
   require_once $filepath;
 }
 unset($file, $filepath);
-
-add_action('init', function() {
-  $sites = get_sites(['number'=>200]);
-  foreach ($sites as $site) {
-    remove_user_from_blog(1, $site->blog_id);
-  }
-  add_user_to_blog(1, 1);
-});
