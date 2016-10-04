@@ -24,3 +24,17 @@ $form = CMB\get_election_form();
     </main>
   </div>
 </div>
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+  $('#_cmb_new_election').on('submit', function(e) {
+    if ($('#loading').length) {
+      // If form already submitted, don't do it again.
+      e.preventDefault();
+    } else {
+      // Add loading screen after submit
+      $('body').append('<div id="loading" class="loading"><div class="loader"></div></div>');
+    }
+  });
+});
+</script>
