@@ -45,8 +45,8 @@ if (isset($_GET['add'])) {
                   <span class="small"><a href="<?php the_permalink(); ?>?edit">Edit</a> | <a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
                 </th>
                 <td>
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_early_voting', true)); ?> -
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> -
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
                 </td>
               </tr>
 
@@ -58,8 +58,8 @@ if (isset($_GET['add'])) {
                   <span class="small"><a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
                 </th>
                 <td>
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_early_voting', true)); ?> -
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> -
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
                 </td>
               </tr>
 
