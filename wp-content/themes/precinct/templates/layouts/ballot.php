@@ -14,7 +14,7 @@ $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
   <div class="col-md-6">
     <strong>First Vote NC<br />
       <?php echo $precinct_name; ?><br />
-      <?php echo date('F j, Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+      <?php echo date('F j, Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
     </strong>
   </div>
 
