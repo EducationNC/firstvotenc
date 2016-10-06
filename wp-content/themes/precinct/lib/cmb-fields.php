@@ -38,7 +38,7 @@ add_action( 'cmb2_init', function() {
 		'name' => 'Voting day',
 		'id' => $prefix . 'voting_day',
 		'type' => 'text_date',
-		'date_format' => 'F j, Y',
+		'date_format' => 'M j, Y',
 		'attributes' => ['disabled' => 'disabled']
 	]);
 
@@ -48,7 +48,7 @@ add_action( 'cmb2_init', function() {
 		'name' => 'Set early voting start date',
 		'id' => $prefix . 'early_voting',
 		'type' => 'text_date',
-		'date_format' => 'F j, Y',
+		'date_format' => 'M j, Y',
 		'description' => 'Polls will be open from 7:30am to 7:30pm each day during the early voting period and on election day.',
 	]);
 
@@ -385,7 +385,9 @@ add_action( 'cmb2_after_init', function() {
 	// Get title of master election
   $election_id = $_POST['_cmb_election'];
   switch_to_blog(1);
-  $election_name = get_the_title($election_id);
+	  $election_name = get_the_title($election_id);
+	  $master['voting_day'] = get_post_meta( $master_election, '_cmb_voting_day', true );
+	  $master['early_voting'] = get_post_meta( $master_election, '_cmb_early_voting', true );
   restore_current_blog();
 
   // Set post_data for saving new post
@@ -403,6 +405,10 @@ add_action( 'cmb2_after_init', function() {
   if ( is_wp_error( $new_election_id )) {
   	return $election->prop( 'submission_error', $new_election_id );
   }
+
+	// Set custom post meta for election dates
+  update_post_meta($election_id, '_cmb_voting_day', $master['voting_day']);
+  update_post_meta($election_id, '_cmb_early_voting', $master['early_voting']);
 
   // Loop through post data and save sanitized data to post-meta
   foreach ( $_POST as $key => $value ) {
