@@ -1,5 +1,4 @@
 <?php
-delete_transient('master_election_' . $election_id);
 if ( false === ($master = get_transient('master_election_' . $election_id))) {
 
   // Get ID of master election

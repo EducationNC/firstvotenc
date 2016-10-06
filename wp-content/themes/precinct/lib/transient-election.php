@@ -12,6 +12,11 @@ if (get_post_type() == 'election') {
 include(locate_template('/lib/transient-precinct.php'));
 locate_template('/lib/google-auth.php', true, true);
 
+// If there is an early voting date save_button
+$early_vote = get_post_meta(get_the_id(), '_cmb_early_voting', true);
+if ($early_voting != $master['early_voting']) {
+
+}
 
 // District data from Google
 if ( false === ($district_data = get_transient('districts_' . $election_id))) {
@@ -317,11 +322,10 @@ if ( false === ($ballot_json = get_transient('ballot_' . $election_id))) {
 }
 
 /**
- * Set custom post meta for election date and contests
+ * Set custom post meta for contests
  */
 if (get_post_type() == 'election') {
   update_post_meta($election_id, '_cmb_voting_day', $master['voting_day']);
-  update_post_meta($election_id, '_cmb_early_voting', $master['early_voting']);
   update_post_meta($election_id, '_cmb_ballot_json', $ballot_json);
 }
 
