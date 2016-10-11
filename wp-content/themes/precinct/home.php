@@ -86,6 +86,70 @@ if (isset($_GET['add'])) {
 
       <div class="col-md-6">
 
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th scope="col" class="h3">Precinct Districts</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>
+                <?php
+
+                if ( false === ($precinct_coords = get_transient('precinct_coords'))) {
+                  include(locate_template('/lib/transient-precinct.php'));
+                  locate_template('/lib/google-auth.php', true, true);
+
+                  $address = urlencode($master['address']);
+
+                  if (function_exists('google_api_key')) {
+                    $api_key = google_api_key();
+                    $query_string = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . $api_key;
+                    $api_get = wp_remote_get($query_string);
+
+                    if ( ! is_wp_error( $api_get ) ) {
+                      $response = json_decode($api_get['body']);
+                      $coordinates = [
+                        'lat' => $response->results[0]->geometry->location->lat,
+                        'lng' => $response->results[0]->geometry->location->lng
+                      ];
+                      $precinct_coords = implode(" ", $coordinates);
+                      set_transient('precinct_coords', $precinct_coords, 6 * HOUR_IN_SECONDS);
+                    } else {
+                      echo $api_get->get_error_message();
+                    }
+                  } else {
+                    echo 'No Google API Key';
+                  }
+                }
+
+                include(locate_template('/lib/point-in-polygon.php'));
+
+                // Create associative array of county boundaries with county_id as the key
+                $counties_csv = array_map('str_getcsv', file(get_template_directory() . '/lib/districts/NC_Counties.txt'));
+                $counties_head = array_shift($counties_csv);
+                $county_shapes = array();
+                print_r($counties_csv);
+                foreach ($counties_csv as $row) {
+                  $county_shapes[$row[2]][] = $row[0] . ' ' . $row[1];
+                }
+
+                $pointLocation = new pointLocation();
+
+                echo $precinct_coords . '<br />';
+
+                foreach ($county_shapes as $county_id => $polygon) {
+                  echo "$county_id: " . $pointLocation->pointInPolygon($precinct_coords, $polygon) . "<br />";
+                  print_r($polygon);
+                }
+                ?>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
         <?php
         // Only show for school-specific precincts
         if (get_bloginfo() !== 'North Carolina') :

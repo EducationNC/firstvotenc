@@ -69,6 +69,69 @@ add_action( 'cmb2_init', function() {
   //   'options_cb' => __NAMESPACE__ . '\\referenda_cb',
 	// ]);
 
+	// $custom_races = $cmb_election_box->add_field( array(
+	// 	'name' 				=> 'Local Races',
+  //   'id'          => $prefix . 'custom_races',
+  //   'type'        => 'group',
+  //   'description' => 'Enter customized races for which your students may vote in this simulation election.',
+  //   // 'repeatable'  => false, // use false if you want non-repeatable group
+  //   'options'     => array(
+  //     'group_title'   => __( 'Custom Race {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
+  //     'add_button'    => __( 'Add Race', 'cmb2' ),
+  //     'remove_button' => __( 'Remove', 'cmb2' ),
+  //     'sortable'      => true, // beta
+  //     // 'closed'     => true, // true to have the groups closed by default
+  //   ),
+	// ) );
+	//
+	// // Id's for group's fields only need to be unique for the group. Prefix is not needed.
+	// $cmb_election_box->add_group_field( $custom_races, array(
+  //   'name' => 'Title',
+  //   'id'   => 'title',
+  //   'type' => 'text',
+  //   // 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+	// ) );
+	//
+	// $cmb_election_box->add_group_field( $custom_races, array(
+  //   'name' => 'Votes Allowed',
+  //   'id'   => 'votes_allowed',
+  //   'type' => 'text',
+	// ) );
+	//
+	// $cmb_election_box->add_group_field( $custom_races, array(
+  //   'name' => 'Ballot Section',
+  //   'id'   => 'ballot_section',
+  //   'type' => 'radio',
+	// 	'options' => array(
+	// 		'partisan' => 'Partisan',
+	// 		'nonpartisan' => 'Nonpartisan'
+	// 	)
+	// ) );
+	//
+	// $candidates = $cmb_election_box->add_group_field( $custom_races, array(
+  //   'name' => 'Candidates',
+  //   'id'   => 'candidates',
+  //   'type' => 'group',
+	// 	'options' => array(
+	// 		'group_title' => 'Candidate {#}',
+	// 		'add_button' => 'Add Candidate',
+	// 		'remove_button' => 'Remove',
+	// 		'sortable' => true
+	// 	)
+	// ) );
+	//
+	// $cmb_election_box->add_group_field ($candidates, array(
+	// 	'name' => 'Name on ballot',
+	// 	'id' => 'name',
+	// 	'type' => 'text'
+	// ) );
+	//
+	// $cmb_election_box->add_group_field ($candidates, array(
+	// 	'name' => 'Party',
+	// 	'id' => 'party',
+	// 	'type' => 'text'
+	// ) );
+
 	$custom_questions = $cmb_election_box->add_field( array(
 		'name' 				=> 'Issue-Based Questions',
     'id'          => $prefix . 'custom_questions',
@@ -77,7 +140,7 @@ add_action( 'cmb2_init', function() {
     // 'repeatable'  => false, // use false if you want non-repeatable group
     'options'     => array(
       'group_title'   => __( 'Question {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
-      'add_button'    => __( 'Add Another', 'cmb2' ),
+      'add_button'    => __( 'Add Question', 'cmb2' ),
       'remove_button' => __( 'Remove', 'cmb2' ),
       'sortable'      => true, // beta
       // 'closed'     => true, // true to have the groups closed by default
