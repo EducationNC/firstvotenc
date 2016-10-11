@@ -3,13 +3,17 @@
 use Roots\Sage\Wrapper;
 
 // Requires users to be logged in to see pages
-if ( !is_user_logged_in() ) {
+if ( !is_user_logged_in() && !is_singular('election') ) {
   wp_redirect(network_site_url('/teacher-login'));
   exit;
 }
 
 $class = '';
-if ( is_singular('election') && !isset($_GET['edit'])) {
+if ( isset($_GET['post_submitted']) ) {
+  $class = 'exit-poll';
+} elseif ( isset($_GET['edit']) || isset($_GET['add']) ) {
+  $class = 'edit-election';
+} elseif ( is_singular('election') && !isset($_GET['edit']) ) {
   $class = 'ballot';
 }
 ?>

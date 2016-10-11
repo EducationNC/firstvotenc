@@ -13,9 +13,9 @@ include(locate_template('/lib/transient-precinct.php'));
 locate_template('/lib/google-auth.php', true, true);
 
 // If there is an early voting date save_button
-$early_vote = get_post_meta(get_the_id(), '_cmb_early_voting', true);
+$early_voting = get_post_meta(get_the_id(), '_cmb_early_voting', true);
 if ($early_voting != $master['early_voting']) {
-
+  update_post_meta($election_id, '_cmb_early_voting', $master['early_voting']);
 }
 
 // District data from Google
