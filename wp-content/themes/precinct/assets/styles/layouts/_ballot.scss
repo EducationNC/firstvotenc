@@ -1,4 +1,7 @@
 .single.ballot {
+  .main {
+    width: 100%;
+  }
 
   .global-footer {
     display: none;
@@ -54,6 +57,12 @@
     border: 1px solid $black;
     padding-bottom: 25px;
     margin-bottom: 30px;
+    column-count: 3;
+
+    & > .cmb-row {
+      break-inside: avoid-column;
+      padding-bottom: 2em;
+    }
   }
 
   .ballot-head {
@@ -233,6 +242,5 @@
     bottom: -4em;
     transform: translate3d(-50%, 0, 0);
     cursor: pointer;
-    display: none !important;
   }
 }

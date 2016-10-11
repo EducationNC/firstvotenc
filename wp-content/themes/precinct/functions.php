@@ -11,14 +11,15 @@
  */
 $sage_includes = [
   'lib/assets.php',    // Scripts and stylesheets
-  'lib/cmb-fields.php', // Custom Meta Box fields
   'lib/custom-post-types.php', // Custom post types
   'lib/customizer.php',// Theme customizer
   'lib/extras.php',    // Custom functions
   'lib/forms.php',      // Caldera Forms actions
+  'lib/form-ballot.php', // Dynamically construct ballot for each election
+  'lib/form-election.php',      // CMB fields and functions for elections
+  'lib/form-exit-poll.php', // Fields and functions for exit poll
   // 'lib/http_build_url.php', // Required for resize
   'lib/lesson-plans.php', // Display lesson plans
-  'lib/make-ballot.php', // Dynamically construct ballot for each election
   'lib/media.php',     // Media functions
   'lib/nav-walker.php',// Nav walker
   'lib/resize.php',   // Resize images on the fly

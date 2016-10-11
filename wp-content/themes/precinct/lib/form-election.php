@@ -2,7 +2,6 @@
 
 namespace Roots\Sage\CMB;
 
-
 add_action( 'cmb2_init', function() {
 	$prefix = '_cmb_';
 
@@ -98,161 +97,7 @@ add_action( 'cmb2_init', function() {
     'id'   => 'question',
     'type' => 'textarea_small',
 	) );
-
-
-	/**
-	 * Ballot votes
-	 */
-
- 	$cmb_ballot_box = new_cmb2_box([
- 		'id'           => $prefix . 'ballot',
- 		'title'        => 'Ballot',
- 		'object_types' => array( 'ballot' ),
- 		'context'      => 'normal',
- 		'priority'     => 'high',
- 	]);
-
-	$cmb_ballot_box->add_field([
-		'name' => 'Election',
-		'id' => $prefix . 'election_id',
-		'type' => 'text',
-		'attributes' => ['disabled' => 'disabled'],
-		'column' => [
-			'position' => 2,
-			'name' => 'Election'
-		]
-	]);
-
-  $cmb_ballot_box->add_field([
-		'id'   => $prefix . 'races',
-    'name' => 'Races',
-    'type' => 'text',
-  ]);
-
-
-
-	/**
-	 * Exit poll
-	 */
-	$cmb_exitpoll_box = new_cmb2_box([
-		'id'           => $prefix . 'exitpoll',
-		'title'        => 'Exit Poll',
-		'object_types' => array( 'exit-poll' ),
-		'context'      => 'normal',
-		'priority'     => 'high'
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Election',
-		'id' => $prefix . 'election_id',
-		'type' => 'text',
-		'attributes' => ['disabled' => 'disabled']
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Ballot',
-		'id' => $prefix . 'ballot_id',
-		'type' => 'text',
-		'attributes' => ['disabled' => 'disabled']
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Grade',
-		'id' => $prefix . 'grade',
-		'type' => 'radio',
-		'options' => [
-			'K-5' => 'K-5',
-			'6-8' => '6-8',
-			'9' => '9',
-			'10' => '10',
-			'11' => '11',
-			'12' => '12',
-			'13' => '13'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Gender',
-		'id' => $prefix . 'gender',
-		'type' => 'radio',
-		'options' => [
-			'Female' => 'Female',
-			'Male' => 'Male'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Race/Ethnicity',
-		'id' => $prefix . 'race',
-		'type' => 'radio',
-		'options' => [
-			'Asian/Pacific Islander' => 'Asian/Pacific Islander',
-			'Black' => 'Black',
-			'Hispanic' => 'Hispanic',
-			'White' => 'White',
-			'Native American' => 'Native American',
-			'Other' => 'Other'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Do the adults in your household vote?',
-		'id' => $prefix . 'adults_vote',
-		'type' => 'radio',
-		'options' => [
-			'No' => 'No',
-			'Yes' => 'Yes'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'Do you plan on registering to vote when you are eligible?',
-		'id' => $prefix . 'register',
-		'type' => 'radio',
-		'options' => [
-			'No' => 'No',
-			'Yes' => 'Yes'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'If you were to register today, what would be your party affiliation?',
-		'id' => $prefix . 'party',
-		'type' => 'radio',
-		'options' => [
-			'Democrat' => 'Democrat',
-			'Libertarian' => 'Libertarian',
-			'Republican' => 'Republican',
-			'Unaffiliated' => 'Unaffiliated',
-			'Don\'t Know' => 'Don\'t Know'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'What is your primary source of political news?',
-		'id' => $prefix . 'news',
-		'type' => 'radio',
-		'options' => [
-			'Friends and family' => 'Friends and family',
-			'Newspapers and magazines' => 'Newspapers and magazines',
-			'Social Media' => 'Social Media',
-			'Television' => 'Television'
-		]
-	]);
-
-	$cmb_exitpoll_box->add_field([
-		'name' => 'How often do you attend a religious service?',
-		'id' => $prefix . 'religious',
-		'type' => 'radio',
-		'options' => [
-			'More than once per week' => 'More than once per week',
-			'Weekly' => 'Weekly',
-			'Infrequently' => 'Infrequently',
-			'Never' => 'Never'
-		]
-	]);
 });
-
 
 /**
  * Callback function that gets the master elections from the main site as options
@@ -284,28 +129,6 @@ function fvnc_elections_cb($field) {
 
 	return $term_options;
 }
-
-function ballot_election_cb($field) {
-	$elections = get_posts([
-		'post_type' => 'election',
-		'posts_per_page' => -1
-	]);
-
-	$term_options = [ false => 'Cannot cast ballot' ];
-
-	foreach ($elections as $election) {
-		$term_options[$election->ID] = $election->post_title;
-	}
-
-	return $term_options;
-}
-
-
-function get_election_info() {
-	include( locate_template( '/lib/transient-election.php' ) );
-}
-add_action( 'cmb2_before_post_form__cmb_election', __NAMESPACE__ . '\\get_election_info' );
-
 
 /**
  * Callback function that lists races on the ballot
@@ -345,6 +168,12 @@ function referenda_cb($field) {
 
 	return $options;
 }
+
+
+function get_election_info() {
+	include( locate_template( '/lib/transient-election.php' ) );
+}
+add_action( 'cmb2_before_post_form__cmb_election', __NAMESPACE__ . '\\get_election_info' );
 
 
 /**

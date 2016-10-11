@@ -2,13 +2,43 @@
 
 namespace Roots\Sage\CMB;
 
-/**
- * Register the form and fields for our front-end submission form
- */
 add_action( 'cmb2_init', function() {
 
   $prefix = '_cmb_';
 
+	/**
+	 * Ballot display on backend
+	 */
+
+ 	$cmb_ballot_box = new_cmb2_box([
+ 		'id'           => $prefix . 'ballot',
+ 		'title'        => 'Ballot',
+ 		'object_types' => array( 'ballot' ),
+ 		'context'      => 'normal',
+ 		'priority'     => 'high',
+ 	]);
+
+	$cmb_ballot_box->add_field([
+		'name' => 'Election',
+		'id' => $prefix . 'election_id',
+		'type' => 'text',
+		'attributes' => ['disabled' => 'disabled'],
+		'column' => [
+			'position' => 2,
+			'name' => 'Election'
+		]
+	]);
+
+  $cmb_ballot_box->add_field([
+		'id'   => $prefix . 'races',
+    'name' => 'Races',
+    'type' => 'text',
+		'render_row_cb' => __NAMESPACE__ . '\\make_races_cb'
+  ]);
+
+  /**
+   * Register the form and fields for our front-end submission form
+   */
   $ballot = new_cmb2_box([
     'id'           => $prefix . 'voter_ballot_form',
     'object_types' => array( 'ballot' ),
@@ -17,26 +47,13 @@ add_action( 'cmb2_init', function() {
   ]);
 
   $ballot->add_field( array(
+    'id'   => $prefix . 'races',
     'name' => 'Races',
     'type' => 'text',
-    'id'   => 'races',
-    // Add the name of your function to override the default row render method
     'render_row_cb' => __NAMESPACE__ . '\\make_races_cb'
   ) );
 
 });
-
-
-/**
- * Gets the front-end-post-form cmb instance
- *
- * @return CMB2 object
- */
-function get_voter_ballot_object() {
-  $metabox_id = '_cmb_voter_ballot_form';
-  $object_id = 'fake-oject-id'; // since post ID will not exist yet, just need to pass it something
-  return cmb2_get_metabox( $metabox_id, $object_id );
-}
 
 
 /**
@@ -160,13 +177,13 @@ function make_races_cb($field_args, $field) {
               <ul class="cmb2-radio-list cmb2-list">
                 <?php if (empty($question['options'])) { ?>
                   <li>
-                    <label for="<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>">
+                    <label for="<?php echo sanitize_title($question['title']); ?>-0">
                       <input data-validation="required" type="radio" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>" id="<?php echo sanitize_title($question['title']); ?>-0" value="Yes">
                       <span>Yes</span>
                     </label>
                   </li>
                   <li>
-                    <label for="<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>">
+                    <label for="<?php echo sanitize_title($question['title']); ?>-1">
                       <input data-validation="required" type="radio" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>" id="<?php echo sanitize_title($question['title']); ?>-1" value="No">
                       <span>No</span>
                     </label>
@@ -175,12 +192,14 @@ function make_races_cb($field_args, $field) {
                   $l = 0;
                   foreach ($question['options'] as $option) { ?>
                     <li>
-                      <label for="<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>">
+                      <label for="<?php echo sanitize_title($question['title']); ?>-<?php echo $l; ?>">
                         <input data-validation="required" type="radio" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>" id="<?php echo sanitize_title($question['title']); ?>-<?php echo $l; ?>" value="<?php echo $option; ?>">
                         <span><?php echo $option; ?></span>
                       </label>
                     </li>
-                  <?php }
+                    <?php
+                    $l++;
+                  }
                 } ?>
               </ul>
             </div>
@@ -218,6 +237,19 @@ function make_races_cb($field_args, $field) {
   }
   echo '<div class="end contest-head">End of Ballot</div>';
 }
+
+
+/**
+ * Gets the front-end-post-form cmb instance
+ *
+ * @return CMB2 object
+ */
+function get_voter_ballot_object() {
+  $metabox_id = '_cmb_voter_ballot_form';
+  $object_id = 'fake-oject-id'; // since post ID will not exist yet, just need to pass it something
+  return cmb2_get_metabox( $metabox_id, $object_id );
+}
+
 
 /**
  * Handles form submission on save. Redirects if save is successful, otherwise sets an error message as a cmb property
@@ -286,15 +318,18 @@ add_action( 'cmb2_after_init', function() {
  * Plugin Name: CMB2 js validation for "required" fields
  * Description: Uses js to validate CMB2 fields that have the 'data-validation' attribute set to 'required'
  * Version: 0.1.0
- */
-
-/**
+ *
  * Documentation in the wiki:
  * @link https://github.com/WebDevStudios/CMB2/wiki/Plugin-code-to-add-JS-validation-of-%22required%22-fields
  */
 
 add_action( 'cmb2_after_form', function( $post_id, $cmb ) {
 	static $added = false;
+
+  // Only add this to the ballot
+  if (isset($_GET['post_submitted'])) {
+    return;
+  }
 
 	// Only add this to the page once (not for every metabox)
 	if ( $added ) {
@@ -306,7 +341,7 @@ add_action( 'cmb2_after_form', function( $post_id, $cmb ) {
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
 
-		$form = $( document.getElementById( 'voter_ballot_form' ) );
+		$form = $( document.getElementById( '_cmb_voter_ballot_form' ) );
 		$htmlbody = $( 'html, body' );
 		$toValidate = $( '[data-validation]' );
 
