@@ -60,6 +60,48 @@ add_action( 'cmb2_init', function() {
     'options_cb' => __NAMESPACE__ . '\\races_cb'
 	]);
 
+	$custom_races = $cmb_election_box->add_field( array(
+		'name' 				=> 'Local Contests',
+    'id'          => $prefix . 'custom_contests',
+    'type'        => 'group',
+    'description' => 'Enter customized contests for which your students may vote in this simulation election.',
+    // 'repeatable'  => false, // use false if you want non-repeatable group
+    'options'     => array(
+      'group_title'   => __( 'Local Contest {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
+      'add_button'    => __( 'Add Contest', 'cmb2' ),
+      'remove_button' => __( 'Remove', 'cmb2' ),
+      'sortable'      => true, // beta
+      // 'closed'     => true, // true to have the groups closed by default
+    ),
+	) );
+
+	// Id's for group's fields only need to be unique for the group. Prefix is not needed.
+	$cmb_election_box->add_group_field( $custom_races, array(
+    'name' => 'Title',
+    'id'   => 'title',
+    'type' => 'text',
+    // 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+	) );
+
+	$cmb_election_box->add_group_field( $custom_races, array(
+    'name' => 'Votes Allowed',
+    'id'   => 'votes_allowed',
+    'type' => 'text',
+	) );
+
+	$cmb_election_box->add_group_field( $custom_races, array(
+    'name' => 'Candidates',
+    'id'   => 'candidates',
+    'type' => 'text',
+	) );
+
+	$candidates = $cmb_election_box->add_group_field( $custom_races, array(
+    'name' => 'Candidates',
+    'id'   => 'candidates',
+    'type' => 'textarea_small',
+		'description' => 'Enter one candidate on each line.'
+	) );
+
 	// $cmb_election_box->add_field([
   //   'name' => 'Referenda',
   //   'before_field' => '<p class="cmb2-metabox-description">Check referenda to include in this election.</p>',
@@ -77,7 +119,7 @@ add_action( 'cmb2_init', function() {
     // 'repeatable'  => false, // use false if you want non-repeatable group
     'options'     => array(
       'group_title'   => __( 'Question {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
-      'add_button'    => __( 'Add Another', 'cmb2' ),
+      'add_button'    => __( 'Add Question', 'cmb2' ),
       'remove_button' => __( 'Remove', 'cmb2' ),
       'sortable'      => true, // beta
       // 'closed'     => true, // true to have the groups closed by default

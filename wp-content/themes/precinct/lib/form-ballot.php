@@ -73,8 +73,19 @@ function make_races_cb($field_args, $field) {
   // Election atts and properties
   $ballot_data = json_decode(get_transient('ballot_' . $election_id), true);
   $included_races = get_post_meta($election_id, '_cmb_included_races', true);
+  $custom = get_post_meta($election_id, '_cmb_custom_contests', true);
   $referenda = get_post_meta($election_id, '_cmb_included_referenda', true);
   $issues = get_post_meta($election_id, '_cmb_custom_questions', true);
+
+  array_unshift($issues, [
+      'title' => 'Life Skills',
+      'question' => 'Do you think North Carolina\'s curriculum should include more life skill courses?'
+    ],[
+      'title' => 'Personal Data',
+      'question' => 'In regards to the data on cell phones and personal computers, which is more important: public safety or privacy?',
+      'options' => ['Public safety', 'Privacy']
+    ]
+  );
 
   if (!is_array($included_races))
     return false;
@@ -84,7 +95,7 @@ function make_races_cb($field_args, $field) {
     echo '<input type="hidden" name="_cmb_election_id" id="_cmb_election_id" value="' . $election_id . '" />';
   }
 
-  // update_post_meta( $election_id, '_cmb_generated_ballot', '' );
+  update_post_meta( $election_id, '_cmb_generated_ballot', '' );
 
   // This first part is only for actually casting a vote
   if (get_post_type() == 'election') {
@@ -100,6 +111,13 @@ function make_races_cb($field_args, $field) {
             // Find this race in the election data
             $key = array_search($race['ballot_title'], $included_races);
             if ($key !== FALSE && $race['votes_allowed'] > 0) {
+              if ( (int) $race['votes_allowed'] > 1 ) {
+                $type = 'checkbox';
+                $array = true;
+              } else {
+                $type = 'radio';
+                $array = false;
+              }
               // $number = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
               ?>
               <div class="cmb-row cmb2-id-<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>">
@@ -109,7 +127,7 @@ function make_races_cb($field_args, $field) {
                   <p>(You may vote for <span class="uppercase"><?php /*echo $number->format($race['votes_allowed']);*/ echo $race['votes_allowed']; ?>)</span></p>
                 </div>
 
-                <ul class="cmb2-radio-list cmb2-list">
+                <ul class="cmb2-<?php echo $type; ?>-list no-select-all cmb2-list">
                   <?php
                   $j = 0;
                   foreach ($race['candidates'] as $c) {
@@ -125,11 +143,12 @@ function make_races_cb($field_args, $field) {
                         $party = $c['party'];
                         break;
                     }
+                    $c['ballotName'] = str_replace('\\"', '&quot;', $c['ballotName']);
                     ?>
                     <li>
                       <label for="<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']) . '-' . $j; ?>">
-                        <input type="radio" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>" id="<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']) . '-' . $j; ?>" value="<?php echo $c['ballotName']; ?>">
-                        <span><?php echo stripslashes($c['ballotName']); ?></span>
+                        <input type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']) . '-' . $j; ?>" value="<?php echo $c['ballotName']; ?>">
+                        <span><?php echo $c['ballotName']; ?></span>
                         <br />
                         <span class="small"><?php if ($race['partisan'] == 'true') { echo $party; } else { echo '&nbsp;'; } ?></span>
                       </label>
@@ -139,7 +158,7 @@ function make_races_cb($field_args, $field) {
                   } ?>
                   <li>
                     <label for="<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>">
-                      <input data-validation="required" type="radio" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>" id="<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>" value="none">
+                      <input data-validation="required" type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>" value="none">
                       <span>No Selection</span>
                     </label>
                   </li>
@@ -150,18 +169,55 @@ function make_races_cb($field_args, $field) {
           }
         }
 
+        foreach ($custom as $contest) {
+          if (!empty($contest)) {
+            if ( (int) $contest['votes_allowed'] > 1 ) {
+              $type = 'checkbox';
+              $array = true;
+            } else {
+              $type = 'radio';
+              $array = false;
+            }
+            ?>
+            <div class="cmb-row cmb2-id-<?php echo sanitize_title($contest['title']); ?>" data-max="<?php echo $contest['votes_allowed']; ?>">
+
+              <div class="contest-head">
+                <h3><?php echo $contest['title']; ?></h3>
+                <p>(You may vote for <span class="uppercase"><?php /*echo $number->format($race['votes_allowed']);*/ echo $contest['votes_allowed']; ?>)</span></p>
+              </div>
+
+              <ul class="cmb2-<?php echo $type; ?>-list no-select-all cmb2-list">
+                <?php
+                $candidates = explode("\n", str_replace("\r", "", $contest['candidates']));
+                $m = 0;
+                foreach ($candidates as $candidate) {
+                  ?>
+                  <li>
+                    <label for="<?php echo sanitize_title($contest['title']) . '-' . $m; ?>">
+                      <input type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($contest['title']) . '-' . $m; ?>" value="<?php echo $candidate; ?>">
+                      <span><?php echo $candidate; ?></span>
+                      <br />
+                      <span class="small">&nbsp;</span>
+                    </label>
+                  </li>
+                  <?php
+                  $m++;
+                }
+                ?>
+                <li>
+                  <label for="<?php echo sanitize_title($contest['title']); ?>">
+                    <input data-validation="required" type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($contest['title']); ?>" value="none">
+                    <span>No Selection</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+            <?php
+          }
+        }
+
         echo '<h4 class="section-head h6">Issues</h4>';
         $k = 0;
-
-        array_unshift($issues, [
-            'title' => 'Life Skills',
-            'question' => 'Do you think North Carolina\'s curriculum should include more life skill courses?'
-          ],[
-            'title' => 'Personal Data',
-            'question' => 'In regards to the data on cell phones and personal computers, which is more important: public safety or privacy?',
-            'options' => ['Public safety', 'Privacy']
-          ]
-        );
 
         foreach ($issues as $question) {
           if (!empty($question)) {
@@ -215,6 +271,7 @@ function make_races_cb($field_args, $field) {
 
     // Display ballot
     echo $generated_ballot;
+    echo '<div class="end contest-head">End of Ballot</div>';
 
   } elseif (get_post_type() == 'ballot') {
     // Just display results here
@@ -223,19 +280,75 @@ function make_races_cb($field_args, $field) {
         echo $ballot_section['section'];
       echo '</h4>';
       foreach ($ballot_section['races'] as $race) {
-        ?>
-        <div class="cmb-row cmb2-id-<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>">
-          <div class="contest-head">
-            <h3><?php echo $race['ballot_title']; ?></h3>
-          </div>
+        $key = array_search($race['ballot_title'], $included_races);
+        if ($key !== FALSE && $race['votes_allowed'] > 0) {
+          ?>
+          <div class="cmb-row cmb2-id-<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>">
+            <div class="contest-head">
+              <h3><?php echo $race['ballot_title']; ?></h3>
+            </div>
 
-          <input type="text" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>" value="<?php echo esc_html(get_post_meta(get_the_id(), '_cmb_ballot_' . sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']), true)); ?>" disabled="disabled" />
-        </div>
-        <?php
+            <?php
+            if ( (int) $race['votes_allowed'] > 1 ) {
+              $results = get_post_meta(get_the_id(), '_cmb_ballot_' . sanitize_title($race['ballot_title']), true);
+              $results = unserialize(html_entity_decode($results));
+              foreach ($results as $result) {
+                ?>
+                <input type="text" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>[]" value="<?php echo $result; ?>" disabled="disabled" />
+                <?php
+              }
+            } else {
+              ?>
+              <input type="text" name="_cmb_ballot_<?php echo sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']); ?>" value="<?php echo stripslashes(esc_html(get_post_meta(get_the_id(), '_cmb_ballot_' . sanitize_title($race['ballot_title']) . '-' . sanitize_title($race['seat']), true))); ?>" disabled="disabled" />
+              <?php
+            }
+            ?>
+          </div>
+          <?php
+        }
       }
     }
+    foreach ($custom as $contest) {
+      ?>
+      <div class="cmb-row cmb2-id-<?php echo sanitize_title($contest['title']); ?>">
+        <div class="contest-head">
+          <h3><?php echo $contest['title']; ?></h3>
+        </div>
+
+        <?php
+        if ( (int) $contest['votes_allowed'] > 1 ) {
+          $results = get_post_meta(get_the_id(), '_cmb_ballot_' . sanitize_title($contest['title']), true);
+          $results = unserialize(html_entity_decode($results));
+          foreach ($results as $result) {
+            ?>
+            <input type="text" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?>[]" value="<?php echo $result; ?>" disabled="disabled" />
+            <?php
+          }
+        } else {
+          ?>
+          <input type="text" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?>" value="<?php echo esc_html(get_post_meta(get_the_id(), '_cmb_ballot_' . sanitize_title($contest['title']), true)); ?>" disabled="disabled" />
+          <?php
+        }
+        ?>
+      </div>
+      <?php
+    }
+    $k = 0;
+    foreach ($issues as $question) {
+      ?>
+      <div class="cmb-row cmb2-id-<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>">
+        <div class="contest-head">
+          <h3><?php echo $question['title']; ?></h3>
+        </div>
+
+        <p class="issue-question"><?php echo $question['question']; ?></p>
+
+        <input type="text" name="_cmb_ballot_<?php echo sanitize_title($question['title']); ?>-<?php echo $k; ?>" value="<?php echo esc_html(get_post_meta(get_the_id(), '_cmb_ballot_' . sanitize_title($question['title']) . '-' . $k, true)); ?>" disabled="disabled" />
+      </div>
+      <?php
+      $k++;
+    }
   }
-  echo '<div class="end contest-head">End of Ballot</div>';
 }
 
 
@@ -295,7 +408,7 @@ add_action( 'cmb2_after_init', function() {
   foreach ( $_POST as $key => $value ) {
     if( substr($key, 0, 5) == '_cmb_' ) {
     	if ( is_array( $value ) ) {
-    		$value = array_filter( $value );
+    		$value = serialize( $value );
     		if( ! empty( $value ) ) {
     			update_post_meta( $new_vote_id, $key, esc_html($value) );
     		}
@@ -370,6 +483,8 @@ add_action( 'cmb2_after_form', function( $post_id, $cmb ) {
         var val = '';
         if ($this.attr('type') == 'radio') {
           val = $row.find('input:radio:checked').val();
+        } else if ($this.attr('type') == 'checkbox') {
+          val = $row.find('input:checkbox:checked').map(function() { return this.value; }).get();
         } else {
   				val = $this.val();
         }
@@ -390,11 +505,19 @@ add_action( 'cmb2_after_form', function( $post_id, $cmb ) {
 						}
 
 					} else {
-						if ( ! val ) {
-							add_required( $row );
-						} else {
-							remove_required( $row );
-						}
+            if ($this.attr('type') == 'checkbox') {
+              if (val.length < 1 || val.length > $row.data('max')) {
+                add_required( $row );
+              } else {
+                remove_required( $row );
+              }
+            } else {
+  						if ( ! val ) {
+  							add_required( $row );
+  						} else {
+  							remove_required( $row );
+  						}
+            }
 					}
 				}
 
