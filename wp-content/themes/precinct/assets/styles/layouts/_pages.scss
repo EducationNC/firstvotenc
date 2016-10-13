@@ -1,5 +1,7 @@
 .page-header {
   margin-top: 0;
+  background: $steel;
+  border-bottom: 0;
 
   .entry-title {
     small {
@@ -94,6 +96,31 @@
   }
 
   .single-post & {
+    display: none;
+  }
+}
+
+body.students {
+  background-image: url('../images/background-gym.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+  .banner {
+    background: $white;
+  }
+
+  .page-header {
+    background: none;
+  }
+
+  .precinct .col-centered {
+    background: $white;
+    padding-top: 1em;
+    padding-bottom: 5em;
+  }
+
+  .global-footer {
     display: none;
   }
 }

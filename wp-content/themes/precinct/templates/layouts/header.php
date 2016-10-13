@@ -41,7 +41,7 @@ use Roots\Sage\Nav;
 
               switch ($nav['type']) {
                 case 'home':
-                  $url = '/';
+                  $url = '/?manage';
                   if (is_home()) {
                     $class = 'active';
                   }
@@ -70,6 +70,16 @@ use Roots\Sage\Nav;
                 <!-- <li><a href="#">Profile</a></li> -->
                 <li><a href="<?php echo wp_logout_url('http://firstvotenc.org'); ?>">Log Out</a></li>
               </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <?php else: ?>
+      <nav class="navbar collapse navbar-collapse logged-out" data-topbar role="navigation" id="navbar-collapse-1">
+        <div class="navbar-right">
+          <ul class="nav navbar-nav">
+            <li class="<?php echo $class; ?>">
+              <a href="<?php echo network_site_url('/teacher-login'); ?>">Teacher Login</a>
             </li>
           </ul>
         </div>

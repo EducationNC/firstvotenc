@@ -218,7 +218,7 @@ add_action( 'cmb2_after_init', function() {
    * Redirect back to the form page with a query variable with the new post ID.
    * This will help double-submissions with browser refreshes
    */
-  wp_redirect( esc_url_raw( add_query_arg( ['post_submitted' => null, 'thank_you' => '0'] ) ) );
+  wp_redirect( esc_url_raw( add_query_arg( ['post_submitted' => null, 'thank_you' => '0'], get_bloginfo('url') ) ) );
   exit;
 } );
 

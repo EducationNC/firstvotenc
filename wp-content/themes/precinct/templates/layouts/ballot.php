@@ -5,7 +5,46 @@ use Roots\Sage\CMB;
 
 $precinct_name = get_bloginfo('name');
 $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
+
+// Dates when polls are open
+$early_voting = new DateTime();
+$early_voting->setTimestamp(strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true)));
+$early_voting->setTime(07, 30, 00);
+
+$voting_start = $early_voting->getTimestamp();
+
+$election_day = new DateTime();
+$election_day->setTimestamp(strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true)));
+$election_day->setTime(19, 30, 00);
+
+$voting_end = $election_day->getTimestamp();
+
+// Now timestamp
+$today = new DateTime();
+$today->setDate(2016, 10, 27);
+$today->setTime(8, 00, 00);
+$now = $today->getTimestamp();
+// $now = current_time('timestamp');
+
+// // Check if today is during voting period
+// if ($voting_start <= $now && $now <= $voting_end) {
+//   // Is it between 7:30am and 7:30pm?
+//   $open = clone $today;
+//   $open->setTime(07, 30, 00);
+//   $close = clone $today;
+//   $close->setTime(19, 30, 00);
+//
+//   if ($open <= $now && $now <= $close) {
+//     echo 'you can vote!';
+//   } else {
+//     echo 'SAMPLE BALLOT';
+//   }
+// } else {
+//   echo 'SAMPLE BALLOT';
+// }
 ?>
+
+<div class="sample-ballot">Sample Ballot</div>
 
 <img class="cross-left" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
 <img class="cross-right" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
@@ -102,3 +141,12 @@ $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    // Prevent submission when polls are closed
+    $('#_cmb_voter_ballot_form').on('submit', function(e) {
+      e.preventDefault();
+    });
+  });
+</script>

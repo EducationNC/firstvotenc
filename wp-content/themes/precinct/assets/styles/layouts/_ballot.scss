@@ -1,4 +1,14 @@
 .single.ballot {
+  .sample-ballot {
+    position: absolute;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    top: 10px;
+    text-transform: uppercase;
+    color: $scarlet;
+    font-size: 3em;
+  }
+
   .main {
     width: 100%;
   }
@@ -242,5 +252,6 @@
     bottom: -4em;
     transform: translate3d(-50%, 0, 0);
     cursor: pointer;
+    display: none;
   }
 }

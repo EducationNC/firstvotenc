@@ -11,7 +11,7 @@
     if ( isset( $_GET['edit'] ) ) {
       // Check if the user has permissions to edit elections
       if ( ! current_user_can( 'editor' ) ) {
-        wp_redirect( get_bloginfo('url') );
+        wp_redirect( get_the_permalink() );
         exit;
       }
 
@@ -29,11 +29,6 @@
 
     // Display live ballot
     get_template_part('/templates/layouts/ballot');
-
-    // I Voted! overlay with TurboVote signup
-    if ( isset( $_GET['thank_you'] ) ) {
-      get_template_part('/templates/layouts/i-voted');
-    }
     ?>
 
   </div>
