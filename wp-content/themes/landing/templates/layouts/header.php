@@ -27,7 +27,7 @@ use Roots\Sage\Nav;
           $blog = get_active_blog_for_user( get_current_user_id() );
           ?>
           <ul class="nav navbar-nav">
-            <li class="btn menu-item"><a href="<?php echo $blog->siteurl; ?>">Go To Teacher Portal &rarr;</a></li>
+            <li class="btn menu-item"><a href="<?php echo $blog->siteurl; ?>?manage">Go To Teacher Dashboard &rarr;</a></li>
           </ul>
           <?php
         }

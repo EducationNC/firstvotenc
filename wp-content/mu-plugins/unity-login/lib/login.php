@@ -50,8 +50,8 @@ add_filter( 'login_redirect', function( $redirect_to, $requested_redirect_to, $u
   } else {
     // Non-admin users always go to their account page after login
     $blog = get_active_blog_for_user( $user->ID );
-    $redirect_url = $blog->siteurl;
+    $redirect_url = $blog->siteurl . '?manage';
   }
 
-  return wp_validate_redirect( $redirect_url, home_url() . '?manage' );
+  return wp_validate_redirect( $redirect_url, home_url() );
 }, 10, 3 );

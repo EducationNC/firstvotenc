@@ -41,7 +41,7 @@ use Roots\Sage\Nav;
 
               switch ($nav['type']) {
                 case 'home':
-                  $url = '/';
+                  $url = '/?manage';
                   if (is_home()) {
                     $class = 'active';
                   }
