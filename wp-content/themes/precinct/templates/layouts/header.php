@@ -74,6 +74,16 @@ use Roots\Sage\Nav;
           </ul>
         </div>
       </nav>
+    <?php else: ?>
+      <nav class="navbar collapse navbar-collapse logged-out" data-topbar role="navigation" id="navbar-collapse-1">
+        <div class="navbar-right">
+          <ul class="nav navbar-nav">
+            <li class="<?php echo $class; ?>">
+              <a href="<?php echo network_site_url('/teacher-login'); ?>">Teacher Login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     <?php endif; ?>
   </div>
 </header>

@@ -2,17 +2,9 @@
 
 use Roots\Sage\Assets;
 
-?>
-<section class="jumbotron">
-  <div class="parallax-img hidden-xs" style="background-image:url('<?php echo Assets\asset_path('images/banner.jpg'); ?>')"></div>
-  <div class="container">
-    <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" alt="" />
-    <h2 class="h1">Engage Today.<br /><em>Impact Tomorrow.</em></h2>
-    <p>Keeping civics real &amp; making it meaningful.</p>
-    <p><a class="btn btn-primary btn-lg" href="/sign-up" role="button">Teachers, Get your free toolkit</a></p>
-  </div>
-</section>
+get_template_part('/templates/components/banner', 'students');
 
+?>
 <section class="white-bg">
   <div class="container text-center partners">
     <span class="sr-only">In Partnership With</span>
@@ -71,7 +63,9 @@ use Roots\Sage\Assets;
     <div class="row">
       <div class="col-md-8 col-centered text-center">
         <p class="h2 bottom-margin-important">It isn’t enough to just register &mdash; it isn’t even enough to just vote. Our aim is to create an informed and involved citizenry.</p>
-        <?php echo apply_filters('the_content', '[embed]https://www.youtube.com/watch?v=isWvcZtSA98[/embed]'); ?>
+        <div class="entry-content-asset">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/isWvcZtSA98" frameborder="0" allowfullscreen></iframe>
+        </div>
         <p class="caption extra-bottom-margin">Thanks to the future voters at Enloe High School in Raleigh, NC for this video.</p>
         <p><a class="btn btn-primary btn-lg" href="/sign-up" role="button">Get Started Today</a></p>
       </div>

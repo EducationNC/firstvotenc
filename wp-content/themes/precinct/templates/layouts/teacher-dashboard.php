@@ -1,19 +1,3 @@
-<?php
-
-use Roots\Sage\Assets;
-
-?>
-
-<?php
-get_template_part('templates/components/header');
-
-if (isset($_GET['add'])) {
-  get_template_part('/templates/layouts/add_election');
-
-  return false;
-}
-?>
-
 <section class="precinct-admin">
   <div class="container">
     <div class="row extra-bottom-margin">
@@ -45,8 +29,8 @@ if (isset($_GET['add'])) {
                   <span class="small"><a href="<?php the_permalink(); ?>?edit">Edit</a> | <a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
                 </th>
                 <td>
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_early_voting', true)); ?> -
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> -
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
                 </td>
               </tr>
 
@@ -58,8 +42,8 @@ if (isset($_GET['add'])) {
                   <span class="small"><a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
                 </th>
                 <td>
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_early_voting', true)); ?> -
-                  <?php echo date('m/d/Y', get_post_meta(get_the_id(), '_cmb_voting_day', true)); ?>
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> -
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
                 </td>
               </tr>
 
@@ -126,15 +110,6 @@ if (isset($_GET['add'])) {
       </div>
     </div>
 
-<<<<<<< HEAD
-    <h3 class="text-center">Sign up for election info and reminders from TurboVote</h3>
-    <div class="row">
-      <div class="col-md-6 col-centered">
-        <div class="entry-content-asset" style="height: 700px"><iframe src="https://firstvotenc.turbovote.org"></iframe></div>
-        <p class="small">Powered by TurboVote: <a href="https://firstvotenc.turbovote.org">register to vote, request absentee ballots, and get election reminders</a></p>
-      </div>
-    </div>
-=======
     <div class="row">
       <div class="col-md-6">
         <h3>TurboVote for Teachers</h3>
@@ -150,6 +125,5 @@ if (isset($_GET['add'])) {
       </div>
     </div>
 
->>>>>>> feature/create-ballot
   </div>
 </section>

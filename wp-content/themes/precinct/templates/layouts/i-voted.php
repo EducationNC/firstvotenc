@@ -8,7 +8,7 @@ use Roots\Sage\Assets;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="btn btn-gray" data-dismiss="modal">Close</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <p class="text-center">
           <img src="<?php echo Assets\asset_path('images/sticker.png'); ?>" srcset="<?php echo Assets\asset_path('images/sticker@2x.png'); ?> 2x" alt="I Voted Today! Sticker" />
         </p>
@@ -19,6 +19,12 @@ use Roots\Sage\Assets;
         <p>If so, you are invited to sign up below for information about registering to vote, election reminders, and more &mdash; straight to your phone or email!</p>
         <p class="text-center">
           <a href="https://firstvotenc.turbovote.org/name" target="_blank" class="btn btn-default btn-lg">Sign up for TurboVote</a>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <p class="text-center">
+          <button type="button" class="btn btn-gray" data-dismiss="modal">Return to Precinct</button>
         </p>
       </div>
     </div>

@@ -9,7 +9,7 @@ if (get_post_type() == 'election' && !isset($_GET['edit']))
   return false;
 ?>
 
-<header class="page-header gray-bg">
+<header class="page-header">
   <div class="container">
     <?php if (is_singular(['post', 'election'])) { ?>
       <h2 class="entry-title">

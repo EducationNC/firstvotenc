@@ -53,5 +53,5 @@ add_filter( 'login_redirect', function( $redirect_to, $requested_redirect_to, $u
     $redirect_url = $blog->siteurl;
   }
 
-  return wp_validate_redirect( $redirect_url, home_url() );
+  return wp_validate_redirect( $redirect_url, home_url() . '?manage' );
 }, 10, 3 );
