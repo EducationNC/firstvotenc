@@ -376,22 +376,3 @@ class CustomXMLElement extends SimpleXMLElement {
     return current($this->xpath('parent::*'));
   }
 }
-
-// Search inside multidimensional array
-// Modified from this:
-// https://www.sitepoint.com/community/t/best-way-to-do-array-search-on-multi-dimensional-array/16382/5
-function array_find_deep($array, $search, $match = true, $keys = array()) {
-  $results = [];
-  foreach($array as $key => $value) {
-    if (is_array($value)) {
-      $sub = array_find_deep($value, $search, $match, array_merge($keys, array($key)));
-      if (count($sub)) {
-        $results[] = $sub;
-      }
-    } elseif (($value === $search && $match === true) || (stristr($value, $search) && $match === false)) {
-      $results = array_merge($keys, array($key));
-    }
-  }
-
-  return $results;
-}

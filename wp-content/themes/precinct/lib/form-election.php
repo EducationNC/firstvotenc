@@ -94,8 +94,8 @@ add_action( 'cmb2_init', function() {
     'id'   => 'section',
     'type' => 'radio',
 		'options' => array(
-			'Partisan',
-			'Nonpartisan'
+			'Partisan Offices' => 'Partisan',
+			'Nonpartisan Offices' => 'Nonpartisan'
 		)
 	) );
 
@@ -109,7 +109,7 @@ add_action( 'cmb2_init', function() {
     'name' => 'Candidates',
     'id'   => 'candidates',
     'type' => 'textarea_small',
-		'description' => 'Enter one candidate on each line.'
+		'description' => 'Enter one candidate on each line with their party in parentheses.'
 	) );
 
 	// $cmb_election_box->add_field([
