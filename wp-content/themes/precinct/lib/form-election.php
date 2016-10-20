@@ -64,7 +64,7 @@ add_action( 'cmb2_init', function() {
 		'name' 				=> 'Local Contests',
     'id'          => $prefix . 'custom_contests',
     'type'        => 'group',
-    'description' => 'Enter customized contests for which your students may vote in this simulation election.',
+    'description' => 'Enter customized contests for which your students may vote in this simulation election. These will appear at the end of the ballot section selected.',
     // 'repeatable'  => false, // use false if you want non-repeatable group
     'options'     => array(
       'group_title'   => __( 'Local Contest {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
@@ -87,6 +87,16 @@ add_action( 'cmb2_init', function() {
     'name' => 'Votes Allowed',
     'id'   => 'votes_allowed',
     'type' => 'text',
+	) );
+
+	$cmb_election_box->add_group_field( $custom_races, array(
+    'name' => 'Section',
+    'id'   => 'section',
+    'type' => 'radio',
+		'options' => array(
+			'Partisan',
+			'Nonpartisan'
+		)
 	) );
 
 	$cmb_election_box->add_group_field( $custom_races, array(
