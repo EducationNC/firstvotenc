@@ -12,7 +12,13 @@
   }
 
   .cmb2-metabox {
-    column-count: 3;
+    @include respondto(sm) {
+      column-count: 2;
+    }
+
+    @include respondto(md,lg,xl) {
+      column-count: 3;
+    }
 
     & > .cmb-row {
       break-inside: avoid-column;

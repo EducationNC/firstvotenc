@@ -7,6 +7,7 @@
     text-transform: uppercase;
     color: $scarlet;
     font-size: 3em;
+    display: none;
   }
 
   .main {
@@ -30,20 +31,27 @@
       box-shadow: 0 0 5px 0 $stone;
       margin-top: 2em;
       position: relative;
-      padding-left: 100px;
-      padding-right: 40px;
+      padding: 0 20px 0 50px;
+
+      @include respondto(sm,md,lg,xl) {
+        padding: 0 40px 0 100px;
+      }
 
       &:before {
         content: "";
         display: block;
         position: absolute;
-        left: 20px;
+        left: 13px;
         top: 120px;
         bottom: 80px;
         width: 25px;
         background-color: $white;
         background-image: linear-gradient(transparent 50%, $black 50%);
         background-size: 25px 40px;
+
+        @include respondto(sm,md,lg,xl) {
+          left: 20px;
+        }
       }
     }
   }
@@ -54,7 +62,11 @@
   }
 
   .cross-left {
-    left: -60px;
+    left: -30px;
+
+    @include respondto(sm,md,lg,xl) {
+      left: -60px;
+    }
   }
 
   .cross-right {
@@ -62,12 +74,21 @@
   }
 
   .cmb2-metabox {
-    column-gap: 1px;
-    column-rule: 1px solid $black;
     border: 1px solid $black;
     padding-bottom: 25px;
     margin-bottom: 30px;
-    column-count: 3;
+
+    @include respondto(sm) {
+      column-gap: 1px;
+      column-rule: 1px solid $black;
+      column-count: 2;
+    }
+
+    @include respondto(md,lg,xl) {
+      column-gap: 1px;
+      column-rule: 1px solid $black;
+      column-count: 3;
+    }
 
     & > .cmb-row {
       break-inside: avoid-column;
@@ -80,11 +101,18 @@
     line-height: 1.2em;
     padding: 15px 0;
 
+    @include respondto(xs) {
+      padding: 15px 20px 15px 0;
+    }
+
     .h2 {
       margin: 0;
-      padding-top: 25px;
-      padding-right: 30px;
       font-weight: bold;
+
+      @include respondto(sm,md,lg,xl) {
+        padding-top: 25px;
+        padding-right: 30px;
+      }
     }
   }
 
@@ -116,7 +144,11 @@
       height: 25px;
       background: $black;
       top: 0;
-      left: -81px;
+      left: -71px;
+
+      @include respondto(sm,md,lg,xl) {
+        left: -81px;
+      }
     }
 
     div[class*="col"] {
@@ -138,6 +170,10 @@
       list-style: upper-alpha;
       padding-left: 1.25em;
 
+      @include respondto(xs,sm) {
+        margin-bottom: 1em;
+      }
+
       li {
         padding-left: 1.25em;
         line-height: 1.2em;
@@ -146,7 +182,11 @@
 
     .example {
       display: block;
-      margin-top: 2em;
+      margin: 0 0 1em 2.5em;
+
+      @include respondto(md,lg,xl) {
+        margin: 2em 0 0 0;
+      }
     }
   }
 
@@ -205,6 +245,10 @@
           border: 1px solid $black;
           transition: 0.5s ease all;
           cursor: pointer;
+
+          @include respondto(xs) {
+            left: -25%;
+          }
         }
 
         input:checked + span:before {
@@ -252,6 +296,5 @@
     bottom: -4em;
     transform: translate3d(-50%, 0, 0);
     cursor: pointer;
-    display: none;
   }
 }

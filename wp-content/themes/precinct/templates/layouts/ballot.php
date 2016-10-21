@@ -50,37 +50,37 @@ $now = $today->getTimestamp();
 <img class="cross-right" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
 
 <div class="ballot-head row">
-  <div class="col-md-6">
+  <div class="col-sm-6">
     <strong>First Vote NC<br />
       <?php echo $precinct_name; ?><br />
       <?php echo date('F j, Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
     </strong>
   </div>
 
-  <div class="col-md-6 text-right h2">
+  <div class="col-sm-6 text-right h2">
     <?php echo 'G' . $precinct_id; ?>
   </div>
 </div>
 
 <div class="ballot-wrap">
   <div class="row ballot-wrap-head">
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-3">
           A
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4 hidden-xs">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-3">
           B
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4 hidden-xs hidden-sm">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-3">
           C
         </div>
       </div>
@@ -118,23 +118,23 @@ $now = $today->getTimestamp();
   ?>
 
   <div class="ballot-footer">
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-3">
           A
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4 hidden-xs">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-3">
           B
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4 hidden-xs hidden-sm">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-3">
           C
         </div>
       </div>
