@@ -1,4 +1,7 @@
 <?php
+
+use Roots\Sage\Extras;
+
 global $post;
 
 // Determine which election to use
@@ -280,10 +283,10 @@ if ( false === ($ballot_json = get_transient('ballot_' . $election_id))) {
         if ($ordered_contest['type'] == 'single') {
           $ballot[$j]['races'][$k]['ballot_title'] = $ordered_contest['ballot_title'];
           // Find the corresponding contest info in the returned data
-          $contests = array_find_deep($contest_data, $ordered_contest['xml_title']);
+          $contests = Extras\array_find_deep($contest_data, $ordered_contest['xml_title']);
         } elseif ($ordered_contest['type'] == 'multiple') {
           // Find any corresponding contest info in the returned data
-          $contests = array_find_deep($contest_data, $ordered_contest['xml_title'], false);
+          $contests = Extras\array_find_deep($contest_data, $ordered_contest['xml_title'], false);
         }
 
         if (count($contests) > 0) {

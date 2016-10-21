@@ -68,7 +68,7 @@ add_action( 'cmb2_init', function() {
     // 'repeatable'  => false, // use false if you want non-repeatable group
     'options'     => array(
       'group_title'   => __( 'Local Contest {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
-      'add_button'    => __( 'Add Contest', 'cmb2' ),
+      'add_button'    => __( 'Add Another', 'cmb2' ),
       'remove_button' => __( 'Remove', 'cmb2' ),
       'sortable'      => true, // beta
       // 'closed'     => true, // true to have the groups closed by default
@@ -129,7 +129,7 @@ add_action( 'cmb2_init', function() {
     // 'repeatable'  => false, // use false if you want non-repeatable group
     'options'     => array(
       'group_title'   => __( 'Question {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
-      'add_button'    => __( 'Add Question', 'cmb2' ),
+      'add_button'    => __( 'Add Another', 'cmb2' ),
       'remove_button' => __( 'Remove', 'cmb2' ),
       'sortable'      => true, // beta
       // 'closed'     => true, // true to have the groups closed by default
@@ -270,6 +270,9 @@ add_action( 'cmb2_after_init', function() {
 	  $master['voting_day'] = get_post_meta( $master_election, '_cmb_voting_day', true );
 	  $master['early_voting'] = get_post_meta( $master_election, '_cmb_early_voting', true );
   restore_current_blog();
+
+	// Flush rewrite rules
+	flush_rewrite_rules();
 
   // Set post_data for saving new post
   $post_data = array(
