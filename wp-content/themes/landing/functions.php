@@ -15,15 +15,9 @@ $sage_includes = [
   'lib/custom-post-types.php', // Custom post types
   'lib/customizer.php',// Theme customizer
   'lib/extras.php',    // Custom functions
-  // 'lib/facebook-auth.php', // Facebook auth - PRIVATE
   'lib/forms.php',      // Caldera Forms actions
-  // 'lib/http_build_url.php', // Required for resize
-  'lib/media.php',     // Media functions
   'lib/nav-walker.php',// Nav walker
-  'lib/resize.php',   // Resize images on the fly
   'lib/setup.php',     // Theme setup
-  // 'lib/social-share-count.php', // Share count class
-  'lib/shortcodes.php',  // Shortcodes
   'lib/titles.php',    // Page titles
   'lib/wrapper.php',   // Theme wrapper class
   'vendor/cmb2/init.php', // Init CMB2 plugin

@@ -1,4 +1,4 @@
-<?php get_template_part('templates/components/header'); ?>
+<?php get_template_part('templates/components/title'); ?>
 
 <div class="container">
   <div class="row">

@@ -2,6 +2,8 @@
 
 namespace Roots\Sage\CMB;
 
+use Roots\Sage\Extras;
+
 add_action( 'cmb2_init', function() {
 
   $prefix = '_cmb_';
@@ -167,52 +169,58 @@ function make_races_cb($field_args, $field) {
               <?php
             }
           }
-        }
 
-        foreach ($custom as $contest) {
-          if (!empty($contest)) {
-            if ( (int) $contest['votes_allowed'] > 1 ) {
-              $type = 'checkbox';
-              $array = true;
-            } else {
-              $type = 'radio';
-              $array = false;
-            }
-            ?>
-            <div class="cmb-row cmb2-id-<?php echo sanitize_title($contest['title']); ?>" data-max="<?php echo $contest['votes_allowed']; ?>">
+          $custom_match = Extras\array_find_deep($custom, $ballot_section['section']);
 
-              <div class="contest-head">
-                <h3><?php echo $contest['title']; ?></h3>
-                <p>(You may vote for <span class="uppercase"><?php /*echo $number->format($race['votes_allowed']);*/ echo $contest['votes_allowed']; ?>)</span></p>
-              </div>
+          foreach ($custom_match as $match_contest) {
+            $contest = $custom[$match_contest[0]];
+            if (!empty($contest)) {
+              if ( (int) $contest['votes_allowed'] > 1 ) {
+                $type = 'checkbox';
+                $array = true;
+              } else {
+                $type = 'radio';
+                $array = false;
+              }
 
-              <ul class="cmb2-<?php echo $type; ?>-list no-select-all cmb2-list">
-                <?php
-                $candidates = explode("\n", str_replace("\r", "", $contest['candidates']));
-                $m = 0;
-                foreach ($candidates as $candidate) {
+              ?>
+              <div class="cmb-row cmb2-id-<?php echo sanitize_title($contest['title']); ?>" data-max="<?php echo $contest['votes_allowed']; ?>">
+
+                <div class="contest-head">
+                  <h3><?php echo $contest['title']; ?></h3>
+                  <p>(You may vote for <span class="uppercase"><?php /*echo $number->format($race['votes_allowed']);*/ echo $contest['votes_allowed']; ?>)</span></p>
+                </div>
+
+                <ul class="cmb2-<?php echo $type; ?>-list no-select-all cmb2-list">
+                  <?php
+                  $candidates = explode("\n", str_replace("\r", "", $contest['candidates']));
+                  $m = 0;
+                  foreach ($candidates as $candidate) {
+                    $listing = str_replace([' (',')'], ['</span><br /><span class="small">',''], $candidate);
+                    if ($listing == $candidate) {
+                      $listing = $candidate . '</span><br /><span class="small">&nbsp;';
+                    }
+                    ?>
+                    <li>
+                      <label for="<?php echo sanitize_title($contest['title']) . '-' . $m; ?>">
+                        <input type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($contest['title']) . '-' . $m; ?>" value="<?php echo $candidate; ?>">
+                        <span><?php echo $listing; ?></span>
+                      </label>
+                    </li>
+                    <?php
+                    $m++;
+                  }
                   ?>
                   <li>
-                    <label for="<?php echo sanitize_title($contest['title']) . '-' . $m; ?>">
-                      <input type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($contest['title']) . '-' . $m; ?>" value="<?php echo $candidate; ?>">
-                      <span><?php echo $candidate; ?></span>
-                      <br />
-                      <span class="small">&nbsp;</span>
+                    <label for="<?php echo sanitize_title($contest['title']); ?>">
+                      <input data-validation="required" type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($contest['title']); ?>" value="none">
+                      <span>No Selection</span>
                     </label>
                   </li>
-                  <?php
-                  $m++;
-                }
-                ?>
-                <li>
-                  <label for="<?php echo sanitize_title($contest['title']); ?>">
-                    <input data-validation="required" type="<?php echo $type; ?>" class="cmb2-option" name="_cmb_ballot_<?php echo sanitize_title($contest['title']); ?><?php if ($array) {echo '[]';} ?>" id="<?php echo sanitize_title($contest['title']); ?>" value="none">
-                    <span>No Selection</span>
-                  </label>
-                </li>
-              </ul>
-            </div>
-            <?php
+                </ul>
+              </div>
+              <?php
+            }
           }
         }
 

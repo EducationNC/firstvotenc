@@ -2,7 +2,7 @@
 
 use Roots\Sage\Setup;
 
-get_template_part('templates/components/header', get_post_type());
+get_template_part('templates/components/title', get_post_type());
 ?>
 
 <div class="container">

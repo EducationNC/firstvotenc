@@ -1,7 +1,8 @@
 <?php
+$i = 1;
 if(is_multisite()){
     global $wpdb;
-    $blogs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE spam = '0' AND deleted = '0' and archived = '0' and public='1'"));
+    $blogs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE spam = '0' AND deleted = '0' and archived = '0' and public='0'"));
     if(!empty($blogs)){
         ?><?php
         foreach($blogs as $blog){
@@ -14,9 +15,16 @@ if(is_multisite()){
             if($q->have_posts()){
                 while($q->have_posts()){
                     $q->the_post();
+                    echo $i . '<br />';
                     echo 'ID: ' . $details->path . '<br />';
                     echo 'Name: ' . $details->blogname . '<br />';
                     echo 'Election: ' . get_the_title() . '<br />';
+
+                    $u = get_users([$blog->blog_id]);
+                    foreach ($u as $user) {
+                      echo $user->user_email . '<br />';
+                    }
+                    $i++;
                 }
             }
             wp_reset_query();

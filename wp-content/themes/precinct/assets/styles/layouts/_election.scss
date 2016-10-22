@@ -12,7 +12,13 @@
   }
 
   .cmb2-metabox {
-    column-count: 3;
+    @include respondto(sm) {
+      column-count: 2;
+    }
+
+    @include respondto(md,lg,xl) {
+      column-count: 3;
+    }
 
     & > .cmb-row {
       break-inside: avoid-column;
@@ -58,7 +64,7 @@
       }
     }
 
-    .cmb2-checkbox-list {
+    .cmb2-checkbox-list, .cmb2-radio-list {
       list-style: none;
       margin: 0;
       padding: 0;
@@ -72,6 +78,7 @@
       input {
         float: left;
         margin-top: 9px;
+        width: inherit !important;
       }
 
       label {

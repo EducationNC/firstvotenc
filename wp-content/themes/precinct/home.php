@@ -5,7 +5,7 @@ use Roots\Sage\Assets;
 ?>
 
 <?php
-get_template_part('templates/components/header');
+get_template_part('templates/components/title');
 
 // Display form to add new election
 if (isset($_GET['add'])) {

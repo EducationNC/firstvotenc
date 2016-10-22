@@ -2,7 +2,6 @@
   "dependencies": {
     "main.js": {
       "files": [
-        "scripts/vendor/*.js",
         "scripts/main.js"
       ],
       "main": true
@@ -12,21 +11,6 @@
         "styles/main.scss"
       ],
       "main": true
-    },
-    "embed.css": {
-      "files": [
-        "styles/embed.scss"
-      ]
-    },
-    "wp-embed-template.js": {
-      "files": [
-        "scripts/wp-embed-template.js"
-      ]
-    },
-    "data-viz.js": {
-      "files": [
-        "scripts/data-viz/data-viz.js"
-      ]
     },
     "customizer.js": {
       "files": [
