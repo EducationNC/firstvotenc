@@ -19,32 +19,36 @@ $election_day->setTime(19, 30, 00);
 
 $voting_end = $election_day->getTimestamp();
 
-// Now timestamp
+// Temp/testing timestamp
 $today = new DateTime();
-$today->setDate(2016, 10, 27);
-$today->setTime(8, 00, 00);
+$today->setDate(2016, 10, 25);
+$today->setTime(9, 00, 00);
 $now = $today->getTimestamp();
+
+// Now timestamp TODO
 // $now = current_time('timestamp');
 
 // // Check if today is during voting period
-// if ($voting_start <= $now && $now <= $voting_end) {
-//   // Is it between 7:30am and 7:30pm?
-//   $open = clone $today;
-//   $open->setTime(07, 30, 00);
-//   $close = clone $today;
-//   $close->setTime(19, 30, 00);
-//
-//   if ($open <= $now && $now <= $close) {
-//     echo 'you can vote!';
-//   } else {
-//     echo 'SAMPLE BALLOT';
-//   }
-// } else {
-//   echo 'SAMPLE BALLOT';
-// }
+if ($voting_start <= $now && $now <= $voting_end) {
+  // Is it between 7:30am and 7:30pm?
+  $open = clone $today;
+  $open->setTime(07, 30, 00);
+  $close = clone $today;
+  $close->setTime(19, 30, 00);
+
+  if ($open->getTimestamp() <= $now && $now <= $close->getTimestamp()) {
+    $canvote = true;
+  } else {
+    $canvote = false;
+  }
+} else {
+  $canvote = false;
+}
 ?>
 
-<div class="sample-ballot">Sample Ballot</div>
+<?php if ($canvote === false) { ?>
+  <div class="sample-ballot">Sample Ballot</div>
+<?php } ?>
 
 <img class="cross-left" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
 <img class="cross-right" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
@@ -64,7 +68,7 @@ $now = $today->getTimestamp();
   </div>
 </div>
 
-<div class="ballot-wrap">
+<div class="ballot-wrap <?php if ($canvote === false) { echo 'sample'; } ?>">
   <div class="row ballot-wrap-head sr-mute" aria-hidden="true">
     <div class="col-sm-6 col-md-4">
       <div class="row">
@@ -143,12 +147,14 @@ $now = $today->getTimestamp();
     </div>
   </div>
 </div>
-<!--
-<script type="text/javascript">
-  jQuery(document).ready(function($) {
-    // Prevent submission when polls are closed
-    $('#_cmb_voter_ballot_form').on('submit', function(e) {
-      e.preventDefault();
+
+<?php if ($canvote === false) { ?>
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      // Prevent submission when polls are closed
+      $('#_cmb_voter_ballot_form').on('submit', function(e) {
+        e.preventDefault();
+      });
     });
-  });
-</script> -->
+  </script>
+<?php } ?>
