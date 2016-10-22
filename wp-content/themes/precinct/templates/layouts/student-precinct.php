@@ -14,7 +14,7 @@
           $election_day = strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true));
           ?>
 
-          <h3><?php the_title(); ?></h3>
+          <h2><?php the_title(); ?></h2>
           <p>
             <strong>Early voting:</strong>
             <?php echo date('F j, Y', $early_voting); ?> -

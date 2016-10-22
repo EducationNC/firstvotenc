@@ -14,7 +14,7 @@ use Roots\Sage\Assets;
 </section>
 
 <?php if ( isset( $_GET['lookup'] ) ) { ?>
-  <div class="modal fade" id="lookup" tabindex="-1" role="dialog" aria-label="I Voted Today!">
+  <div class="modal fade" id="lookup" tabindex="-1" role="dialog" aria-label="Find your precinct">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

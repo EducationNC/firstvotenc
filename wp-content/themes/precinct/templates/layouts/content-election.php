@@ -18,8 +18,8 @@
       // If edit was saved, delete generated ballot and redirect to non-edit page
     	if ( isset( $_POST['object_id'] ) ) {
         update_post_meta( $_POST['object_id'], '_cmb_generated_ballot', '' );
-        wp_redirect( get_bloginfo('url') . '?manage' );
-        exit;
+        $url = esc_url_raw( get_bloginfo('url') );
+    		echo "<script type='text/javascript'>window.location.href = '$url?manage'</script>";
     	}
 
       // Customize ballot settings -- for teachers

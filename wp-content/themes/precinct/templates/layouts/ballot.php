@@ -49,7 +49,9 @@ $now = $today->getTimestamp();
 <img class="cross-left" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
 <img class="cross-right" src="<?php echo Assets\asset_path('images/ballot-cross.png'); ?>" srcset="<?php echo Assets\asset_path('images/ballot-cross@2x.png'); ?> 2x" alt="" />
 
-<div class="ballot-head row">
+<h1 class="sr-only">First Vote NC Ballot</h1>
+
+<div class="ballot-head row sr-mute" aria-hidden="true">
   <div class="col-sm-6">
     <strong>First Vote NC<br />
       <?php echo $precinct_name; ?><br />
@@ -63,7 +65,7 @@ $now = $today->getTimestamp();
 </div>
 
 <div class="ballot-wrap">
-  <div class="row ballot-wrap-head">
+  <div class="row ballot-wrap-head sr-mute" aria-hidden="true">
     <div class="col-sm-6 col-md-4">
       <div class="row">
         <div class="col-xs-3">
@@ -89,7 +91,7 @@ $now = $today->getTimestamp();
 
   <div class="row ballot-inst">
     <div class="col-md-9">
-      <h6>Ballot Marking Instructions:</h6>
+      <h2 class="h6">Ballot Marking Instructions:</h2>
       <ol>
         <li>Completely fill in the oval to the left of each selection of your choice as shown.</li>
         <li>For the purposes of this simulation election, at least one selection for every contest is required. If you do not wish to cast a vote for a particular contest, mark "No Selection."</li>
@@ -117,7 +119,7 @@ $now = $today->getTimestamp();
   echo $output;
   ?>
 
-  <div class="ballot-footer">
+  <div class="ballot-footer sr-mute" aria-hidden="true">
     <div class="col-sm-6 col-md-4">
       <div class="row">
         <div class="col-xs-3">
@@ -141,7 +143,7 @@ $now = $today->getTimestamp();
     </div>
   </div>
 </div>
-
+<!--
 <script type="text/javascript">
   jQuery(document).ready(function($) {
     // Prevent submission when polls are closed
@@ -149,4 +151,4 @@ $now = $today->getTimestamp();
       e.preventDefault();
     });
   });
-</script>
+</script> -->
