@@ -124,27 +124,7 @@ add_action( 'init', function() {
 // 	);
 // });
 //
-// register_taxonomy( 'resource-type',
-// 	array('resource'), /* if you change the name of register_post_type( 'custom_type', then you have to change this */
-// 	array('hierarchical' => true,     /* if this is true it acts like categories */
-// 		'labels' => array(
-// 			'name' => __( 'Resource Types' ),
-// 			'singular_name' => __( 'Resource Type' ),
-// 			'search_items' =>  __( 'Search Resource Types' ),
-// 			'all_items' => __( 'All Resource Types' ),
-// 			'parent_item' => __( 'Parent Resource Type' ),
-// 			'parent_item_colon' => __( 'Parent Resource Type:' ),
-// 			'edit_item' => __( 'Edit Resource Type' ),
-// 			'update_item' => __( 'Update Resource Type' ),
-// 			'add_new_item' => __( 'Add New Resource Type' ),
-// 			'new_item_name' => __( 'New Resource Type Name' )
-// 		),
-// 		'show_ui' => true,
-// 		'query_var' => true
-// 	)
-// );
-
-
+//
 // /**
 //  * Modify queries on specific templates
 //  */
