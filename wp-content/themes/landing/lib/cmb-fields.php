@@ -83,6 +83,12 @@ add_action( 'cmb2_init', function() {
 		'type' => 'text_small'
 	]);
 
+	$cmb_precinct_address->add_field([
+		'name' => 'Congressional District Override',
+		'id' => $prefix . 'congressional_district',
+		'type' => 'text_small'
+	]);
+
 
 	/**
 	 * Election Custom Fields

@@ -122,16 +122,23 @@ function make_races_cb($field_args, $field) {
               }
               // $number = new \NumberFormatter("en", \NumberFormatter::SPELLOUT);
 
+              // Set sanitized title
               if (!empty($race->seat)) {
                 $sanitized_title = sanitize_title($race->ballot_title . '-' . $race->seat);
               } else {
                 $sanitized_title = sanitize_title($race->ballot_title);
               }
+
+              // Set district
+              $district = '';
+              if (!empty($race->district)) {
+                $district = '<br />' . $race->district;
+              }
               ?>
               <div class="cmb-row cmb2-id-<?php echo $sanitized_title; ?>">
                 <fieldset>
                   <div class="contest-head">
-                    <legend class="h3"><?php echo str_replace(['(',')'], ['<br /><span>','</span>'], $race->ballot_title); ?></legend>
+                    <legend class="h3"><?php echo str_replace(['(',')'], ['<br /><span>','</span>'], $race->ballot_title) . $district; ?></legend>
                     <p>(You may vote for <?php /*echo $number->format($race->votes_allowed);*/ echo $race->votes_allowed; ?>)</p>
                   </div>
 
