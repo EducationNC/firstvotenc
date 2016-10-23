@@ -20,13 +20,13 @@ $election_day->setTime(19, 30, 00);
 $voting_end = $election_day->getTimestamp();
 
 // Temp/testing timestamp
-$today = new DateTime();
-$today->setDate(2016, 10, 25);
-$today->setTime(9, 00, 00);
-$now = $today->getTimestamp();
+// $today = new DateTime();
+// $today->setDate(2016, 10, 25);
+// $today->setTime(9, 00, 00);
+// $now = $today->getTimestamp();
 
-// Now timestamp TODO
-// $now = current_time('timestamp');
+// Now timestamp
+$now = current_time('timestamp');
 
 // // Check if today is during voting period
 if ($voting_start <= $now && $now <= $voting_end) {
