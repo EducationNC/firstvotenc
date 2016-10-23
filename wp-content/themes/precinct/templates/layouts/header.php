@@ -3,6 +3,7 @@
 use Roots\Sage\Assets;
 use Roots\Sage\Nav;
 
+$class = '';
 ?>
 <header id="header" class="banner">
   <div class="container">
