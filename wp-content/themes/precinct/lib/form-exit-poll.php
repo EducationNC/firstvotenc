@@ -20,7 +20,8 @@ add_action( 'cmb2_init', function() {
 			],
 			'attributes' => [
 				'data-validation' => 'required'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'Gender',
 			'id' => $prefix . 'gender',
@@ -28,7 +29,8 @@ add_action( 'cmb2_init', function() {
 			'options' => [
 				'Female' => 'Female',
 				'Male' => 'Male'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'Race/Ethnicity',
 			'id' => $prefix . 'race',
@@ -40,7 +42,8 @@ add_action( 'cmb2_init', function() {
 				'White' => 'White',
 				'Native American' => 'Native American',
 				'Other' => 'Other'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'Do the adults in your household vote?',
 			'id' => $prefix . 'adults_vote',
@@ -49,7 +52,8 @@ add_action( 'cmb2_init', function() {
 				'No' => 'No',
 				'Yes' => 'Yes',
 				'Don\'t know' => 'I don\'t know'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'Do you plan on registering to vote when you are eligible?',
 			'id' => $prefix . 'register',
@@ -57,7 +61,8 @@ add_action( 'cmb2_init', function() {
 			'options' => [
 				'No' => 'No',
 				'Yes' => 'Yes'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'If you were to register today, what would be your party affiliation?',
 			'id' => $prefix . 'party',
@@ -68,7 +73,8 @@ add_action( 'cmb2_init', function() {
 				'Republican' => 'Republican',
 				'Unaffiliated' => 'Unaffiliated',
 				'Don\'t know' => 'I don\'t know'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'What is your primary source of political news?',
 			'id' => $prefix . 'news',
@@ -78,7 +84,8 @@ add_action( 'cmb2_init', function() {
 				'Newspapers and magazines' => 'Newspapers and magazines',
 				'Social Media' => 'Social Media',
 				'Television' => 'Television'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		],[
 			'name' => 'How often do you attend a religious service?',
 			'id' => $prefix . 'religious',
@@ -88,7 +95,8 @@ add_action( 'cmb2_init', function() {
 				'Weekly' => 'Weekly',
 				'Infrequently' => 'Infrequently',
 				'Never' => 'Never'
-			]
+			],
+			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
 		]
 	];
 
@@ -139,6 +147,18 @@ add_action( 'cmb2_init', function() {
 	}
 
 });
+
+function accessible_fields_cb($field_args, $field) {
+	printf( "<div class=\"cmb-row %s\">\n", $field->row_classes() );
+	echo '<fieldset>';
+	echo '<legend>', $field->args( 'name' ), '</legend>';
+	echo "\n\t<div class=\"cmb-td\">\n";
+	$field_type = new \CMB2_Types( $field );
+  $field_type->render();
+	echo "\n\t</div>\n</fieldset>\n</div>";
+
+	return $field;
+}
 
 function hidden_fields_cb() {
   // Create hidden field that includes value of election_id

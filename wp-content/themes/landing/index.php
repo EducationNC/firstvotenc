@@ -7,7 +7,7 @@ get_template_part('templates/components/title', get_post_type());
 
 <div class="container">
   <div class="content">
-    <main class="main">
+    <main class="main" role="main">
       <?php
       if (!have_posts()) : ?>
         <div class="alert alert-warning">

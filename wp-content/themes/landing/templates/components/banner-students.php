@@ -7,14 +7,14 @@ use Roots\Sage\Assets;
   <div class="parallax-img hidden-xs" style="background-image:url('<?php echo Assets\asset_path('images/banner-precinct.jpg'); ?>')"></div>
   <div class="container">
     <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" alt="" />
-    <h2 class="h1">It's almost election time!</h2>
+    <h1>It's almost election time!</h1>
     <p><em>Election day is November 8, 2016.<br />Early voting may be available for your precinct.</em></p>
     <p><a class="btn btn-primary btn-lg" href="<?php the_permalink(); ?>?lookup" role="button">Students, find your precinct</a></p>
   </div>
 </section>
 
 <?php if ( isset( $_GET['lookup'] ) ) { ?>
-  <div class="modal fade" id="lookup" tabindex="-1" role="dialog" aria-label="I Voted Today!">
+  <div class="modal fade" id="lookup" tabindex="-1" role="dialog" aria-label="Find your precinct">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

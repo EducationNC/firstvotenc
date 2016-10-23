@@ -23,6 +23,7 @@ wp-content/db.php
 wp-content/upgrade/*
 wp-content/uploads/
 wp-content/wp-cache-config.php
+wp-content/plugins/wp-backitup/logs/*
 
 # pro plugins
 wp-content/plugins/advanced-custom-fields-pro/*

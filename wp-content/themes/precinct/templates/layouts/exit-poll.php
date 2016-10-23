@@ -8,7 +8,7 @@ $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
 $ballot_id = $_GET['post_submitted'];
 ?>
 
-<h3>Thank you for voting! Before you go, please fill out this exit poll.</h3>
+<h1 class="h3">Thank you for voting! Before you go, please fill out this exit poll.</h1>
 
 <?php
 $exit_poll = CMB\get_exit_poll_object();

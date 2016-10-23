@@ -7,7 +7,6 @@
     text-transform: uppercase;
     color: $scarlet;
     font-size: 3em;
-    display: none;
   }
 
   .main {
@@ -273,9 +272,10 @@
     padding: 15px 8px;
     border-bottom: 1px solid $black;
 
-    h3, p {
+    legend, h3, p {
       margin: 0;
       font-size: $font-size-base;
+      border-bottom: none;
     }
 
     .uppercase {
@@ -296,5 +296,9 @@
     bottom: -4em;
     transform: translate3d(-50%, 0, 0);
     cursor: pointer;
+  }
+
+  .sample .button-primary {
+    display: none;
   }
 }
