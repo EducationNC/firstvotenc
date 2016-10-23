@@ -20,6 +20,7 @@ if ( false === ($master = get_transient('master_election_' . $election_id))) {
     $loc[] = get_post_meta($precinct_id, '_cmb_state', true);
     $loc[] = get_post_meta($precinct_id, '_cmb_zip', true);
     $master['address'] = implode(', ', $loc);
+    $master['congressional_district'] = get_post_meta($precinct_id, '_cmb_congressional_district', true);
 
   restore_current_blog();
 

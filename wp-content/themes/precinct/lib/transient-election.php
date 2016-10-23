@@ -53,6 +53,13 @@ if ( false === ($ballot_json = get_transient('ballot_' . $election_id))) {
   $i = 0;
   $contest_data = [];
   foreach ($district_data as $ocd => $ocd_data) {
+    // Override congressional district
+    if (($pos = strpos($ocd, ':nc/cd:')) !== false) {
+      if (!empty($districtNumber = $master['congressional_district'])) {
+        $ocd = substr_replace($ocd, $districtNumber, $pos+7);
+      }
+    }
+
     $electoralDistrict = $ballot_xml->xpath("//ElectoralDistrict/ExternalIdentifiers/ExternalIdentifier/Value[text() = '$ocd']");
     if (count($electoralDistrict) > 0) {
       $contest_data[$i]['ocd'] = $ocd;
@@ -323,6 +330,7 @@ if ( false === ($ballot_json = get_transient('ballot_' . $election_id))) {
 
   set_transient('ballot_' . $election_id, $ballot_json, 7 * DAY_IN_SECONDS);
 }
+
 
 /**
  * Set custom post meta for contests
