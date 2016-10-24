@@ -4,6 +4,10 @@ use Roots\Sage\CMB;
 
 $form = CMB\get_election_form();
 
+// Flush rewrite rules
+global $wp_rewrite;
+$wp_rewrite->init();
+$wp_rewrite->flush_rules();
 ?>
 <div class="container add-election">
   <div class="content">
