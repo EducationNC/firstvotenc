@@ -16,9 +16,10 @@ if(is_multisite()){
                 while($q->have_posts()){
                     $q->the_post();
                     echo $i . '<br />';
-                    echo 'ID: ' . $details->path . '<br />';
+                    echo 'ID: <a href="' . get_site_url() . '" target="_blank">' . $details->path . '</a><br />';
                     echo 'Name: ' . $details->blogname . '<br />';
                     echo 'Election: ' . get_the_title() . '<br />';
+                    echo 'Date created: ' . get_the_time('F j, Y g:ia') . '<br />';
 
                     $u = get_users([$blog->blog_id]);
                     foreach ($u as $user) {
