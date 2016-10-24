@@ -200,6 +200,12 @@ if ( false === ($ballot_json = get_transient('ballot_' . $election_id))) {
           'ocd' => 'ocd-division/country:us/state:nc/county',
           'partisan' => 'true',
           'order' => 'alpha'
+        ],[
+          'type' => 'division',
+          'match' => false,
+          'ocd' => 'ocd-division/country:us/state:nc/place',
+          'partisan' => 'true',
+          'order' => 'alpha'
         ]
       ]
     ],[
