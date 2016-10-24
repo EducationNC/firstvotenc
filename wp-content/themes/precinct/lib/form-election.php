@@ -267,8 +267,8 @@ add_action( 'cmb2_after_init', function() {
   $election_id = $_POST['_cmb_election'];
   switch_to_blog(1);
 	  $election_name = get_the_title($election_id);
-	  $master['voting_day'] = get_post_meta( $master_election, '_cmb_voting_day', true );
-	  $master['early_voting'] = get_post_meta( $master_election, '_cmb_early_voting', true );
+	  $master['voting_day'] = get_post_meta( $election_id, '_cmb_voting_day', true );
+	  $master['early_voting'] = get_post_meta( $election_id, '_cmb_early_voting', true );
   restore_current_blog();
 
   // Set post_data for saving new post
