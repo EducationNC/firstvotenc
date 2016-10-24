@@ -271,9 +271,6 @@ add_action( 'cmb2_after_init', function() {
 	  $master['early_voting'] = get_post_meta( $master_election, '_cmb_early_voting', true );
   restore_current_blog();
 
-	// Flush rewrite rules
-	flush_rewrite_rules();
-
   // Set post_data for saving new post
   $post_data = array(
     'post_author' => 1, // Admin
@@ -284,6 +281,11 @@ add_action( 'cmb2_after_init', function() {
 
   // Create the new post
   $new_election_id = wp_insert_post( $post_data, true );
+
+	// Flush rewrite rules
+	global $wp_rewrite;
+	$wp_rewrite->init();
+	$wp_rewrite->flush_rules();
 
   // If we hit a snag, update the user
   if ( is_wp_error( $new_election_id )) {

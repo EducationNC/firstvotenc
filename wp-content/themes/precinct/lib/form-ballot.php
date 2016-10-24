@@ -106,9 +106,12 @@ function make_races_cb($field_args, $field) {
     if (empty($generated_ballot)) {
       ob_start();
         foreach ($ballot_data as $ballot_section) {
-          echo '<h2 class="section-head h6">';
-            echo $ballot_section->section;
-          echo '</h2>';
+          // echo count((array)$ballot_section->races);
+          if (count((array)$ballot_section->races) > 0) {
+            echo '<h2 class="section-head h6">';
+              echo $ballot_section->section;
+            echo '</h2>';
+          }
           foreach ($ballot_section->races as $race) {
             // Find this race in the election data
             $key = array_search($race->ballot_title, $included_races);
