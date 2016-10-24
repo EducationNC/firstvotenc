@@ -18,6 +18,7 @@ $sage_includes = [
   'lib/forms.php',      // Caldera Forms actions
   'lib/nav-walker.php',// Nav walker
   'lib/setup.php',     // Theme setup
+  'lib/shortcodes.php', // Shortcodes
   'lib/titles.php',    // Page titles
   'lib/wrapper.php',   // Theme wrapper class
   'vendor/cmb2/init.php', // Init CMB2 plugin
