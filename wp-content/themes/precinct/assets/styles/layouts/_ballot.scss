@@ -204,7 +204,7 @@
     ul {
       list-style: none;
       margin: 15px 0;
-      padding-left: 25%;
+      padding-left: 0;
     }
 
     li {
@@ -232,11 +232,12 @@
         position: relative;
         display: block;
         cursor: pointer;
+        padding-left: 80px;
 
         input + span:before {
           content: '';
           position: absolute;
-          left: -20%;
+          left: 20px;
           display: block;
           height: 20px;
           width: 40px;
@@ -245,10 +246,6 @@
           border: 1px solid $black;
           transition: 0.5s ease all;
           cursor: pointer;
-
-          @include respondto(xs) {
-            left: -25%;
-          }
         }
 
         input:checked + span:before {
