@@ -34,6 +34,8 @@
 
           // Now timestamp
           $now = current_time('timestamp');
+          $today = new DateTime();
+          $today->setTimestamp($now);
 
           // // Check if today is during voting period
           if ($voting_start <= $now && $now <= $voting_end) {
