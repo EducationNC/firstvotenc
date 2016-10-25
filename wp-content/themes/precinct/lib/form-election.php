@@ -8,14 +8,14 @@ add_action( 'cmb2_init', function() {
 	/**
 	 * Add new election
 	 */
-	$cmb_election_box = new_cmb2_box([
+	$cmb_new_election = new_cmb2_box([
 		'id'           => $prefix . 'new_election',
 		'title'        => 'New Election',
     'hookup'       => false,
     'save_fields'  => false,
 	]);
 
-	$cmb_election_box->add_field([
+	$cmb_new_election->add_field([
 		'name' => 'Select an election',
 		'id' => $prefix . 'election',
 		'type' => 'select',
@@ -40,8 +40,6 @@ add_action( 'cmb2_init', function() {
 		'date_format' => 'M j, Y',
 		'attributes' => ['disabled' => 'disabled']
 	]);
-
-	$early_vote_default = get_post_meta(get_the_id(), $prefix . 'voting_day', true);
 
 	$cmb_election_box->add_field([
 		'name' => 'Set early voting start date',
@@ -281,11 +279,6 @@ add_action( 'cmb2_after_init', function() {
 
   // Create the new post
   $new_election_id = wp_insert_post( $post_data, true );
-
-	// Flush rewrite rules
-	global $wp_rewrite;
-	$wp_rewrite->init();
-	$wp_rewrite->flush_rules();
 
   // If we hit a snag, update the user
   if ( is_wp_error( $new_election_id )) {
