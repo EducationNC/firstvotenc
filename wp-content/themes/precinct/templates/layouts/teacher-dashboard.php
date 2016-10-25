@@ -10,7 +10,7 @@
         ]);
         ?>
 
-        <table class="table table-hover table-condensed">
+        <table class="table table-condensed">
           <thead>
             <tr>
               <th scope="col" class="h3">Simulation Elections</th>
@@ -54,6 +54,11 @@
               <td colspan="2">
                 <div class="well well-sm">
                   <p><em>No simulation elections have been created for your precinct yet.</em></p>
+
+                  <?php if ( current_user_can( 'editor' ) ) { ?>
+                    <a class="btn btn-default" href="?add">Add Simulation Election</a>
+                  <?php } ?>
+
                 </div>
               </td>
             </tr>
@@ -61,10 +66,6 @@
           <?php endif; wp_reset_postdata(); ?>
           </tbody>
         </table>
-
-        <?php if ( current_user_can( 'editor' ) ) { ?>
-          <a class="btn btn-default" href="?add">Add Simulation Election</a>
-        <?php } ?>
 
       </div>
 
