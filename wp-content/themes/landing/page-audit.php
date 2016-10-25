@@ -1,4 +1,4 @@
-<table class="table table-responsive">
+<table class="table table-responsive sortable">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -33,7 +33,14 @@
                           <td><a href="<?php echo get_site_url(); ?>" target="_blank"><?php echo $details->path; ?></a></td>
                           <td><?php echo $details->blogname; ?></td>
                           <td><a href="<?php echo get_the_permalink(); ?>" target="_blank"><?php echo get_the_title(); ?></a></td>
-                          <td><?php echo get_the_time('F j, Y g:ia e'); ?></td>
+                          <td>
+                            <?php
+                            $the_time = new DateTime();
+                            $the_time->setTimestamp(get_the_time('U'));
+                            $the_time->setTimeZone(new DateTimeZone('America/New_York'));
+                            echo $the_time->format('m/d/Y') . '<br />' . $the_time->format('g:ia T');
+                            ?>
+                          </td>
                           <td>
                             <?php
                             $u = get_users([$blog->blog_id]);
