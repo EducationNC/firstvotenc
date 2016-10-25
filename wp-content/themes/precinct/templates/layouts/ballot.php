@@ -29,6 +29,7 @@ $voting_end = $election_day->getTimestamp();
 $now = current_time('timestamp');
 $today = new DateTime();
 $today->setTimestamp($now);
+$today->setTimeZone(new DateTimeZone('America/New_York'));
 
 // // Check if today is during voting period
 if ($voting_start <= $now && $now <= $voting_end) {
