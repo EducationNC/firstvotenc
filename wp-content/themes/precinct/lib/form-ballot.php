@@ -106,16 +106,18 @@ function make_races_cb($field_args, $field) {
     if (empty($generated_ballot)) {
       ob_start();
         foreach ($ballot_data as $ballot_section) {
-          // echo count((array)$ballot_section->races);
-          if (count((array)$ballot_section->races) > 0) {
-            echo '<h2 class="section-head h6">';
-              echo $ballot_section->section;
-            echo '</h2>';
-          }
+          $z = 0;
           foreach ($ballot_section->races as $race) {
             // Find this race in the election data
             $key = array_search($race->ballot_title, $included_races);
             if ($key !== FALSE && $race->votes_allowed > 0) {
+              // Print the section title if this is the first race in section
+              if ($z == 0) {
+                echo '<h2 class="section-head h6">';
+                  echo $ballot_section->section;
+                echo '</h2>';
+              }
+
               if ( (int) $race->votes_allowed > 1 ) {
                 $type = 'checkbox';
                 $array = true;
@@ -184,6 +186,7 @@ function make_races_cb($field_args, $field) {
                 </fieldset>
               </div>
               <?php
+              $z++;
             }
           }
 
