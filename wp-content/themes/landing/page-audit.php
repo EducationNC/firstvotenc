@@ -5,7 +5,8 @@
       <th scope="col">Precinct</th>
       <th scope="col">School</th>
       <th scope="col">Election</th>
-      <th scope="col">Date</th>
+      <th scope="col">Created</th>
+      <th scope="col">Votes</th>
       <th scope="col">Teachers</th>
     </tr>
   </thead>
@@ -20,7 +21,7 @@
             foreach($blogs as $blog){
                 switch_to_blog($blog->blog_id);
                 $details = get_blog_details($blog->blog_id);
-                $q = new WP_query([
+                $q = new WP_Query([
                   'posts_per_page' => -1,
                   'post_type' => 'election'
                 ]);
@@ -39,6 +40,15 @@
                             $the_time->setTimestamp(get_the_time('U'));
                             $the_time->setTimeZone(new DateTimeZone('America/New_York'));
                             echo $the_time->format('m/d/Y') . '<br />' . $the_time->format('g:ia T');
+                            ?>
+                          </td>
+                          <td>
+                            <?php
+                            $n = new WP_Query([
+                              'post_type' => 'ballot',
+                              'posts_per_page' => -1
+                            ]);
+                            echo $n->found_posts;
                             ?>
                           </td>
                           <td>
