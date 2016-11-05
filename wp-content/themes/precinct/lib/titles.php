@@ -18,7 +18,7 @@ function title() {
     return sprintf(__('Search Results for %s', 'sage'), get_search_query());
   } elseif (is_404()) {
     return __('Not Found', 'sage');
-  } elseif (is_singular('election')) {
+  } elseif (is_singular('election') && !isset($_GET['results'])) {
     return __('Edit Election', 'sage');
   } else {
     return get_the_title();

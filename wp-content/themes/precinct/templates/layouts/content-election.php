@@ -27,6 +27,11 @@
       return false;
     }
 
+    if ( isset( $_GET['results'] ) ) {
+      get_template_part('/templates/layouts/results');
+      return false;
+    }
+
     // Display live ballot
     get_template_part('/templates/layouts/ballot');
     ?>

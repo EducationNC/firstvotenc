@@ -3,102 +3,8 @@
 namespace Roots\Sage\CMB;
 
 add_action( 'cmb2_init', function() {
-	$prefix = '_cmb_';
 
-	$fields = [
-		[
-			'name' => 'What grade are you in?',
-			'id' => $prefix . 'grade',
-			'type' => 'radio',
-			'options' => [
-				'Elementary' => 'Kindergarten &ndash; 5th grade',
-				'Middle' => '6th &ndash; 8th grade',
-				'9' => '9th grade',
-				'10' => '10th grade',
-				'11' => '11th grade',
-				'12' => '12th grade or higher',
-			],
-			'attributes' => [
-				'data-validation' => 'required'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'Gender',
-			'id' => $prefix . 'gender',
-			'type' => 'radio',
-			'options' => [
-				'Female' => 'Female',
-				'Male' => 'Male'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'Race/Ethnicity',
-			'id' => $prefix . 'race',
-			'type' => 'radio',
-			'options' => [
-				'Asian/Pacific Islander' => 'Asian/Pacific Islander',
-				'Black' => 'Black',
-				'Hispanic' => 'Hispanic',
-				'White' => 'White',
-				'Native American' => 'Native American',
-				'Other' => 'Other'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'Do the adults in your household vote?',
-			'id' => $prefix . 'adults_vote',
-			'type' => 'radio',
-			'options' => [
-				'No' => 'No',
-				'Yes' => 'Yes',
-				'Don\'t know' => 'I don\'t know'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'Do you plan on registering to vote when you are eligible?',
-			'id' => $prefix . 'register',
-			'type' => 'radio',
-			'options' => [
-				'No' => 'No',
-				'Yes' => 'Yes'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'If you were to register today, what would be your party affiliation?',
-			'id' => $prefix . 'party',
-			'type' => 'radio',
-			'options' => [
-				'Democrat' => 'Democrat',
-				'Libertarian' => 'Libertarian',
-				'Republican' => 'Republican',
-				'Unaffiliated' => 'Unaffiliated',
-				'Don\'t know' => 'I don\'t know'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'What is your primary source of political news?',
-			'id' => $prefix . 'news',
-			'type' => 'radio',
-			'options' => [
-				'Friends and family' => 'Friends and family',
-				'Newspapers and magazines' => 'Newspapers and magazines',
-				'Social Media' => 'Social Media',
-				'Television' => 'Television'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		],[
-			'name' => 'How often do you attend a religious service?',
-			'id' => $prefix . 'religious',
-			'type' => 'radio',
-			'options' => [
-				'More than once per week' => 'More than once per week',
-				'Weekly' => 'Weekly',
-				'Infrequently' => 'Infrequently',
-				'Never' => 'Never'
-			],
-			'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
-		]
-	];
+	include(locate_template('/lib/fields-exit-poll.php'));
 
   /**
    * Exit poll front end submission
@@ -131,17 +37,26 @@ add_action( 'cmb2_init', function() {
 		'name' => 'Election',
 		'id' => $prefix . 'election_id',
 		'type' => 'text',
-		'attributes' => ['disabled' => 'disabled']
+		// 'attributes' => ['disabled' => 'disabled'],
+		'column' => [
+			'position' => 2,
+			'name' => 'Election'
+		]
 	]);
 
 	$cmb_exitpoll_box->add_field([
 		'name' => 'Ballot',
 		'id' => $prefix . 'ballot_id',
 		'type' => 'text',
-		'attributes' => ['disabled' => 'disabled']
+		// 'attributes' => ['disabled' => 'disabled'],
+		'column' => [
+			'position' => 3,
+			'name' => 'Ballot'
+		]
 	]);
 
-	foreach ($fields as $field) {
+	foreach ($ep_fields as $field) {
+		// $field['attributes'] = ['disabled' => 'disabled'];
 		$exitpoll->add_field($field);
 		$cmb_exitpoll_box->add_field($field);
 	}
