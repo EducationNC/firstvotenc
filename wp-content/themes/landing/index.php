@@ -19,6 +19,8 @@ get_template_part('templates/components/title', get_post_type());
       while (have_posts()) : the_post();
         if (is_archive()) {
           get_template_part('templates/layouts/block', 'post-side');
+        } elseif (is_page('2016-general-election-results')) {
+          get_template_part('templates/layouts/content', 'results');
         } else {
           get_template_part('templates/layouts/content', get_post_type());
         }

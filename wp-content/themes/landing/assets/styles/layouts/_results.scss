@@ -1,0 +1,26 @@
+.result-chart {
+  .highcharts-color-0 {
+    fill: $plum;
+  }
+
+  .republican {
+    fill: $scarlet;
+  }
+
+  .democrat {
+    fill: $navy;
+  }
+
+  .libertarian, .independent {
+    fill: $gold;
+  }
+
+  .highcharts-axis-labels.highcharts-xaxis-labels {
+    // width: 100px;
+
+    span {
+      text-align: left !important;
+      left: 0 !important;
+    }
+  }
+}

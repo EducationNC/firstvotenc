@@ -1,3 +1,8 @@
+<?php
+if (isset($_GET['count'])) {
+  include(locate_template('/lib/count.php'));
+}
+?>
 <table class="table table-responsive sortable">
   <thead>
     <tr>
@@ -15,7 +20,7 @@
     $i = 1;
     if(is_multisite()){
         global $wpdb;
-        $blogs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE spam = '0' AND deleted = '0' and archived = '0' and public='0'"));
+        $blogs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE spam = '%d' AND deleted = '%d' and archived = '%d' and public='%d'", 0, 0, 0, 0));
         if(!empty($blogs)){
             ?><?php
             foreach($blogs as $blog){

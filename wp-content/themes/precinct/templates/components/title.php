@@ -5,7 +5,7 @@ use Roots\Sage\Titles;
 $precinct_name = get_bloginfo('name');
 $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
 
-if (get_post_type() == 'election' && !isset($_GET['edit']))
+if (get_post_type() == 'election' && !isset($_GET['edit']) && !isset($_GET['results']))
   return false;
 ?>
 
