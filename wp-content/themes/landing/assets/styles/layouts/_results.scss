@@ -1,4 +1,46 @@
+.results.students {
+  .main {
+    width: 100%;
+  }
+}
+
+.results-affix-container {
+  height: 40px;
+
+  .h3 {
+    margin: 0;
+  }
+}
+
+.page-results {
+  background-image: url('../images/background-gym.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+  .banner {
+    background: $white;
+  }
+
+  .page-header {
+    background: none;
+  }
+
+  .precinct .col-centered {
+    background: $white;
+    padding-top: 1em;
+    padding-bottom: 5em;
+  }
+
+  .global-footer {
+    // display: none;
+    background: $white;
+  }
+}
+
 .result-chart {
+  margin-bottom: 1em;
+
   .highcharts-color-0 {
     fill: $plum;
   }
@@ -16,11 +58,100 @@
   }
 
   .highcharts-axis-labels.highcharts-xaxis-labels {
-    // width: 100px;
-
     span {
-      text-align: left !important;
-      left: 0 !important;
+      text-align: right !important;
+      left: 10px !important;
+      width: 90px !important;
+      white-space: normal !important;
     }
   }
+
+  .highcharts-data-label {
+    span {
+      font-size: 13px !important;
+      padding: 3px 5px;
+      background: $white-50;
+    }
+  }
+
+  .highcharts-title {
+    text-align: center !important;
+  }
+
+  .highcharts-subtitle {
+    // left: 115px !important;
+    // width: calc(100% - 120px) !important;
+    // white-space: normal !important;
+  }
+}
+
+.table-results {
+  table {
+    overflow: hidden;
+    background: $white;
+  }
+
+  thead {
+    th {
+      text-align: center;
+    }
+  }
+
+  th {
+    border-color: $white !important;
+  }
+
+  td {
+    border: 5px solid $white;
+    background: $plum-lightest;
+
+    &.winner {
+      background: $plum;
+    }
+
+    small {
+      float: right;
+      font-weight: normal;
+    }
+  }
+
+  .total {
+    th, td {
+      background: $steel;
+      border: none;
+      border-top: 5px solid $white;
+    }
+  }
+
+  .winner {
+    color: $white;
+    font-weight: bold;
+    // border-width: 1px;
+    border-color: $white !important;
+  }
+
+  .republican {
+    background: lighten($scarlet-lighter, 20%);
+
+    &.winner {
+      background: $scarlet-darker;
+    }
+  }
+
+  .democrat {
+    background: lighten($navy-lighter, 20%);
+
+    &.winner {
+      background: $navy-darker;
+    }
+  }
+
+  .libertarian, .independent {
+    background: lighten($gold-lighter, 20%);
+
+    &.winner {
+      background: $gold-darker;
+    }
+  }
+
 }

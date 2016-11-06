@@ -1,6 +1,7 @@
 <?php
 
 use Roots\Sage\Titles;
+use Roots\Sage\Extras;
 
 $precinct_name = get_bloginfo('name');
 $precinct_id = substr( strrchr( get_bloginfo('url'), '/nc-' ), 4 );
@@ -20,6 +21,16 @@ if (get_post_type() == 'election' && !isset($_GET['edit']) && !isset($_GET['resu
           <span class="h6">Precinct ID:</span> <?php echo $precinct_id; ?>
         </small>
       </h1>
+
+      <?php if (isset($race = $_GET['contest'])) {
+        $contests = json_decode(get_option('precinct_contests'), true);
+        $match = Extras\array_find_deep($contests, $race);
+        ?>
+        <h2>
+        <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
+        <small><a class="btn btn-sm btn-default btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a></small>
+        </h2>
+      <?php } ?>
     <?php } elseif (isset($_GET['add'])) { ?>
       <h1 class="entry-title">
         Add Simulation Election

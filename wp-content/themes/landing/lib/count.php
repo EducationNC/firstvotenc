@@ -143,10 +143,18 @@ function precinct_contests($ballot_data, $included_races, $custom, $issues) {
         ];
 
         foreach ($race->candidates as $can) {
-          $precinct_contests[$ballot_section->section]['_cmb_ballot_' . $sanitized_title]['candidates'][] = [
-            'name' => str_replace(['<br />', '(', ')', ', Jr'], [' & ', '"', '"', ' Jr'], $can->ballotName),
-            'party' => str_replace([' Party', 'Democratic'], ['', 'Democrat'], $can->party)
-          ];
+          if ($ballot_section->section == 'Partisan Offices') {
+            $details = [
+              'name' => str_replace(['<br />', '(', ')', ', Jr'], [' & ', '"', '"', ' Jr'], $can->ballotName),
+              'party' => str_replace([' Party', 'Democratic'], ['', 'Democrat'], $can->party)
+            ];
+          } else {
+            $details = [
+              'name' => str_replace(['<br />', '(', ')', ', Jr'], [' & ', '"', '"', ' Jr'], $can->ballotName)
+            ];
+          }
+
+          $precinct_contests[$ballot_section->section]['_cmb_ballot_' . $sanitized_title]['candidates'][] = $details;
         }
       }
     }
