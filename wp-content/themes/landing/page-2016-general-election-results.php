@@ -13,7 +13,8 @@ use Roots\Sage\Titles;
       <?php } ?>
     </h1>
 
-    <?php if (isset($race = $_GET['contest'])) {
+    <?php if (isset($_GET['contest'])) {
+      $race = $_GET['contest'];
       $contests = json_decode(get_option('election_contests'), true);
       echo '<h2>' . $contests[$race]['title'] . '</h2>';
     } ?>
