@@ -23,7 +23,7 @@ function do_count() {
   $uploads = wp_upload_dir();
 
   $i = $_POST['start'];
-  $batch_size = 20;
+  $batch_size = 10;
   $max = $i + $batch_size;
 
   // If this is a recount, delete all statewide count data and start over
