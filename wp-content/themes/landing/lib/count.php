@@ -11,19 +11,15 @@ function do_count() {
   if ( ! wp_verify_nonce( $nonce, 'count-ajax-nonce' ) )
     die( 'Busted!');
 
-  // Prevent Timeout
-  set_time_limit(0);
-
   // Set up statewide election results array
   include(locate_template('/lib/fields-statewide-races.php'));
   $election_contests = array();
   $election_results = array();
-  $election_results[] = array_merge(['blog_id'], $statewide_races);
 
   $uploads = wp_upload_dir();
 
   $i = $_POST['start'];
-  $batch_size = 10;
+  $batch_size = 2;
   $max = $i + $batch_size;
 
   // If this is a recount, delete all statewide count data and start over
@@ -104,7 +100,7 @@ function do_count() {
 
   $saved_er = json_decode(get_option('election_results'), true);
   if (is_array($saved_er)) {
-    $new_er = array_merge($saved_er, $election_results);
+    $new_er = array_merge(array_values($saved_er), array_values($election_results));
   } else {
     $new_er = $election_results;
   }
@@ -265,14 +261,14 @@ function precinct_contests($ballot_data, $included_races, $custom, $issues) {
  *
  */
 function precinct_votes($blog_id, $election_id, $statewide_races, $ep_fields, $precinct_contests, $election_results) {
-  // Column headers for all contests
+  // Headers for all contests
   foreach ($precinct_contests as $s_key => $section) {
     foreach ($section as $contest) {
       $columns_contests[] = $contest['sanitized_title'];
     }
   }
 
-  // Column headers for exit polls + participation numbers by exit poll
+  // Headers for exit polls + participation numbers by exit poll
   foreach ($ep_fields as $ep_field) {
     $columns_eps[] = $ep_field['id'];
 
@@ -284,8 +280,8 @@ function precinct_votes($blog_id, $election_id, $statewide_races, $ep_fields, $p
   }
 
   // Create final column headers
-  $columns = array_merge(['blog_id'], $columns_contests, $columns_eps);
-  $precinct_votes[] = $columns;
+  // $columns = array_merge(['blog_id'], $columns_contests, $columns_eps);
+  // $precinct_votes[] = $columns;
 
   // Make rows for each vote
   $ballots = new WP_Query([

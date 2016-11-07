@@ -15,6 +15,10 @@
 <?php
 $results = json_decode(get_option('election_results'), true);
 $contests = json_decode(get_option('election_contests'), true);
+//
+// echo '<pre>';
+// print_r($contests);
+// echo '</pre>';
 
 $table = $results;
 array_shift($table);

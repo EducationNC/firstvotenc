@@ -119,6 +119,8 @@
 
                 // All done!
                 $('#script-progress').append('All done! <a href="/2016-general-election-results">Now see the results!</a>');
+
+                $('#btn-close').show();
               }
             },
             error: function(errorThrown){
