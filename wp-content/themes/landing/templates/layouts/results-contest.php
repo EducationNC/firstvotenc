@@ -3,21 +3,19 @@
 // Exit poll fields
 include(locate_template('/lib/fields-exit-poll.php'));
 
-// Which race?
-$race = $_GET['contest'];
-$contests = json_decode(get_option('election_contests'), true);
+$uploads = wp_upload_dir();
+$results = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
+$contests = json_decode(file_get_contents($uploads['basedir'] . '/election_contests.json'), true);
 
-// Results
-$results = json_decode(get_option('election_results'), true);
-$table = $results;
-array_shift($table);
+// Which contest to show?
+$race = $_GET['contest'];
 
 foreach ($ep_fields as $ep_field) {
   // Results for this race
-  $data = array_column($table, $race);
+  $data = array_column($results, $race);
 
   // Answers for this exit poll
-  $ep_data = array_column($table, $ep_field['id']);
+  $ep_data = array_column($results, $ep_field['id']);
 
   // Total number of ballots cast
   $total = count($data) - count(array_keys($data, NULL));

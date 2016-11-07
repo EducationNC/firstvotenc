@@ -13,19 +13,19 @@
 </script>
 
 <?php
-$results = json_decode(get_option('election_results'), true);
-$contests = json_decode(get_option('election_contests'), true);
-//
+$uploads = wp_upload_dir();
+$results = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
+$contests = json_decode(file_get_contents($uploads['basedir'] . '/election_contests.json'), true);
+
 // echo '<pre>';
-// print_r($contests);
+// print_r($results);
 // echo '</pre>';
 
-$table = $results;
-array_shift($table);
+$races = array_keys($results[0]);
 
-foreach ($results[0] as $race) {
+foreach ($races as $race) {
   if (substr($race, 0, 11) == '_cmb_ballot') {
-    $data = array_column($table, $race);
+    $data = array_column($results, $race);
     $all = count($data);
     $none = count(array_keys($data, 'none'));
     $null = count(array_keys($data, NULL));
