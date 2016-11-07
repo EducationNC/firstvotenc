@@ -11,6 +11,9 @@
       <div class="modal-body">
         <div id="script-progress"></div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="btn-close" style="display: none;" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
