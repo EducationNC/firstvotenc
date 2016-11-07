@@ -1,8 +1,20 @@
-<?php
-if (isset($_GET['count'])) {
-  include(locate_template('/lib/count.php'));
-}
-?>
+<p class="text-center extra-padding">
+  <button type="button" class="btn btn-primary btn-lg" id="count-votes" data-toggle="modal" data-target="#tally-modal" data-backdrop="static" data-keyboard="false">Count Votes!</button>
+</p>
+
+<div class="modal fade" id="tally-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Hang tight! We're counting votes at each precinct:</h4>
+      </div>
+      <div class="modal-body">
+        <div id="script-progress"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <table class="table table-responsive sortable">
   <thead>
     <tr>
@@ -17,6 +29,7 @@ if (isset($_GET['count'])) {
   </thead>
   <tbody>
     <?php
+    /*
     $i = 1;
     if(is_multisite()){
         global $wpdb;
@@ -74,6 +87,7 @@ if (isset($_GET['count'])) {
             }
         }
     }
+    */
     ?>
   </tbody>
 </table>

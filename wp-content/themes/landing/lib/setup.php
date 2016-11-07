@@ -79,6 +79,15 @@ function assets() {
   }
 
   wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
+
+  $uploads = wp_upload_dir();
+
+  wp_localize_script( 'sage/js', 'countAjax', array(
+    'ajaxurl' => admin_url( 'admin-ajax.php' ),
+    'ajaxNonce' => wp_create_nonce( 'count-ajax-nonce' ),
+    'uploads' => $uploads['baseurl']
+    )
+  );
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
