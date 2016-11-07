@@ -107,25 +107,6 @@ foreach ($ep_fields as $ep_field) {
           'percent' => round(($tally_state / $ep_total_state) * 100, 2)
         );
       }
-
-      // $tally = count(array_keys($data, $candidate['name']));
-      // $tally_state = count(array_keys($data_state, $candidate['name']));
-      //
-      // // Precinct count
-      // $counts[] = array(
-      //   'name' => $candidate['name'],
-      //   'party' => $candidate['party'],
-      //   'count' => $tally,
-      //   'percent' => round(($tally / $total) * 100, 1)
-      // );
-      //
-      // // Statewide count
-      // $count_state[] = array(
-      //   'name' => $candidate['name'],
-      //   'party' => $candidate['party'],
-      //   'count' => $tally_state,
-      //   'percent' => round(($tally_state / $total_state) * 100, 1)
-      // );
     }
   } else {
     foreach ($contests[$match[0][0][0]][$race]['options'] as $o_key => $option) {
@@ -155,33 +136,91 @@ foreach ($ep_fields as $ep_field) {
 
       // Remove "no selection" for these because it wasn't an option on ballot
       unset($ep_table['none']);
-
-      // $tally = count(array_keys($data, $option));
-      // $tally_state = count(array_keys($data_state, $option));
-      //
-      // // Precinct count
-      // $counts[] = array(
-      //   'name' => $option,
-      //   'count' => $tally,
-      //   'percent' => round(($tally / $total) * 100, 2)
-      // );
-      //
-      // // Statewide count
-      // $count_state[] = array(
-      //   'name' => $option,
-      //   'count' => $tally_state,
-      //   'percent' => round(($tally_state / $total_state) * 100, 2)
-      // );
     }
   }
 
+
+// Set up table for iterating through columns
+    // Precinct
+    $none = $ep_table['none'];
+    $footer = $ep_table['total'];
+    $headers = $ep_table['headers'];
+    unset($ep_table['headers']);
+    unset($ep_table['none']);
+    unset($ep_table['total']);
+
+    // Statewide
+    $none_state = $ep_table_state['none'];
+    $footer_state = $ep_table_state['total'];
+    $headers_state = $ep_table_state['headers'];
+    unset($ep_table_state['headers']);
+    unset($ep_table_state['none']);
+    unset($ep_table_state['total']);
+
+
+// Remove K-5 and 6-8 for schools with no voters in those grades
+    if ($ep_field['id'] == '_cmb_grade') {
+      $elementary = $footer[0];
+      $middle = $footer[1];
+      if ($elementary == 0 || $middle == 0) {
+        foreach ($ep_table as $key => $row) {
+          if ($middle == 0) {
+            // Precinct
+            unset($none[1]);
+            unset($footer[1]);
+            unset($headers[1]);
+            unset($ep_table[$key][2]);
+
+            // Statewide
+            unset($none_state[1]);
+            unset($footer_state[1]);
+            unset($headers_state[1]);
+            unset($ep_table_state[$key][2]);
+          }
+          if ($elementary == 0) {
+            // Precinct
+            unset($none[0]);
+            unset($footer[0]);
+            unset($headers[0]);
+            unset($ep_table[$key][1]);
+
+            // Statewide
+            unset($none_state[0]);
+            unset($footer_state[0]);
+            unset($headers_state[0]);
+            unset($ep_table_state[$key][1]);
+          }
+        }
+      }
+    }
+
+
+// Get number of columns
+    $count_columns = count($headers) + count($headers_state);
+
+
+// Highlight winners
+    // Precinct
+    $winner = '';
+    for($i = 1; $i <= $count_columns; ++$i) {
+      // Winner is key of highest number
+      $col = array_column(array_column($ep_table, $i), 'count');
+      $winner[$i] = array_keys($col, max($col));
+    }
+
+    // Statewide
+    $winner_state = '';
+    for($i = 1; $i <= $count_columns; ++$i) {
+      // Winner is key of highest number
+      $col_state = array_column(array_column($ep_table_state, $i), 'count');
+      $winner_state[$i] = array_keys($col_state, max($col_state));
+    }
+
+
   // echo '<pre>';
-  // print_r($ep_table_state);
+  // print_r($ep_table);
   // echo '</pre>';
 
-
-  // Get number of columns so we can calculate width
-  $count_columns = count($ep_table['headers']) + count($ep_table_state['headers']);
   ?>
 
   <div class="row">
@@ -192,10 +231,10 @@ foreach ($ep_fields as $ep_field) {
         <thead>
           <tr>
             <th scope="col" width="130px">&nbsp;</th>
-            <th scope="col" colspan="<?php echo ($count_columns/2); ?>">
+            <th scope="col" colspan="<?php echo ($count_columns/2); ?>" class="precinct">
               Precinct Results
             </th>
-            <th scope="col" colspan="<?php echo ($count_columns/2); ?>">
+            <th scope="col" colspan="<?php echo ($count_columns/2); ?>" class="statewide">
               Statewide Results
             </th>
           </tr>
@@ -203,54 +242,19 @@ foreach ($ep_fields as $ep_field) {
             <th scope="col" width="130px">&nbsp;</th>
             <?php
             // Precinct
-            $headers = $ep_table['headers'];
-            unset($ep_table['headers']);
             foreach ($headers as $header) { ?>
-              <th width="<?php echo 100/$count_columns; ?>%"><?php echo $header; ?></th>
+              <th width="<?php echo 100/$count_columns; ?>%" class="precinct"><?php echo $header; ?></th>
             <?php }
 
             // Statewide
-            $headers = $ep_table_state['headers'];
-            unset($ep_table_state['headers']);
-            foreach ($headers as $header) { ?>
-              <th width="<?php echo 100/$count_columns; ?>%"><?php echo $header; ?></th>
+            foreach ($headers_state as $header) { ?>
+              <th width="<?php echo 100/$count_columns; ?>%" class="statewide"><?php echo $header; ?></th>
             <?php } ?>
           </tr>
         </thead>
 
         <tbody>
           <?php
-          // Set up table for iterating through columns
-            // Precinct
-            $none = $ep_table['none'];
-            $footer = $ep_table['total'];
-            unset($ep_table['none']);
-            unset($ep_table['total']);
-
-            // Statewide
-            $none_state = $ep_table_state['none'];
-            $footer_state = $ep_table_state['total'];
-            unset($ep_table_state['none']);
-            unset($ep_table_state['total']);
-
-
-          // Highlight winners
-            // Precinct
-            $winner = '';
-            for($i = 1; $i <= $count_columns; ++$i) {
-              // Winner is key of highest number
-              $col = array_column(array_column($ep_table, $i), 'count');
-              $winner[$i] = array_keys($col, max($col));
-            }
-
-            // Statewide
-            $winner_state = '';
-            for($i = 1; $i <= $count_columns; ++$i) {
-              // Winner is key of highest number
-              $col_state = array_column(array_column($ep_table_state, $i), 'count');
-              $winner_state[$i] = array_keys($col_state, max($col_state));
-            }
-
           foreach ($ep_table as $ep_key => $row) { ?>
             <tr>
               <?php
@@ -261,9 +265,9 @@ foreach ($ep_fields as $ep_field) {
                   echo '<th scope="row">';
                 } else {
                   if ($cell['count'] > 0 && in_array($ep_key, $winner[$k])) {
-                    echo '<td class="winner ' . sanitize_title($cell['party']) . '" >';
+                    echo '<td class="winner ' . sanitize_title($cell['party']) . ' precinct" >';
                   } else {
-                    echo '<td class="' . sanitize_title($cell['party']) . '" >';
+                    echo '<td class="' . sanitize_title($cell['party']) . ' precinct" >';
                   }
                 }
 
@@ -272,7 +276,7 @@ foreach ($ep_fields as $ep_field) {
                   echo $cell['name'];
                   if (!empty($cell['party'])) echo "<br />({$cell['party']})";
                 }
-                if (isset($cell['count'])) echo "{$cell['count']} <small>({$cell['percent']}%)</small>";
+                if (isset($cell['count'])) echo "{$cell['percent']}% <small>{$cell['count']}</small>";
 
                 // Close cell tag
                 if ($i == 0) {
@@ -289,9 +293,9 @@ foreach ($ep_fields as $ep_field) {
                   continue;
                 } else {
                   if ($cell['count'] > 0 && in_array($ep_key, $winner_state[$k])) {
-                    echo '<td class="winner ' . sanitize_title($cell['party']) . '" >';
+                    echo '<td class="winner ' . sanitize_title($cell['party']) . ' statewide" >';
                   } else {
-                    echo '<td class="' . sanitize_title($cell['party']) . '" >';
+                    echo '<td class="' . sanitize_title($cell['party']) . ' statewide" >';
                   }
                 }
 
@@ -300,7 +304,7 @@ foreach ($ep_fields as $ep_field) {
                   echo $cell['name'];
                   if (!empty($cell['party'])) echo "<br />({$cell['party']})";
                 }
-                if (isset($cell['count'])) echo "{$cell['count']} <small>({$cell['percent']}%)</small>";
+                if (isset($cell['count'])) echo "{$cell['percent']}% <small>{$cell['count']}</small>";
 
                 // Close cell tag
                 echo '</td>';
@@ -312,20 +316,20 @@ foreach ($ep_fields as $ep_field) {
           <tr>
               <th scope="row">No Selection</th>
             <?php foreach ($none as $blank) { ?>
-              <td><?php echo $blank['count']; ?> <small>(<?php echo $blank['percent']; ?>%)</small></td>
+              <td class="precinct"><?php echo $blank['percent']; ?>% <small><?php echo $blank['count']; ?></small></td>
             <?php } ?>
             <?php foreach ($none_state as $blank_state) { ?>
-              <td><?php echo $blank_state['count']; ?> <small>(<?php echo $blank_state['percent']; ?>%)</small></td>
+              <td class="statewide"><?php echo $blank_state['percent']; ?>% <small><?php echo $blank_state['count']; ?></small></td>
             <?php } ?>
           </tr>
           <?php } ?>
           <tr class="total">
               <th scope="row">Total Votes</th>
             <?php foreach ($footer as $ep_total) { ?>
-              <td><?php echo $ep_total; ?> <small>(100%)</small></td>
+              <td class="precinct">100% <small><?php echo $ep_total; ?></small></td>
             <?php } ?>
             <?php foreach ($footer_state as $ep_total_state) { ?>
-              <td><?php echo $ep_total_state; ?> <small>(100%)</small></td>
+              <td class="statewide">100% <small><?php echo $ep_total_state; ?></small></td>
             <?php } ?>
           </tr>
         </tbody>

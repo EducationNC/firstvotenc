@@ -139,6 +139,7 @@ function precinct_contests($ballot_data, $included_races, $custom, $issues) {
 
         $precinct_contests[$ballot_section->section]['_cmb_ballot_' . $sanitized_title] = [
           'title' => $race->ballot_title,
+          'district' => $race->district,
           'sanitized_title' => '_cmb_ballot_' . $sanitized_title
         ];
 

@@ -93,6 +93,7 @@ if (isset($_GET['contest'])) {
         <div class="col-sm-12">
           <h2 class="h3">
             <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
+            <?php echo $contests[$match[0][0][0]][$race]['district']; ?>
             <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
               <small><?php echo $contests[$match[0][0][0]][$race]['question']; ?></small>
             <?php } ?>
@@ -117,7 +118,7 @@ if (isset($_GET['contest'])) {
         new Highcharts.Chart({
           chart: { renderTo: '<?php echo $race; ?>', defaultSeriesType: 'bar' },
           credits: {enabled: false},
-          title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title']; ?><br />(Precinct Results)", useHTML: true },
+          title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Precinct Results)", useHTML: true },
           <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
             subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
           <?php } ?>
@@ -141,7 +142,7 @@ if (isset($_GET['contest'])) {
         new Highcharts.Chart({
           chart: { renderTo: 'state<?php echo $race; ?>', defaultSeriesType: 'bar' },
           credits: {enabled: false},
-          title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title']; ?><br />(Statewide Results)", useHTML: true },
+          title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Statewide Results)", useHTML: true },
           <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
             subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
           <?php } ?>
@@ -154,7 +155,7 @@ if (isset($_GET['contest'])) {
               {
                 name: '<?php echo str_replace(' & ', '<br />', $cs['name']); ?><?php if (!empty($cs['party'])) { echo '<br />(' . $cs['party'] . ')'; } ?>',
                 y: <?php echo $cs['count']; ?>,
-                className: '<?php if (isset($count['party'])) echo sanitize_title($cs['party']); ?>',
+                className: '<?php if (isset($cs['party'])) echo sanitize_title($cs['party']); ?>',
                 percent: <?php echo $cs['percent']; ?>
                 // animation: false
               },

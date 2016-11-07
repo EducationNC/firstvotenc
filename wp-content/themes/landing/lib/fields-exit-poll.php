@@ -5,7 +5,7 @@ $prefix = '_cmb_';
 $ep_fields = [
   [
     'name' => 'What grade are you in?',
-    'label' => 'Grade',
+    'label' => 'grade',
     'id' => $prefix . 'grade',
     'type' => 'radio',
     'options' => [
@@ -22,7 +22,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'Gender',
-    'label' => 'Gender',
+    'label' => 'gender',
     'id' => $prefix . 'gender',
     'type' => 'radio',
     'options' => [
@@ -32,7 +32,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'Race/Ethnicity',
-    'label' => 'Race/Ethnicity',
+    'label' => 'race/ethnicity',
     'id' => $prefix . 'race',
     'type' => 'radio',
     'options' => [
@@ -46,7 +46,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'Do the adults in your household vote?',
-    'label' => 'Adults Vote',
+    'label' => 'adults in household who vote',
     'id' => $prefix . 'adults_vote',
     'type' => 'radio',
     'options' => [
@@ -57,7 +57,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'Do you plan on registering to vote when you are eligible?',
-    'label' => 'Register',
+    'label' => 'plans to register to vote',
     'id' => $prefix . 'register',
     'type' => 'radio',
     'options' => [
@@ -67,7 +67,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'If you were to register today, what would be your party affiliation?',
-    'label' => 'Affiliation',
+    'label' => 'future party affiliation',
     'id' => $prefix . 'party',
     'type' => 'radio',
     'options' => [
@@ -80,7 +80,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'What is your primary source of political news?',
-    'label' => 'Source',
+    'label' => 'primary source of political news',
     'id' => $prefix . 'news',
     'type' => 'radio',
     'options' => [
@@ -92,7 +92,7 @@ $ep_fields = [
     'render_row_cb' => __NAMESPACE__ . '\\accessible_fields_cb'
   ],[
     'name' => 'How often do you attend a religious service?',
-    'label' => 'Frequency',
+    'label' => 'frequency of religious services',
     'id' => $prefix . 'religious',
     'type' => 'radio',
     'options' => [

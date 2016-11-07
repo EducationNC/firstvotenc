@@ -69,6 +69,12 @@
   thead {
     th {
       text-align: center;
+
+      &.precinct {
+        background: $steel;
+        border-bottom: none;
+        border-top: none;
+      }
     }
   }
 
@@ -78,23 +84,44 @@
 
   td {
     border: 5px solid $white;
-    background: $steel;
-
-    &.winner {
-      background: $plum;
-    }
+    background: $heather;
+    text-align: center;
+    vertical-align: middle !important;
+    position: relative;
 
     small {
-      float: right;
+      position: absolute;
       font-weight: normal;
+      top: 3px;
+      right: 3px;
+    }
+
+    &.precinct {
+      border-color: $steel;
+    }
+
+    &.winner {
+      background: $plum-darker;
+    }
+
+    &.statewide {
+      background: $steel;
+
+      &.winner {
+        background: $plum;
+      }
     }
   }
 
   .total {
     th, td {
-      background: $pearl;
+      background: $white;
       border: none;
-      border-top: 5px solid $white;
+      // border-top: 5px solid $white;
+
+      &.precinct {
+        background: $steel;
+      }
     }
   }
 
@@ -102,30 +129,36 @@
     color: $white;
     font-weight: bold;
     // border-width: 1px;
-    border-color: $white !important;
+    // border-color: $white !important;
   }
 
   .republican {
-    background: lighten($scarlet-lighter, 20%);
-
     &.winner {
       background: $scarlet-darker;
+
+      &.statewide {
+        background: $scarlet;
+      }
     }
   }
 
   .democrat {
-    background: lighten($navy-lighter, 20%);
-
     &.winner {
       background: $navy-darker;
+
+      &.statewide {
+        background: $navy;
+      }
     }
   }
 
   .libertarian, .independent {
-    background: lighten($gold-lighter, 20%);
-
     &.winner {
       background: $gold-darker;
+
+      &.statewide {
+        background: $gold;
+      }
     }
   }
 

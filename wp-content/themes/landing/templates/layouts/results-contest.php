@@ -108,7 +108,8 @@ foreach ($ep_fields as $ep_field) {
 
   <div class="row">
     <div class="col-lg-10">
-      <h3><?php echo $ep_field['name']; ?></h3>
+      <h3>Results by <?php echo $ep_field['label']; ?></h3>
+      <h4 class="h6"><?php echo $contests[$race]['title']; ?></h4>
 
       <div class="table-responsive table-results">
         <table class="table">
@@ -151,9 +152,9 @@ foreach ($ep_fields as $ep_field) {
                     echo '<th scope="row">';
                   } else {
                     if ($cell['count'] > 0 && in_array($ep_key, $winner[$k])) {
-                      echo '<td class="winner ' . sanitize_title($cell['party']) . '" >';
+                      echo '<td class="winner ' . sanitize_title($cell['party']) . ' statewide">';
                     } else {
-                      echo '<td class="' . sanitize_title($cell['party']) . '" >';
+                      echo '<td class="' . sanitize_title($cell['party']) . ' statewide" >';
                     }
                   }
 
@@ -162,7 +163,7 @@ foreach ($ep_fields as $ep_field) {
                     echo $cell['name'];
                     if (!empty($cell['party'])) echo "<br />({$cell['party']})";
                   }
-                  if (isset($cell['count'])) echo "{$cell['count']} <small>({$cell['percent']}%)</small>";
+                  if (isset($cell['count'])) echo "{$cell['percent']}% <small>{$cell['count']}</small>";
 
                   // Close cell tag
                   if ($i == 0) {
@@ -178,14 +179,14 @@ foreach ($ep_fields as $ep_field) {
             <tr>
                 <th scope="row">No Selection</th>
               <?php foreach ($none as $blank) { ?>
-                <td><?php echo $blank['count']; ?> <small>(<?php echo $blank['percent']; ?>%)</small></td>
+                <td class="statewide"><?php echo $blank['percent']; ?>% <small><?php echo $blank['count']; ?></small></td>
               <?php } ?>
             </tr>
             <?php } ?>
             <tr class="total">
                 <th scope="row">Total Votes</th>
               <?php foreach ($footer as $ep_total) { ?>
-                <td><?php echo $ep_total; ?> <small>(100%)</small></td>
+                <td><?php echo $ep_total; ?></td>
               <?php } ?>
             </tr>
           </tbody>
