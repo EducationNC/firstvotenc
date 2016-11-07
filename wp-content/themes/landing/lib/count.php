@@ -22,14 +22,32 @@ function do_count() {
 
   $uploads = wp_upload_dir();
 
-  // Iterate through all sites
-  $i = 1;
+  $i = $_POST['start'];
+  $batch_size = 20;
+  $max = $i + $batch_size;
+
+  // If this is a recount, delete all statewide count data and start over
+  // Otherwise, append this data to existing statewide data
+  if ($i == 0) {
+    update_option('election_contests', '');
+    update_option('election_results', '');
+  }
+
+  // Iterate through all sites in batches
   if(is_multisite()){
     global $wpdb;
     $blogs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE spam = '%d' AND deleted = '%d' and archived = '%d' and public='%d'", 0, 0, 0, 0));
     if(!empty($blogs)){
+
+      // How many blogs do we need to go through?
       $totalItems = count($blogs);
-      foreach($blogs as $blog){
+      if ($max > $totalItems - 1) {
+        $max = $totalItems - 1;
+      }
+
+      // Iterate in batches to prevent timeout
+      for (; $i <= $max; $i++) {
+        $blog = $blogs[$i];
         switch_to_blog($blog->blog_id);
         $details = get_blog_details($blog->blog_id);
         $q = new WP_Query([
@@ -51,17 +69,10 @@ function do_count() {
               $election_contests = array_merge($election_contests, $pc);
             }
 
-            // echo '<pre>';
-            // print_r($precinct_votes);
-            // echo '</pre>';
-
-            // $all_results = all_results($election_id, $ep_fields, $precinct_contests);
           }
 
         endwhile; endif; wp_reset_postdata();
         restore_current_blog();
-
-        $i++;
 
         // write our progress file
         file_put_contents(
@@ -74,10 +85,22 @@ function do_count() {
     }
   }
 
-  update_option('election_contests', json_encode($election_contests));
-  update_option('election_results', json_encode($election_results));
+  // Update arrays of all contests and all results
+  $saved_ec = json_decode(get_option('election_contests'), true);
+  if (is_array($saved_ec)) {
+    $new_ec = array_merge($saved_ec, $election_contests);
+  } else {
+    $new_ec = $election_contests;
+  }
+  update_option('election_contests', json_encode($new_ec));
 
-  echo 'All done! <a href="/2016-general-election-results">Now see the results!</a>';
+  $saved_er = json_decode(get_option('election_results'), true);
+  if (is_array($saved_er)) {
+    $new_er = array_merge($saved_er, $election_results);
+  } else {
+    $new_er = $election_results;
+  }
+  update_option('election_results', json_encode($new_er));
 
   // write our progress file
   file_put_contents(
@@ -86,6 +109,14 @@ function do_count() {
       'percentComplete' => 0
     ])
   );
+
+  header('Content-Type: application/json');
+  echo json_encode([
+    'total' => $totalItems,
+    'start' => $i,
+    'ec' => $new_ec,
+    'er' => $new_er
+  ]);
 
   exit;
 }
