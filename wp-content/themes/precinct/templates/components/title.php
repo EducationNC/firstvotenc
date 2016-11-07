@@ -22,7 +22,8 @@ if (get_post_type() == 'election' && !isset($_GET['edit']) && !isset($_GET['resu
         </small>
       </h1>
 
-      <?php if (isset($race = $_GET['contest'])) {
+      <?php if (isset($_GET['contest'])) {
+        $race = $_GET['contest'];
         $contests = json_decode(get_option('precinct_contests'), true);
         $match = Extras\array_find_deep($contests, $race);
         ?>
