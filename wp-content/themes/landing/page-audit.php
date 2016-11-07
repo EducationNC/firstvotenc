@@ -1,3 +1,9 @@
+<?php
+// if (isset($_GET['count'])) {
+//   include(locate_template('/lib/count.php'));
+// }
+?>
+
 <p class="text-center extra-padding">
   <button type="button" class="btn btn-primary btn-lg" id="count-votes" data-toggle="modal" data-target="#tally-modal" data-backdrop="static" data-keyboard="false">Count Votes!</button>
 </p>
