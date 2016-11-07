@@ -31,6 +31,14 @@ function do_count() {
   if ($i == 0) {
     update_option('election_contests', '');
     update_option('election_results', '');
+
+    // write our progress file
+    file_put_contents(
+      $uploads['basedir'] . '/count-progress.json',
+      json_encode([
+        'percentComplete' => 0
+      ])
+    );
   }
 
   // Iterate through all sites in batches
@@ -102,20 +110,13 @@ function do_count() {
   }
   update_option('election_results', json_encode($new_er));
 
-  // write our progress file
-  file_put_contents(
-    $uploads['basedir'] . '/count-progress.json',
-    json_encode([
-      'percentComplete' => 0
-    ])
-  );
-
+  // Output
   header('Content-Type: application/json');
   echo json_encode([
     'total' => $totalItems,
     'start' => $i,
-    'ec' => $new_ec,
-    'er' => $new_er
+    'ec' => count($new_ec),
+    'er' => count($new_er)
   ]);
 
   exit;
