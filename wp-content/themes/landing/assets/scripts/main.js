@@ -92,31 +92,46 @@
           }
         }
 
-        // Count votes when button is clicked
-        $('#count-votes').on('click', function() {
-
-          // Start the count
+        // Ajax call to count
+        function doCount(start) {
           $.ajax({
             type:"POST",
             url: countAjax.ajaxurl,
             data: {
               action: 'do-count',
-              countNonce: countAjax.ajaxNonce
+              countNonce: countAjax.ajaxNonce,
+              start: start
             },
             success: function(response) {
-              clearInterval(window.progressInterval);
+              console.log(response);
+              if (response.start < response.total) {
+                // Do next batch of counting
+                doCount(response.start);
+              } else {
+                // Stop polling for progress
+                clearInterval(window.progressInterval);
 
-              $('#progress-bar')
-                .attr('aria-valuenow', '100')
-                .css('width', "100%");
-              $('#progress-bar span').text("100%");
+                // Set progress bar to full
+                $('#progress-bar')
+                  .attr('aria-valuenow', '100')
+                  .css('width', "100%");
+                $('#progress-bar span').text("100%");
 
-              $('#script-progress').append(response);
+                // All done!
+                $('#script-progress').append('All done! <a href="/2016-general-election-results">Now see the results!</a>');
+              }
             },
             error: function(errorThrown){
               console.log(errorThrown);
             }
           });
+        }
+
+        // Count votes when button is clicked
+        $('#count-votes').on('click', function() {
+
+          // Start counting at 0
+          doCount(0);
 
           // Show progress
           window.progressInterval = setInterval(checkProgress, window.updatePeriod);
