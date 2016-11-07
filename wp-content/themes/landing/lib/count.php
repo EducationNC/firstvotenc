@@ -19,14 +19,14 @@ function do_count() {
   $uploads = wp_upload_dir();
 
   $i = $_POST['start'];
-  $batch_size = 2;
+  $batch_size = 10;
   $max = $i + $batch_size;
 
   // If this is a recount, delete all statewide count data and start over
   // Otherwise, append this data to existing statewide data
   if ($i == 0) {
-    update_option('election_contests', '');
-    update_option('election_results', '');
+    file_put_contents($uploads['basedir'] . '/election_contests.json', '');
+    file_put_contents($uploads['basedir'] . '/election_results.json', '');
 
     // write our progress file
     file_put_contents(
@@ -89,22 +89,28 @@ function do_count() {
     }
   }
 
-  // Update arrays of all contests and all results
-  $saved_ec = json_decode(get_option('election_contests'), true);
+  // Update all contests and all results
+  $saved_ec = json_decode(file_get_contents($uploads['basedir'] . '/election_contests.json'), true);
   if (is_array($saved_ec)) {
     $new_ec = array_merge($saved_ec, $election_contests);
   } else {
     $new_ec = $election_contests;
   }
-  update_option('election_contests', json_encode($new_ec));
+  file_put_contents(
+    $uploads['basedir'] . '/election_contests.json',
+    json_encode($new_ec)
+  );
 
-  $saved_er = json_decode(get_option('election_results'), true);
+  $saved_er = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
   if (is_array($saved_er)) {
     $new_er = array_merge(array_values($saved_er), array_values($election_results));
   } else {
     $new_er = $election_results;
   }
-  update_option('election_results', json_encode($new_er));
+  file_put_contents(
+    $uploads['basedir'] . '/election_results.json',
+    json_encode($new_er)
+  );
 
   // Output
   header('Content-Type: application/json');
