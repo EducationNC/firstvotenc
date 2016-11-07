@@ -1,15 +1,165 @@
-.data-table {
-  .google-visualization-table, .google-visualization-table-table {
+.results.students {
+  .main {
     width: 100%;
   }
 
-  .google-visualization-table-th {
-    width: 25%;
-    white-space: normal;
-    vertical-align: bottom;
+  .global-footer {
+    display: block;
+    background: $white;
+  }
+}
+
+.results-affix-container {
+  height: 40px;
+
+  .h3 {
+    margin: 0;
+  }
+}
+
+.result-chart {
+  .highcharts-color-0 {
+    fill: $plum;
+  }
+
+  .republican {
+    fill: $scarlet;
+  }
+
+  .democrat {
+    fill: $navy;
+  }
+
+  .libertarian, .independent {
+    fill: $gold;
+  }
+
+  .highcharts-axis-labels.highcharts-xaxis-labels {
+    span {
+      text-align: right !important;
+      left: 10px !important;
+      width: 90px !important;
+      white-space: normal !important;
+    }
+  }
+
+  .highcharts-data-label {
+    span {
+      font-size: 13px !important;
+      padding: 3px 5px;
+      background: $white-50;
+    }
+  }
+
+  .highcharts-title {
+    text-align: center !important;
+  }
+
+  .highcharts-subtitle {
+    // left: 20px !important;
   }
 }
 
 .table-results {
-  
+  table {
+    overflow: hidden;
+    background: $white;
+  }
+
+  thead {
+    th {
+      text-align: center;
+
+      &.precinct {
+        background: $steel;
+        border-bottom: none;
+        border-top: none;
+      }
+    }
+  }
+
+  th {
+    border-color: $white !important;
+  }
+
+  td {
+    border: 5px solid $white;
+    background: $heather;
+    text-align: center;
+    vertical-align: middle !important;
+    position: relative;
+
+    small {
+      position: absolute;
+      font-weight: normal;
+      top: 3px;
+      right: 3px;
+    }
+
+    &.precinct {
+      border-color: $steel;
+    }
+
+    &.winner {
+      background: $plum-darker;
+    }
+
+    &.statewide {
+      background: $steel;
+
+      &.winner {
+        background: $plum;
+      }
+    }
+  }
+
+  .total {
+    th, td {
+      background: $white;
+      border: none;
+      // border-top: 5px solid $white;
+
+      &.precinct {
+        background: $steel;
+      }
+    }
+  }
+
+  .winner {
+    color: $white;
+    font-weight: bold;
+    // border-width: 1px;
+    // border-color: $white !important;
+  }
+
+  .republican {
+    &.winner {
+      background: $scarlet-darker;
+
+      &.statewide {
+        background: $scarlet;
+      }
+    }
+  }
+
+  .democrat {
+    &.winner {
+      background: $navy-darker;
+
+      &.statewide {
+        background: $navy;
+      }
+    }
+  }
+
+  .libertarian, .independent {
+    &.winner {
+      background: $gold-darker;
+
+      &.statewide {
+        background: $gold;
+      }
+    }
+  }
+
 }

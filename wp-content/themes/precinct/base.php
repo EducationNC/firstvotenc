@@ -5,9 +5,11 @@ use Roots\Sage\Wrapper;
 $class = '';
 if ( isset($_GET['post_submitted']) ) {
   $class = 'exit-poll';
+} elseif ( isset($_GET['results']) ) {
+  $class = 'results students';
 } elseif ( isset($_GET['edit']) || isset($_GET['add']) || isset($_GET['manage'])) {
   $class = 'edit-election';
-} elseif ( is_singular('election') && !isset($_GET['edit']) ) {
+} elseif ( is_singular('election') ) {
   $class = 'ballot';
 } else {
   $class = 'students';

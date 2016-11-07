@@ -1,4 +1,46 @@
+.results.students {
+  .main {
+    width: 100%;
+  }
+}
+
+.results-affix-container {
+  height: 40px;
+
+  .h3 {
+    margin: 0;
+  }
+}
+
+.page-results {
+  background-image: url('../images/background-gym.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+  .banner {
+    background: $white;
+  }
+
+  .page-header {
+    background: none;
+  }
+
+  .precinct .col-centered {
+    background: $white;
+    padding-top: 1em;
+    padding-bottom: 5em;
+  }
+
+  .global-footer {
+    // display: none;
+    background: $white;
+  }
+}
+
 .result-chart {
+  margin-bottom: 1em;
+
   .highcharts-color-0 {
     fill: $plum;
   }
@@ -16,11 +58,135 @@
   }
 
   .highcharts-axis-labels.highcharts-xaxis-labels {
-    // width: 100px;
-
     span {
-      text-align: left !important;
-      left: 0 !important;
+      text-align: right !important;
+      left: 10px !important;
+      width: 90px !important;
+      white-space: normal !important;
     }
   }
+
+  .highcharts-data-label {
+    span {
+      font-size: 13px !important;
+      padding: 3px 5px;
+      background: $white-50;
+    }
+  }
+
+  .highcharts-title {
+    text-align: center !important;
+  }
+
+  .highcharts-subtitle {
+    // left: 115px !important;
+    // width: calc(100% - 120px) !important;
+    // white-space: normal !important;
+  }
+}
+
+.table-results {
+  table {
+    overflow: hidden;
+    background: $white;
+  }
+
+  thead {
+    th {
+      text-align: center;
+
+      &.precinct {
+        background: $steel;
+        border-bottom: none;
+        border-top: none;
+      }
+    }
+  }
+
+  th {
+    border-color: $white !important;
+  }
+
+  td {
+    border: 5px solid $white;
+    background: $heather;
+    text-align: center;
+    vertical-align: middle !important;
+    position: relative;
+    line-height: 2.5em;
+
+    small {
+      position: absolute;
+      font-weight: normal;
+      top: 3px;
+      right: 3px;
+      line-height: 1;
+    }
+
+    &.precinct {
+      border-color: $steel;
+    }
+
+    &.winner {
+      background: $plum-darker;
+    }
+
+    &.statewide {
+      background: $steel;
+
+      &.winner {
+        background: $plum;
+      }
+    }
+  }
+
+  .total {
+    th, td {
+      background: $white;
+      border: none;
+      // border-top: 5px solid $white;
+
+      &.precinct {
+        background: $steel;
+      }
+    }
+  }
+
+  .winner {
+    color: $white;
+    font-weight: bold;
+    // border-width: 1px;
+    // border-color: $white !important;
+  }
+
+  .republican {
+    &.winner {
+      background: $scarlet-darker;
+
+      &.statewide {
+        background: $scarlet;
+      }
+    }
+  }
+
+  .democrat {
+    &.winner {
+      background: $navy-darker;
+
+      &.statewide {
+        background: $navy;
+      }
+    }
+  }
+
+  .libertarian, .independent {
+    &.winner {
+      background: $gold-darker;
+
+      &.statewide {
+        background: $gold;
+      }
+    }
+  }
+
 }

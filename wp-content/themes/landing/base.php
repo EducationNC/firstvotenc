@@ -2,12 +2,16 @@
 
 use Roots\Sage\Wrapper;
 
+$class = '';
+if ( is_page('2016-general-election-results') ) {
+  $class = 'page-results';
+}
 ?>
 
 <!doctype html>
 <html <?php language_attributes(); ?>>
   <?php get_template_part('templates/layouts/head'); ?>
-  <body <?php body_class(); ?>>
+  <body <?php body_class($class); ?>>
     <a class="sr-only sr-only-focusable" href="#document">Skip to main content</a>
     <!--[if IE]>
       <div class="alert alert-warning">

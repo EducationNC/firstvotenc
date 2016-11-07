@@ -3,7 +3,7 @@
 }
 
 .page-header {
-  &.photo-overlay {
+  body:not(.page-results) &.photo-overlay {
     position: relative;
     margin-bottom: 2em;
     background-position: center;
