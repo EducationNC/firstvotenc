@@ -29,7 +29,6 @@
   </thead>
   <tbody>
     <?php
-    /*
     $i = 1;
     if(is_multisite()){
         global $wpdb;
@@ -87,7 +86,6 @@
             }
         }
     }
-    */
     ?>
   </tbody>
 </table>
