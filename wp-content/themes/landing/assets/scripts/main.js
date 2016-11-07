@@ -34,9 +34,95 @@
       }
     },
     // About us page, note the change from about-us to about_us.
-    'about_us': {
+    'audit': {
       init: function() {
-        // JavaScript to be fired on the about us page
+
+        // Set up variables to show progress
+        window.progressInterval;
+        window.pollingPeriod = 1000;
+        window.updatePeriod  = 250;
+        window.lastData = null;
+        window.lastUpdate;
+
+        // Count votes when button is clicked
+        $('#count-votes').on('click', function() {
+
+          // Start the count
+          $.ajax({
+            type:"POST",
+            url: countAjax.ajaxurl,
+            data: {
+              action: 'do-count',
+              countNonce: countAjax.ajaxNonce
+            },
+            success: function(response) {
+              clearInterval(window.progressInterval);
+
+              $('#progress-bar')
+                .attr('aria-valuenow', '100')
+                .css('width', "100%");
+              $('#progress-bar span').text("100%");
+
+              $('#script-progress').append(response);
+            },
+            error: function(errorThrown){
+              console.log(errorThrown);
+            }
+          });
+
+          // Show progress
+          window.progressInterval = setInterval(checkProgress, window.updatePeriod);
+
+        });
+
+        function checkProgress(createStatusBars){
+          if(typeof createStatusBars === "undefined") createStatusBars = false;
+          if(window.finished === true) return;
+
+          url = countAjax.uploads + "/count-progress.json";
+
+          var d = new Date();
+          var n = d.getTime();
+
+          if((n - window.lastUpdate) > window.pollingPeriod || window.lastData == null) {
+            // Refetch progress
+            $.getJSON(url, function(data){
+              var d = new Date();
+              window.lastUpdate = d.getTime();
+              window.lastData = data;
+              updateDisplay(data);
+              return null;
+            }).fail(function(){
+              clearInterval(window.progressInterval);
+            });
+
+          } else {
+            // Use most recent data
+            var data = $.extend({},window.lastData);
+            updateDisplay(data);
+
+          }
+        }
+
+        function updateDisplay(data){
+          if ( $('#progress-bar').length < 1 ) {
+            $('#script-progress').append($('<div id="progress" class="progress"><div id="progress-bar" class="progress-bar"><span></span></div></div>'));
+            $('#progress-bar').css('width', '0%')
+              .attr('aria-valuenow', 0)
+              .attr('aria-valuemin', 0)
+              .attr('aria-valuemax', 100);
+            console.log("Created Status Bars");
+          }
+
+          var percent = data.percentComplete;
+
+          $('#progress-bar')
+            .attr('aria-valuenow', percent*100)
+            .css('width', Math.ceil(percent*100) + "%");
+          $('#progress-bar span').text(Math.ceil(percent*100) + "%");
+
+        }
+
       }
     }
   };

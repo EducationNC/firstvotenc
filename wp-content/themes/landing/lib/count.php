@@ -1,7 +1,15 @@
 <?php
-// add_action('wp_ajax_my_action', 'do_count');
-//
-// function do_count() {
+add_action('wp_ajax_nopriv_co-count', 'do_count' );
+add_action('wp_ajax_do-count', 'do_count');
+
+function do_count() {
+
+  $nonce = $_POST['countNonce'];
+
+  // check to see if the submitted nonce matches with the
+  // generated nonce we created earlier
+  if ( ! wp_verify_nonce( $nonce, 'count-ajax-nonce' ) )
+    die( 'Busted!');
 
   // Prevent Timeout
   set_time_limit(0);
@@ -12,12 +20,15 @@
   $election_results = array();
   $election_results[] = array_merge(['blog_id'], $statewide_races);
 
+  $uploads = wp_upload_dir();
+
   // Iterate through all sites
   $i = 1;
   if(is_multisite()){
     global $wpdb;
     $blogs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->blogs WHERE spam = '%d' AND deleted = '%d' and archived = '%d' and public='%d'", 0, 0, 0, 0));
     if(!empty($blogs)){
+      $totalItems = count($blogs);
       foreach($blogs as $blog){
         switch_to_blog($blog->blog_id);
         $details = get_blog_details($blog->blog_id);
@@ -49,6 +60,16 @@
 
         endwhile; endif; wp_reset_postdata();
         restore_current_blog();
+
+        $i++;
+
+        // write our progress file
+        file_put_contents(
+          $uploads['basedir'] . '/count-progress.json',
+          json_encode([
+            'percentComplete' => $i/$totalItems
+          ])
+        );
       }
     }
   }
@@ -56,9 +77,18 @@
   update_option('election_contests', json_encode($election_contests));
   update_option('election_results', json_encode($election_results));
 
-//
-//   die();
-// }
+  echo 'All done! <a href="/2016-general-election-results">Now see the results!</a>';
+
+  // write our progress file
+  file_put_contents(
+    $uploads['basedir'] . '/count-progress.json',
+    json_encode([
+      'percentComplete' => 0
+    ])
+  );
+
+  exit;
+}
 
 // Function to count votes
 function count_votes($election_id, $contest_title, $option) {
