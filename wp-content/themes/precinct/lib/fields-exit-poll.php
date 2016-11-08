@@ -1,5 +1,7 @@
 <?php
 
+namespace Roots\Sage\CMB;
+
 $prefix = '_cmb_';
 
 $ep_fields = [
