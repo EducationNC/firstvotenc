@@ -27,6 +27,12 @@
     }
   }
 
+  .entry-summary {
+    small {
+      color: $raven;
+    }
+  }
+
   .global-footer {
     display: block;
     background: $white;

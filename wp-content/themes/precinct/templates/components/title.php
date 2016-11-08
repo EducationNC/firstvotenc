@@ -38,7 +38,8 @@ if (get_post_type() == 'election' && !isset($_GET['edit']) && !isset($_GET['resu
           <li role="presentation" <?php if ($type == 'general') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'general'); ?>">National/Statewide Contest Results</a></li>
           <li role="presentation" <?php if ($type == 'local') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'local'); ?>">Local Contest Results</a></li>
           <li role="presentation" <?php if ($type == 'issues') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'issues'); ?>">Issue-Based Question Results</a></li>
-          <li role="presentation" <?php if ($type == 'participation') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'participation'); ?>">Participation Data</a></li>
+          <li role="presentation" <?php if ($type == 'participation') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'participation'); ?>">Exit Poll Data</a></li>
+          <li role="presentation" <?php if ($type == 'precincts') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'precincts'); ?>">Other Precincts</a></li>
         </ul>
       <?php } ?>
     <?php } elseif (isset($_GET['add'])) { ?>
