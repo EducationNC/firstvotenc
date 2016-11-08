@@ -40,9 +40,9 @@ foreach ($ep_fields as $ep_field) {
   $ep_data = array_column($results, $ep_field['id']);
 
   echo '<pre class="hidden">';
-  // Clean html entities (quotations encoded weirdly)
+  // Clean html entities (quotations encoded weirdly) - but html_entity_decode() isn't working on prod server. Also weird.
   foreach ($ep_data as &$clean) {
-    $clean = html_entity_decode($clean, ENT_COMPAT, 'UTF-8');
+    $clean = preg_replace('/^don(.*)/i', 'Don\'t know', $clean);
     var_dump($clean);
   }
   print_r($ep_data);
