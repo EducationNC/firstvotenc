@@ -45,7 +45,7 @@ foreach ($ep_fields as $ep_field) {
     $clean = html_entity_decode($clean);
     var_dump($clean);
   }
-  print_r($ep_data;
+  print_r($ep_data);
   echo '</pre>';
 
   // Set up array tables
