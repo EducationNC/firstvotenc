@@ -3,28 +3,15 @@
 use Roots\Sage\Setup;
 use Roots\Sage\Titles;
 
+get_template_part('templates/components/title', get_post_type());
 ?>
-<header class="page-header container">
-  <div class="row">
-    <h1 class="entry-title">
-      <?= Titles\title(); ?>
-      <?php if (isset($_GET['contest'])) { ?>
-        <small><a class="btn btn-sm btn-default btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a></small>
-      <?php } ?>
-    </h1>
-
-    <?php if (isset($_GET['contest'])) {
-      $race = $_GET['contest'];
-      $contests = json_decode(get_option('election_contests'), true);
-      echo '<h2>' . $contests[$race]['title'] . '</h2>';
-    } ?>
-  </div>
-</header>
 
 <div class="container">
   <?php
     if (isset($_GET['contest'])) {
       get_template_part('templates/layouts/results', 'contest');
+    } elseif ($_GET['results'] == 'participation') {
+      get_template_part('templates/layouts/results', 'participation');
     } else {
       get_template_part('templates/layouts/results');
     }

@@ -3,7 +3,6 @@
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="http://code.highcharts.com/modules/offline-exporting.js"></script>
 
-
 <script type="text/javascript">
   Highcharts.setOptions({
     lang: {
@@ -16,6 +15,8 @@
 $uploads = wp_upload_dir();
 $results = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
 $contests = json_decode(file_get_contents($uploads['basedir'] . '/election_contests.json'), true);
+
+$type = $_GET['results'];
 
 // echo '<pre>';
 // print_r($results);
@@ -32,6 +33,21 @@ foreach ($races as $race) {
     $total = $all-$none-$null;
 
     $counts = array();
+
+    // Only show type of results for the tab we're on
+    if ($type == 'nonpartisan') {
+      if (isset($contests[$race]['candidates'][0]['party']) || isset($contests[$race]['question'])) {
+        continue;
+      }
+    } elseif ($type == 'issues') {
+      if (!isset($contests[$race]['question'])) {
+        continue;
+      }
+    } else {
+      if (!isset($contests[$race]['candidates'][0]['party']) || isset($contests[$race]['question'])) {
+        continue;
+      }
+    }
 
     // Count number of votes per contestant
     if (isset($contests[$race]['candidates'])) {
@@ -56,13 +72,13 @@ foreach ($races as $race) {
     }
     ?>
 
-    <div class="row">
+    <div class="row extra-bottom-margin">
       <div class="col-sm-4">
         <h2 class="h3"><?php echo $contests[$race]['title']; ?></h2>
         <?php if (!empty($contests[$race]['question'])) { ?>
           <h3 class="h4"><?php echo $contests[$race]['question']; ?></h3>
         <?php } ?>
-        <a class="btn btn-default" href="<?php echo add_query_arg('contest', $race); ?>">Explore results by exit poll</a>
+        <a class="btn btn-gray" href="<?php echo add_query_arg('contest', $race); ?>">Explore these results by exit poll</a>
       </div>
 
       <div class="col-sm-8">

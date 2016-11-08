@@ -29,8 +29,17 @@ if (get_post_type() == 'election' && !isset($_GET['edit']) && !isset($_GET['resu
         ?>
         <h2>
         <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
-        <small><a class="btn btn-sm btn-default btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a></small>
+        <small><a class="btn btn-sm btn-gray btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a></small>
         </h2>
+      <?php } else {
+        $type = $_GET['results'];
+        ?>
+        <ul class="nav nav-tabs">
+          <li role="presentation" <?php if ($type == 'general') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'general'); ?>">National/Statewide Contest Results</a></li>
+          <li role="presentation" <?php if ($type == 'local') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'local'); ?>">Local Contest Results</a></li>
+          <li role="presentation" <?php if ($type == 'issues') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'issues'); ?>">Issue-Based Question Results</a></li>
+          <li role="presentation" <?php if ($type == 'participation') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'participation'); ?>">Participation Data</a></li>
+        </ul>
       <?php } ?>
     <?php } elseif (isset($_GET['add'])) { ?>
       <h1 class="entry-title">
