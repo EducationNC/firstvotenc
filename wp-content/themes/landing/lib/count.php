@@ -204,7 +204,8 @@ function precinct_contests($ballot_data, $included_races, $custom, $issues) {
         $precinct_contests[$ballot_section->section]['_cmb_ballot_' . $sanitized_title] = [
           'title' => $race->ballot_title,
           'district' => $race->district,
-          'sanitized_title' => '_cmb_ballot_' . $sanitized_title
+          'sanitized_title' => '_cmb_ballot_' . $sanitized_title,
+          'number' => $race->votes_allowed
         ];
 
         foreach ($race->candidates as $can) {
@@ -231,8 +232,23 @@ function precinct_contests($ballot_data, $included_races, $custom, $issues) {
       $sanitized_title = '_cmb_ballot_' . sanitize_title($contest['title']);
       $precinct_contests[$contest['section']][$sanitized_title] = [
         'title' => $contest['title'],
-        'sanitized_title' => '_cmb_ballot_' . $sanitized_title
+        'sanitized_title' => $sanitized_title,
+        'number' => $contest['votes_allowed']
       ];
+
+      $candidates = explode("\n", str_replace("\r", "", $contest['candidates']));
+      foreach ($candidates as $c_key => $candidate) {
+        // Get party
+        preg_match('/\(([A-Za-z0-9 ]+?)\)/', $candidate, $party);
+
+        if (!empty($party[0])) {
+          $precinct_contests[$contest['section']][$sanitized_title]['candidates'][$c_key]['party'] = $party[1];
+
+          $candidate = str_replace($party[0], '', $candidate);
+        }
+
+        $precinct_contests[$contest['section']][$sanitized_title]['candidates'][$c_key]['name'] = $candidate;
+      }
     }
   }
 
@@ -304,6 +320,8 @@ function precinct_votes($blog_id, $election_id, $statewide_races, $ep_fields, $p
     foreach ($columns_contests as $contest) {
       if (isset($ballot_responses[$contest])) {
         $row_votes[$contest] = str_replace(['&lt;br /&gt;', '(', ')', ', Jr'], [' & ', '"', '"', ' Jr'], implode(', ', $ballot_responses[$contest]));
+      } else {
+        $row_votes[$contest] = NULL;
       }
     }
 
