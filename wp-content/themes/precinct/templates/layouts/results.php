@@ -157,8 +157,7 @@ if (isset($_GET['contest'])) {
         <div class="<?php if ($type == 'local' || !in_array($race, $races_statewide)) { echo 'col-sm-4'; } else { echo 'col-sm-12'; } ?>">
           <h2 class="h3">
             <?php
-            echo $contests[$match[0][0][0]][$race]['title'];
-            echo $contests[$match[0][0][0]][$race]['district'];
+            echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district'];
             if (isset($question)) {
               echo ' <small>' . $question . '</small>';
             }

@@ -31,6 +31,12 @@ if (get_post_type() == 'election' && !isset($_GET['edit']) && !isset($_GET['resu
         <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
         <small><a class="btn btn-sm btn-gray btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a></small>
         </h2>
+        <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
+          <div class="h2"><small><?php echo $contests[$match[0][0][0]][$race]['question']; ?></small></div>
+        <?php } ?>
+        <?php if (!empty($contests[$match[0][0][0]][$race]['number']) && !is_numeric($contests[$match[0][0][0]][$race]['number'])) { ?>
+          <div class="h2"><small><?php echo $contests[$match[0][0][0]][$race]['number']; ?></small></div>
+        <?php } ?>
       <?php } else {
         $type = $_GET['results'];
         ?>

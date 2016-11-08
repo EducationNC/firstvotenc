@@ -22,8 +22,11 @@ $featured_image_lg = wp_get_attachment_image_src($image_id, 'large');
               ?>
               <h2>
               <?php echo $contests[$race]['title']; ?>
-              <small><a class="btn btn-sm btn-gray btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a></small>
+              <a class="btn btn-sm btn-gray btn-small" href="<?php echo remove_query_arg('contest'); ?>">Back to all results</a>
               </h2>
+              <?php if (isset($contests[$race]['question'])) { ?>
+                <div class="h2"><small><?php echo $contests[$race]['question']; ?></small></div>
+              <?php } ?>
             <?php } else {
               $type = $_GET['results'];
               ?>
