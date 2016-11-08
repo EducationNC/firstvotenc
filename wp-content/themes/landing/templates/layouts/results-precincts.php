@@ -5,9 +5,6 @@ $results = json_decode(file_get_contents($uploads['basedir'] . '/election_result
 
 $blog_ids = array_unique(array_column($results, 'blog_id'));
 
-locate_template('/lib/google-auth.php', true, true);
-$api_key = google_api_key();
-
 // echo '<pre>';
 // print_r($blog_ids);
 // echo '</pre>';
@@ -19,7 +16,6 @@ if ( false === ( $precinct_results_table = get_transient( 'precinct_results_tabl
         <thead>
           <tr>
             <th scope="col">Precinct</th>
-            <th scope="col">County</th>
             <th scope="col">Votes</th>
           </tr>
         </thead>
@@ -32,28 +28,6 @@ if ( false === ( $precinct_results_table = get_transient( 'precinct_results_tabl
                 if ($details->blogname !== 'North Carolina') { ?>
                   <tr>
                     <td><a href="<?php echo get_the_permalink(); ?>&results=general" target="_blank"><?php echo $details->blogname; ?></a></td>
-                    <?php
-                		// Get geocoded address
-                		$api_get = wp_remote_get('https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode(str_replace(' - ', ', ', $details->blogname)) . '&key=' . $api_key);
-
-                		if ( ! is_wp_error( $api_get ) ) {
-                			$result = json_decode($api_get['body']);
-
-                      foreach ($result->results[0]->address_components as $c) {
-                        if (in_array('administrative_area_level_2', $c->types)) {
-                          echo '<td>' . $c->short_name . '</td>';
-                        }
-                      }
-                      // echo '<td>'.$result->results->
-                      // echo '<td colspan="2">';
-                      // var_dump($result);
-                      // echo '</td>';
-                		} else {
-                      echo '<td>';
-                			echo $api_get->get_error_message();
-                      echo '</td>';
-                		}
-                    ?>
                     <td>
                       <?php
                       $n = new WP_Query([
