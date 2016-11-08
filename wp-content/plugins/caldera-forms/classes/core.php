@@ -50,6 +50,14 @@ class Caldera_Forms {
 	 */
 	private  static $internal_init = false;
 
+	/**
+	 * Holds modal HTML to be loaded in footer
+	 *
+	 * @since 1.4.2
+	 *
+	 * @var string
+	 */
+	protected static $footer_modals;
 
 	/**
 	 * Initialize the plugin by setting localization, filters, and administration functions.
@@ -102,6 +110,8 @@ class Caldera_Forms {
 			add_action( 'wp_ajax_cf_email_save', array( 'Caldera_Forms_Email_Settings', 'save' ) );
 		}
 
+		add_action( 'caldera_forms_render_start', array( __CLASS__, 'easy_pods_queries_setup' ) );
+
 
 		if( current_user_can( Caldera_Forms::get_manage_cap( 'admin' ) ) ) {
 			$id = null;
@@ -150,6 +160,30 @@ class Caldera_Forms {
 	public static function get_forms( $internal = false ){
 		return Caldera_Forms_Forms::get_forms( true, $internal );
 
+	}
+
+	/**
+	 * Load a field from form
+	 *
+	 * @since 1.4.2
+	 *
+	 * @param array $form Form config
+	 * @param string $field_base_id Field ID
+	 *
+	 * @return array
+	 */
+	public static function load_field( $form, $field_base_id ) {
+		/**
+		 * Filter the field setup before render
+		 *
+		 * @since unknown
+		 *
+		 * @param string $notice Notices HTML
+		 * @param array $config Form config
+		 */
+		$field = apply_filters( 'caldera_forms_render_setup_field', $form[ 'fields' ][ $field_base_id ], $form );
+
+		return $field;
 	}
 
 	/**
@@ -1602,8 +1636,9 @@ class Caldera_Forms {
 			$field['config']['option'] = array();
 			switch($field['config']['auto_type']){
 				case 'post_type':
+				case 'easy-query' :
 
-					if( ! isset( $field[ 'config' ][ 'orderby_tax' ] ) ) {
+					if( ! isset( $field[ 'config' ][ 'orderby_post' ] ) ) {
 						$field[ 'config' ][ 'orderby_post' ] = 'date';
 					}
 
@@ -1627,9 +1662,10 @@ class Caldera_Forms {
 					 * @param array $args  Args for WP_Query
 					 * @param array $form Form config
 					 */
-					$args  = apply_filters( 'caldera_forms_autopopulate_post_type_args', $args );
+					$args  = apply_filters( 'caldera_forms_autopopulate_post_type_args', $args, $field );
 
 					$posts = get_posts( $args );
+
 					if( $field[ 'config' ][ 'value_field' ] === 'id' ){
 						$field[ 'config' ][ 'value_field' ] = 'ID';
 					}elseif( $field[ 'config' ][ 'value_field' ] === 'name' ){
@@ -3780,18 +3816,7 @@ class Caldera_Forms {
 		//theres forms, bring in the globals
 		wp_enqueue_style( 'cf-field-styles' );
 
-		$style_includes = get_option( '_caldera_forms_styleincludes' );
-		$style_includes = apply_filters( 'caldera_forms_get_style_includes', $style_includes);
-
-		if(!empty($style_includes['grid'])){
-			wp_enqueue_style( 'cf-grid-styles' );
-		}
-		if(!empty($style_includes['form'])){
-			wp_enqueue_style( 'cf-form-styles' );
-		}
-		if(!empty($style_includes['alert'])){
-			wp_enqueue_style( 'cf-alert-styles' );
-		}
+		Caldera_Forms_Render_Assets::optional_style_includes();
 
 		foreach( $page_forms as $form_id ){
 			// has form get  stuff for it
@@ -4281,8 +4306,6 @@ class Caldera_Forms {
 	 * @return string
 	 */
 	static public function render_modal_form($atts, $content){
-		_deprecated_function( __FUNCTION__, '1.3.1', __( 'Use [caldera_forms id="cf.." modal="true"]Click Me[/caldera_forms]', 'caldera-forms' ) );
-		global $footer_modals;
 
 		if(empty($atts['id'])){
 			return $content;
@@ -4325,10 +4348,9 @@ class Caldera_Forms {
 			$width = ' width: ' . floatval( $atts['width'] ).'px; margin-left: -' . ( floatval( $atts['width'] ) / 2 ) . 'px;';
 		}
 
-
 		ob_start();
 		?>
-		<div id="<?php echo $modal_id; ?>" class="caldera-front-modal-container" <?php echo $current_state; ?>>
+		<div id="<?php echo esc_attr( $modal_id ); ?>" class="caldera-front-modal-container" <?php echo $current_state; ?> data-form-id="<?php echo esc_attr( $modal_id ); ?>">
 			<div class="caldera-backdrop"></div>
 			<div id="<?php echo $modal_id; ?>_modal_wrap" tabindex="-1" arialabelled-by="<?php echo $modal_id; ?>_modal_label" class="caldera-modal-wrap caldera-front-modal-wrap" style="display: block; <?php echo $width; ?>">
 				<div class="caldera-modal-title" id="<?php echo $modal_id; ?>_modal_title" style="display: block;">
@@ -4341,27 +4363,32 @@ class Caldera_Forms {
 			</div>
 		</div>
 		<?php
-		$footer_modals .= ob_get_clean();
+		self::$footer_modals .= ob_get_clean();
 		return $out;
 	}
 
 	/**
 	 * Print modal content in footer.
+	 *
+	 * @since unknown
+	 *
+	 * @uses "wp_footer"
 	 */
 	static public function render_footer_modals(){
-		global $footer_modals;
-		if(!empty($footer_modals)){
+		$footer_modals = self::$footer_modals;
+		if ( ! empty( $footer_modals ) && is_string( $footer_modals ) ) {
 			echo $footer_modals;
 		}
+
 	}
 
 	/**
-	 * Create HTML markup for a form.
+	 * Create HTML markup for a field.
 	 *
 	 * @since unknown
 	 *
 	 * @param array|string $field Form ID or shortcode atts or form config array
-	 * @param array|null $form Optional Form to laod field from. Not neccasary, but helps the filters out.
+	 * @param array|null $form Optional Form to load field from. Not necessary, but helps the filters out.
 	 * @param array $entry_data Optional. Entry data to populate field with. Null, the default, loads form for creating a new entry.
 	 *
 	 * @return void|string HTML for form, if it was able to be loaded,
@@ -4622,24 +4649,7 @@ class Caldera_Forms {
 
 		do_action('caldera_forms_render_start', $form);
 
-		$style_includes = get_option( '_caldera_forms_styleincludes' );
-
-		/**
-		 * Disable/enable including of front-end styles
-		 *
-		 * @param bool $style_includes To include or not. Default is value of option "_caldera_forms_styleincludes"
-		 */
-		$style_includes = apply_filters( 'caldera_forms_get_style_includes', $style_includes);
-
-		if(!empty($style_includes['grid'])){
-			wp_enqueue_style( 'cf-grid-styles' );
-		}
-		if(!empty($style_includes['form'])){
-			wp_enqueue_style( 'cf-form-styles' );
-		}
-		if(!empty($style_includes['alert'])){
-			wp_enqueue_style( 'cf-alert-styles' );
-		}
+		Caldera_Forms_Render_Assets::optional_style_includes();
 
 		// fallback for function based rendering in case it missed detection
 		wp_enqueue_style( 'cf-field-styles' );
@@ -4918,20 +4928,10 @@ class Caldera_Forms {
 		if(!empty($form['layout_grid']['fields'])){
 
 			foreach($form['layout_grid']['fields'] as $field_base_id=>$location){
-				// instance base
-				if(isset($form['fields'][$field_base_id])){
 
+				if(isset($form['fields'][$field_base_id]) ) {
+					$field = self::load_field( $form, $field_base_id );
 
-
-					/**
-					 * Filter the field setup before render
-					 *
-					 * @since unknown
-					 *
-					 * @param string $notice Notices HTML
-					 * @param array $config Form config
-					 */
-					$field = apply_filters( 'caldera_forms_render_setup_field', $form['fields'][$field_base_id], $form);
 
 					if(empty($field) || !isset($field_types[$field['type']]['file']) || !file_exists($field_types[$field['type']]['file'])){
 						continue;
@@ -4939,28 +4939,9 @@ class Caldera_Forms {
 
 					$field['grid_location'] = $location;
 
-					if( !empty( $field_types[$field['type']]['styles'])){
-						foreach($field_types[$field['type']]['styles'] as $style){
-							if( false !== strpos($style, '//')){
-								wp_enqueue_style( 'cf-' . sanitize_key( basename( $style ) ), $style, array(), self::VERSION );
-							}else{
-								wp_enqueue_style( $style );
-							}
-						}
-					}
 
-					//enqueue scripts
-					if( !empty( $field_types[$field['type']]['scripts'])){
-						// check for jquery deps
-						$depts[] = 'jquery';
-						foreach($field_types[$field['type']]['scripts'] as $script){
-							if( false !== strpos($script, '//')){
-								wp_enqueue_script( 'cf-' . sanitize_key( basename( $script ) ), $script, $depts, self::VERSION );
-							}else{
-								wp_enqueue_script( $script );
-							}
-						}
-					}
+					Caldera_Forms_Render_Assets::enqueue_field_scripts( $field_types, $field );
+
 
 					$field_base_id = $field['ID'] . '_' . $current_form_count;
 
@@ -4972,10 +4953,7 @@ class Caldera_Forms {
 					$field_html = self::render_field( $field, $form, $prev_data, $field_error );
 					// conditional wrapper
 					if(!empty($field['conditions']['group']) && !empty($field['conditions']['type']) ){
-						// render conditions check- for magic tags since at this point all field data will be null
-						//if(!self::check_condition($field['conditions'], $form)){
-						//	dump($field['conditions'],0);
-						//}
+
 						$conditions_configs[$field_base_id] = $field['conditions'];
 
 						if( $field['conditions']['type'] !== 'disable' ){
@@ -5004,7 +4982,9 @@ class Caldera_Forms {
 
 				}
 			}
+
 		}
+
 		// form object strings
 		wp_localize_script( 'cf-dynamic', $form['ID'] . '_' . $current_form_count, $form_field_strings );
 
@@ -5266,7 +5246,6 @@ class Caldera_Forms {
 		do_action('caldera_forms_render_end', $form);
 
 		wp_enqueue_script( 'cf-field' );
-		//wp_enqueue_script( 'cf-polyfiller' );
 		wp_enqueue_script( 'cf-validator' );
 		wp_enqueue_script( 'cf-validator-i18n' );
 
@@ -5387,6 +5366,24 @@ class Caldera_Forms {
 		$time = get_date_from_gmt( $submitted, $format );
 
 		return $time;
+	}
+
+	/**
+	 * Setup auto-population options for Easy Pods and Easy Queries
+	 *
+	 * @since 1.4.3
+	 *
+	 * @uses "caldera_forms_render_start" action
+	 */
+	public static function easy_pods_queries_setup(){
+		if ( version_compare( phpversion(), '5.3.0', '>=' )  ) {
+			if ( function_exists( 'cep_get_easy_pod' ) || defined( 'CAEQ_PATH' ) ) {
+				$setup = new Caldera_Forms_Render_AutoPopulation();
+				$setup->add_hooks();
+			}
+		}
+
+
 	}
 
 }

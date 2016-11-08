@@ -125,6 +125,8 @@ class Caldera_Forms_Admin {
 
 		add_filter( 'caldera_forms_manage_cap', array( __CLASS__ , 'save_form_cap_filter' ), 9, 3 );
 
+		add_action( 'caldera_forms_prerender_edit', array( __CLASS__, 'easy_pods_auto_populate' ) );
+
 		/**
 		 * Runs after Caldera Forms admin is initialized
 		 *
@@ -1092,10 +1094,11 @@ class Caldera_Forms_Admin {
 		wp_enqueue_style( $this->plugin_slug . '-admin-icon-styles', CFCORE_URL . 'assets/css/dashicon.css', array(), self::VERSION );
 
 		if ( $screen->base === 'post' ) {
-			wp_enqueue_style( $this->plugin_slug . '-modal-styles', CFCORE_URL . 'assets/css/modals.css', array(), self::VERSION );
-			wp_enqueue_script( $this->plugin_slug . '-shortcode-insert', CFCORE_URL . 'assets/js/shortcode-insert.min.js', array( 'jquery' ), self::VERSION );
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
+			wp_enqueue_style( $this->plugin_slug . '-modal-styles', CFCORE_URL . 'assets/css/modals.css', array( 'wp-color-picker' ), self::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-shortcode-insert', CFCORE_URL . 'assets/js/shortcode-insert.min.js', array( 'jquery', 'wp-color-picker' ), self::VERSION );
+
 		}
 
 		if ( ! in_array( $screen->base, $this->screen_prefix ) ) {
@@ -1928,6 +1931,26 @@ class Caldera_Forms_Admin {
 		}
 
 		return $cap;
+
+	}
+
+	/**
+	 * Add Easy Pods as an auto-populate option in admin
+	 *
+	 * @since 1.4.3
+	 *
+	 * @uses "caldera_forms_prerender_edit" action
+	 */
+	public static function  easy_pods_auto_populate(){
+		if( version_compare( phpversion(), '5.3.0', '>=' ) ){
+			if( class_exists( 'Caldera_Easy_Pods' ) ){
+				new Caldera_Forms_Admin_APEasyPods;
+			}
+
+			if( defined( 'CAEQ_PATH' ) ){
+				new Caldera_Forms_Admin_APEasyQueries;
+			}
+		}
 
 	}
 	

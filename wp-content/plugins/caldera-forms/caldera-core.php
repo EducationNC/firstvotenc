@@ -4,7 +4,7 @@
   Plugin URI: https://calderawp.com/caldera-forms/
   Description: Easy to use, grid based responsive form builder for creating simple to complex forms.
   Author: CalderaWP
-  Version: 1.4.2
+  Version: 1.4.3.1
   Author URI: https://calderawp.com
   Text Domain: caldera-forms
   GitHub Plugin URI: https://github.com/CalderaWP/Caldera-Forms/
@@ -19,7 +19,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define('CFCORE_PATH', plugin_dir_path(__FILE__));
 define('CFCORE_URL', plugin_dir_url(__FILE__));
-define('CFCORE_VER', '1.4.2');
+define('CFCORE_VER', '1.4.3.1');
 define('CFCORE_EXTEND_URL', 'https://api.calderaforms.com/1.0/');
 define('CFCORE_BASENAME', plugin_basename( __FILE__ ));
 
@@ -48,6 +48,7 @@ function caldera_forms_load(){
 	Caldera_Forms_Autoloader::add_root( 'Caldera_Forms_Entry', CFCORE_PATH . 'classes/entry' );
 	Caldera_Forms_Autoloader::add_root( 'Caldera_Forms_Email', CFCORE_PATH . 'classes/email' );
 	Caldera_Forms_Autoloader::add_root( 'Caldera_Forms_Admin', CFCORE_PATH . 'classes/admin' );
+	Caldera_Forms_Autoloader::add_root( 'Caldera_Forms_Render', CFCORE_PATH . 'classes/render' );
 	Caldera_Forms_Autoloader::add_root( 'Caldera_Forms_Processor_Interface', CFCORE_PATH . 'processors/classes/interfaces' );
 	Caldera_Forms_Autoloader::add_root( 'Caldera_Forms_Processor', CFCORE_PATH . 'processors/classes' );
 
