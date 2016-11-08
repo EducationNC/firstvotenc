@@ -42,7 +42,7 @@ foreach ($ep_fields as $ep_field) {
   echo '<pre class="hidden">';
   // Clean html entities (quotations encoded weirdly)
   foreach ($ep_data as &$clean) {
-    $clean = html_entity_decode($clean);
+    $clean = html_entity_decode(html_entity_decode($clean));
     var_dump($clean);
   }
   print_r($ep_data);
