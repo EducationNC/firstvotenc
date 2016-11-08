@@ -39,14 +39,10 @@ foreach ($ep_fields as $ep_field) {
   // Answers for this exit poll
   $ep_data = array_column($results, $ep_field['id']);
 
-  echo '<pre class="hidden">';
   // Clean html entities (quotations encoded weirdly) - but html_entity_decode() isn't working on prod server. Also weird.
   foreach ($ep_data as &$clean) {
     $clean = preg_replace('/^don(.*)/i', 'Don\'t know', $clean);
-    var_dump($clean);
   }
-  print_r($ep_data);
-  echo '</pre>';
 
   // Set up array tables
   $count = array();

@@ -52,10 +52,10 @@ foreach ($ep_fields as $ep_field) {
 
   // Clean html entities (quotations encoded weirdly)
   foreach ($ep_data as &$clean) {
-    $clean = html_entity_decode($clean);
+    $clean = preg_replace('/^don(.*)/i', 'Don\'t know', $clean);
   }
   foreach ($ep_data_state as &$clean) {
-    $clean = html_entity_decode($clean);
+    $clean = preg_replace('/^don(.*)/i', 'Don\'t know', $clean);
   }
 
   // Total number of ballots cast
