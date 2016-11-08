@@ -4,7 +4,7 @@ use Roots\Sage\Assets;
 
 ?>
 <main role="main">
-  <?php get_template_part('/templates/components/banner', 'students'); ?>
+  <?php get_template_part('/templates/components/banner', 'results'); ?>
 
   <section class="white-bg">
     <div class="container text-center partners">

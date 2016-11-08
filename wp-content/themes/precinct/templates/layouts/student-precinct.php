@@ -10,6 +10,19 @@
         ]);
 
         if ($election->have_posts()) : while ($election->have_posts()) : $election->the_post();
+
+          // After election, just show results
+          wp_redirect( add_query_arg('results', 'general', get_the_permalink()) );
+          exit;
+
+          /**
+           * When election is live
+           *
+           *
+           *
+           */
+
+          /// Get dates
           $early_voting = strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true));
           $election_day = strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true));
 
@@ -22,7 +35,7 @@
 
           $election_day = new DateTime();
           $election_day->setTimestamp(strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true)));
-          $election_day->setTime(24, 30, 00);
+          $election_day->setTime(24, 30, 00); // This was set to 19,30,00 but the polls closed at 14:30, even though the polls opened on time same day. *shrug*
 
           $voting_end = $election_day->getTimestamp();
 

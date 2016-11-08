@@ -21,7 +21,15 @@
           <tbody>
 
           <?php if ($election->have_posts()) : while ($election->have_posts()): $election->the_post();
-            if ( current_user_can( 'editor' ) ) { ?>
+
+              /**
+               * When election is live
+               *
+               *
+               *
+               */
+
+            /*if ( current_user_can( 'editor' ) ) { ?>
 
               <tr>
                 <th scope="row">
@@ -29,17 +37,18 @@
                   <span class="small"><a href="<?php the_permalink(); ?>?edit">Edit</a> | <a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
                 </th>
                 <td>
-                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> -
+                  <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> |
                   <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true))); ?>
                 </td>
               </tr>
 
-            <?php } else { ?>
+            <?php } else {*/ ?>
 
               <tr>
                 <th scope="row">
                   <?php the_title(); ?><br />
-                  <span class="small"><a href="<?php the_permalink(); ?>">Preview Ballot</a></span>
+                  <span class="small"><a href="<?php echo add_query_arg('preview', '', the_permalink()); ?>">Preview Ballot</a></span> |
+                  <span class="small"><a href="<?php echo add_query_arg('results', 'general', the_permalink()); ?>">View Results</a></span>
                 </th>
                 <td>
                   <?php echo date('m/d/Y', strtotime(get_post_meta(get_the_id(), '_cmb_early_voting', true))); ?> -
@@ -47,7 +56,7 @@
                 </td>
               </tr>
 
-            <?php }
+            <?php //}
           endwhile; else: ?>
 
             <tr>

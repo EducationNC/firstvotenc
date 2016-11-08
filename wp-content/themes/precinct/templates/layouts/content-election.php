@@ -2,6 +2,27 @@
 
   <div class="entry-summary">
     <?php
+
+    if ( isset( $_GET['preview'] ) ) {
+      // Display preview ballot
+      get_template_part('/templates/layouts/ballot');
+    } elseif ( !isset( $_GET['results'] ) ) {
+      // Redirect to results view
+      wp_redirect( add_query_arg('results', 'general') );
+      exit;
+    } else {
+      // Show results
+      get_template_part('/templates/layouts/results');
+    }
+    return false;
+
+    /**
+     * When election is live
+     *
+     *
+     *
+     */
+
     // Display exit poll
     if ( isset( $_GET['post_submitted'] ) && ( $post = get_post( absint( $_GET['post_submitted'] ) ) ) ) {
       get_template_part('/templates/layouts/exit-poll');

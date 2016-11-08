@@ -47,6 +47,9 @@ if ($voting_start <= $now && $now <= $voting_end) {
 } else {
   $canvote = false;
 }
+
+// CLOSE POLLS
+$canvote = false;
 ?>
 
 <?php if ($canvote === false) { ?>
