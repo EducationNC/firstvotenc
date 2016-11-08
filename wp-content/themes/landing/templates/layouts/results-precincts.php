@@ -2,8 +2,8 @@
 
 $uploads = wp_upload_dir();
 $results = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
-
-$blog_ids = array_unique(array_column($results, 'blog_id'));
+$blog_ids = array_column($results, 'blog_id');
+$blog_ids_unique = array_unique($blog_ids);
 
 // echo '<pre>';
 // print_r($blog_ids);
@@ -20,29 +20,15 @@ if ( false === ( $precinct_results_table = get_transient( 'precinct_results_tabl
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($blog_ids as $id) {
-            $details = get_blog_details($id);
-            switch_to_blog($id);
+          <?php foreach ($blog_ids_unique as $blog_id) {
+            $details = get_blog_details($blog_id);
+            switch_to_blog($blog_id);
               $q = new WP_Query(['posts_per_page' => 1, 'post_type' => 'election']);
               if($q->have_posts()): while($q->have_posts()): $q->the_post();
                 if ($details->blogname !== 'North Carolina') { ?>
                   <tr>
                     <td><a href="<?php echo get_the_permalink(); ?>&results=general" target="_blank"><?php echo $details->blogname; ?></a></td>
-                    <td>
-                      <?php
-                      $n = new WP_Query([
-                        'post_type' => 'ballot',
-                        'posts_per_page' => -1,
-                        'meta_query' => [
-                          [
-                            'key' => '_cmb_election_id',
-                            'value' => get_the_id()
-                          ]
-                        ]
-                      ]);
-                      echo $n->found_posts;
-                      ?>
-                    </td>
+                    <td><?php echo count(array_keys($blog_ids, $blog_id)); ?> </td>
                   </tr>
                 <?php }
               endwhile; endif; wp_reset_postdata();
