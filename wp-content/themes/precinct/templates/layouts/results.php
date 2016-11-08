@@ -31,6 +31,11 @@ if (isset($_GET['contest'])) {
   $contests = json_decode(get_option('precinct_contests'), true);
   $statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
 
+// echo '<pre>';
+// print_r($contests);
+// // print_r(array_keys($results[150]));
+// echo '</pre>';
+
   $races = array_keys($results[0]);
   $races_statewide = array_keys($statewide[0]);
 
@@ -45,7 +50,7 @@ if (isset($_GET['contest'])) {
           continue;
         }
       } elseif ($type == 'local') {
-        if (in_array($race, $races_statewide)) {
+        if (in_array($race, $races_statewide) || isset($contests[$match[0][0][0]][$race]['question'])) {
           continue;
         }
       } elseif ($type == 'issues') {
@@ -56,6 +61,28 @@ if (isset($_GET['contest'])) {
 
       $data = array_column($results, $race);
       $data_state = array_column($statewide, $race);
+
+      // If data is JSON string, unserialize it
+      if (FALSE !== unserialize($data[0])) {
+        $flat_data = array();
+        foreach ($data as $multiple) {
+          $encoded = unserialize($multiple);
+          $array = unserialize(html_entity_decode($encoded));
+          $flat_data = array_merge(array_values($flat_data), array_values($array));
+        }
+        $data = $flat_data;
+      }
+
+      // If data is JSON string, unserialize it
+      if (FALSE !== unserialize($data_state[0])) {
+        $flat_data = array();
+        foreach ($data_state as $multiple) {
+          $encoded = unserialize($multiple);
+          $array = unserialize(html_entity_decode($encoded));
+          $flat_data = array_merge(array_values($flat_data), array_values($array));
+        }
+        $data_state = $flat_data;
+      }
 
       // Total number of ballots cast
       $total = count($data) - count(array_keys($data, NULL));
@@ -110,28 +137,33 @@ if (isset($_GET['contest'])) {
       ?>
 
       <div class="row">
-        <div class="col-sm-12">
+        <div class="<?php if ($type == 'local') { echo 'col-sm-4'; } else { echo 'col-sm-12'; } ?>">
           <h2 class="h3">
             <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
             <?php echo $contests[$match[0][0][0]][$race]['district']; ?>
             <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
               <small><?php echo $contests[$match[0][0][0]][$race]['question']; ?></small>
             <?php } ?>
+            <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
+              <small><?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners</small>
+            <?php } ?>
           </h2>
           <a class="btn btn-gray" href="<?php echo add_query_arg('contest', $race); ?>">Explore these results by exit poll</a>
         </div>
 
-        <div class="col-sm-6 extra-bottom-margin">
+        <div class="<?php if ($type == 'local') { echo 'col-sm-8'; } else { echo 'col-sm-6 extra-bottom-margin'; } ?>">
           <div class="entry-content-asset">
             <div id="<?php echo $race; ?>" class="result-chart"></div>
           </div>
         </div>
 
-        <div class="col-sm-6 extra-bottom-margin">
-          <div class="entry-content-asset">
-            <div id="state<?php echo $race; ?>" class="result-chart statewide"></div>
+        <?php if ($type !== 'local') { ?>
+          <div class="col-sm-6 extra-bottom-margin">
+            <div class="entry-content-asset">
+              <div id="state<?php echo $race; ?>" class="result-chart statewide"></div>
+            </div>
           </div>
-        </div>
+        <?php } ?>
       </div>
 
       <script type="text/javascript">
@@ -139,6 +171,9 @@ if (isset($_GET['contest'])) {
           chart: { renderTo: '<?php echo $race; ?>', defaultSeriesType: 'bar' },
           credits: {enabled: false},
           title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Precinct Results)", useHTML: true },
+          <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
+            subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners", useHTML: true },
+          <?php } ?>
           <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
             subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
           <?php } ?>
@@ -163,6 +198,9 @@ if (isset($_GET['contest'])) {
           chart: { renderTo: 'state<?php echo $race; ?>', defaultSeriesType: 'bar' },
           credits: {enabled: false},
           title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Statewide Results)", useHTML: true },
+          <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
+            subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners", useHTML: true },
+          <?php } ?>
           <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
             subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
           <?php } ?>
