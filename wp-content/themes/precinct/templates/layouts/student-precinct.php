@@ -22,7 +22,7 @@
 
           $election_day = new DateTime();
           $election_day->setTimestamp(strtotime(get_post_meta(get_the_id(), '_cmb_voting_day', true)));
-          $election_day->setTime(19, 30, 00);
+          $election_day->setTime(24, 30, 00);
 
           $voting_end = $election_day->getTimestamp();
 
@@ -44,7 +44,7 @@
             $open = clone $today;
             $open->setTime(07, 30, 00);
             $close = clone $today;
-            $close->setTime(19, 30, 00);
+            $close->setTime(24, 30, 00);
 
             if ($open->getTimestamp() <= $now && $now <= $close->getTimestamp()) {
               $canvote = true;
