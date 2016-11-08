@@ -27,6 +27,7 @@ wp-content/plugins/wp-backitup/logs/*
 
 # pro plugins
 wp-content/plugins/advanced-custom-fields-pro/*
+wp-content/plugins/caldera-forms/*
 
 # wpengine specific
 .smushit-status
