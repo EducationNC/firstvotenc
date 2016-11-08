@@ -108,13 +108,15 @@ if (isset($_GET['contest'])) {
             'percent' => round(($tally / $total) * 100, 2)
           );
 
-          // Statewide count
-          $count_state[] = array(
-            'name' => $candidate['name'],
-            'party' => $candidate['party'],
-            'count' => $tally_state,
-            'percent' => round(($tally_state / $total_state) * 100, 2)
-          );
+          if ($type !== 'local' && in_array($race, $races_statewide)) {
+            // Statewide count
+            $count_state[] = array(
+              'name' => $candidate['name'],
+              'party' => $candidate['party'],
+              'count' => $tally_state,
+              'percent' => round(($tally_state / $total_state) * 100, 2)
+            );
+          }
         }
       } else {
         foreach ($contests[$match[0][0][0]][$race]['options'] as $option) {
@@ -128,14 +130,27 @@ if (isset($_GET['contest'])) {
             'percent' => round(($tally / $total) * 100, 2)
           );
 
-          // Statewide count
-          $count_state[] = array(
-            'name' => $option,
-            'count' => $tally_state,
-            'percent' => round(($tally_state / $total_state) * 100, 2)
-          );
+          if ($type !== 'local' && in_array($race, $races_statewide)) {
+            // Statewide count
+            $count_state[] = array(
+              'name' => $option,
+              'count' => $tally_state,
+              'percent' => round(($tally_state / $total_state) * 100, 2)
+            );
+          }
         }
       }
+
+      if (isset($contests[$match[0][0][0]][$race]['number'])) {
+        $number = $contests[$match[0][0][0]][$race]['number'];
+      } else {
+        $number = 1;
+      }
+
+      if (isset($contests[$match[0][0][0]][$race]['question'])) {
+        $question = $contests[$match[0][0][0]][$race]['question'];
+      }
+
       ?>
 
       <div class="row">
@@ -143,11 +158,11 @@ if (isset($_GET['contest'])) {
           <h2 class="h3">
             <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
             <?php echo $contests[$match[0][0][0]][$race]['district']; ?>
-            <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
-              <small><?php echo $contests[$match[0][0][0]][$race]['question']; ?></small>
+            <?php if (isset($question)) { ?>
+              <small><?php echo $question; ?></small>
             <?php } ?>
-            <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
-              <small><?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners</small>
+            <?php if ($number > 1) { ?>
+              <small><?php echo $number; ?> Winners</small>
             <?php } ?>
           </h2>
           <a class="btn btn-gray" href="<?php echo add_query_arg('contest', $race); ?>">Explore these results by exit poll</a>
@@ -173,11 +188,11 @@ if (isset($_GET['contest'])) {
           chart: { renderTo: '<?php echo $race; ?>', defaultSeriesType: 'bar' },
           credits: {enabled: false},
           title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Precinct Results)", useHTML: true },
-          <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
-            subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners", useHTML: true },
+          <?php if ($number > 1) { ?>
+            subtitle: { text: "<?php echo $number; ?> Winners", useHTML: true },
           <?php } ?>
-          <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
-            subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
+          <?php if (isset($question)) { ?>
+            subtitle: { text: "<?php echo $question; ?>", useHTML: true },
           <?php } ?>
           xAxis: { type: 'category', tickWidth: 0, labels: { useHTML: true } },
           yAxis: { title: {enabled: false}, gridLineWidth: 0, labels: {enabled: false} },
@@ -201,11 +216,11 @@ if (isset($_GET['contest'])) {
             chart: { renderTo: 'state<?php echo $race; ?>', defaultSeriesType: 'bar' },
             credits: {enabled: false},
             title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Statewide Results)", useHTML: true },
-            <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
-              subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners", useHTML: true },
+            <?php if ($number > 1) { ?>
+              subtitle: { text: "<?php echo $number; ?> Winners", useHTML: true },
             <?php } ?>
-            <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
-              subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
+            <?php if (isset($question)) { ?>
+              subtitle: { text: "<?php echo $question; ?>", useHTML: true },
             <?php } ?>
             xAxis: { type: 'category', tickWidth: 0, labels: { useHTML: true } },
             yAxis: { title: {enabled: false}, gridLineWidth: 0, labels: {enabled: false} },
