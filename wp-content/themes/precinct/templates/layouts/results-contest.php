@@ -247,15 +247,6 @@ foreach ($ep_fields as $ep_field) {
   }
 
 
-  function array_kshift(&$arr)
-  {
-    list($k) = array_keys($arr);
-    $r  = array($k=>$arr[$k]);
-    unset($arr[$k]);
-    return $r;
-  }
-
-
 // Highlight winners
     // Precinct
     $winner = array();
@@ -266,7 +257,7 @@ foreach ($ep_fields as $ep_field) {
         $sort = $col;
         arsort($sort);
         for ($j = 1; $j <= $contests[$match[0][0][0]][$race]['number']; $j++) {
-          $top = array_kshift($sort);
+          $top = Extras\array_kshift($sort);
           foreach ($top as $key => $value) {
             if ($value > 0) {
               $winner[$i][$j] = $key;

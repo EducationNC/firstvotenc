@@ -76,3 +76,11 @@ function array_find_deep($array, $search, $match = true, $keys = array()) {
 
   return $results;
 }
+
+
+function array_kshift(&$arr) {
+  list($k) = array_keys($arr);
+  $r  = array($k=>$arr[$k]);
+  unset($arr[$k]);
+  return $r;
+}
