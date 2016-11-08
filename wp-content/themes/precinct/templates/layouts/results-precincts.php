@@ -1,7 +1,7 @@
 <?php
 
-$uploads = wp_upload_dir();
-$results = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
+$uploads = network_site_url('wp-content/uploads');
+$results = json_decode(file_get_contents($uploads . '/election_results.json'), true);
 
 $blog_ids = array_unique(array_column($results, 'blog_id'));
 
@@ -44,10 +44,7 @@ if ( false === ( $precinct_results_table = get_transient( 'precinct_results_tabl
                           echo '<td>' . $c->short_name . '</td>';
                         }
                       }
-                      // echo '<td>'.$result->results->
-                      // echo '<td colspan="2">';
-                      // var_dump($result);
-                      // echo '</td>';
+
                 		} else {
                       echo '<td>';
                 			echo $api_get->get_error_message();
