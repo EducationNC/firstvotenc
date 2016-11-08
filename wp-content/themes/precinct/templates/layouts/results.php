@@ -7,6 +7,8 @@ $type = $_GET['results'];
 
 if (isset($_GET['contest'])) {
   get_template_part('templates/layouts/results', 'contest');
+} elseif ($_GET['results'] == 'precincts') {
+  get_template_part('templates/layouts/results', 'precincts');
 } elseif ($type == 'participation') {
   get_template_part('templates/layouts/results', 'participation');
 } else {
@@ -137,7 +139,7 @@ if (isset($_GET['contest'])) {
       ?>
 
       <div class="row">
-        <div class="<?php if ($type == 'local') { echo 'col-sm-4'; } else { echo 'col-sm-12'; } ?>">
+        <div class="<?php if ($type == 'local' || !in_array($race, $races_statewide)) { echo 'col-sm-4'; } else { echo 'col-sm-12'; } ?>">
           <h2 class="h3">
             <?php echo $contests[$match[0][0][0]][$race]['title']; ?>
             <?php echo $contests[$match[0][0][0]][$race]['district']; ?>
@@ -151,13 +153,13 @@ if (isset($_GET['contest'])) {
           <a class="btn btn-gray" href="<?php echo add_query_arg('contest', $race); ?>">Explore these results by exit poll</a>
         </div>
 
-        <div class="<?php if ($type == 'local') { echo 'col-sm-8'; } else { echo 'col-sm-6 extra-bottom-margin'; } ?>">
+        <div class="<?php if ($type == 'local' || !in_array($race, $races_statewide)) { echo 'col-sm-8'; } else { echo 'col-sm-6 extra-bottom-margin'; } ?>">
           <div class="entry-content-asset">
             <div id="<?php echo $race; ?>" class="result-chart"></div>
           </div>
         </div>
 
-        <?php if ($type !== 'local') { ?>
+        <?php if ($type !== 'local' && in_array($race, $races_statewide)) { ?>
           <div class="col-sm-6 extra-bottom-margin">
             <div class="entry-content-asset">
               <div id="state<?php echo $race; ?>" class="result-chart statewide"></div>
@@ -194,32 +196,34 @@ if (isset($_GET['contest'])) {
           }]
         });
 
-        new Highcharts.Chart({
-          chart: { renderTo: 'state<?php echo $race; ?>', defaultSeriesType: 'bar' },
-          credits: {enabled: false},
-          title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Statewide Results)", useHTML: true },
-          <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
-            subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners", useHTML: true },
-          <?php } ?>
-          <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
-            subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
-          <?php } ?>
-          xAxis: { type: 'category', tickWidth: 0, labels: { useHTML: true } },
-          yAxis: { title: {enabled: false}, gridLineWidth: 0, labels: {enabled: false} },
-          plotOptions: { bar: { dataLabels: { enabled: true, format: '{point.y:,.0f} votes ({point.percent:.2f}%)', inside: true, align: 'left', useHTML: true } } },
-          legend: { enabled: false },
-          tooltip: { enabled: false },
-          series: [{ data: [<?php foreach ($count_state as $cs) { ?>
-              {
-                name: '<?php echo str_replace(' & ', '<br />', $cs['name']); ?><?php if (!empty($cs['party'])) { echo '<br />(' . $cs['party'] . ')'; } ?>',
-                y: <?php echo $cs['count']; ?>,
-                className: '<?php if (isset($cs['party'])) echo sanitize_title($cs['party']); ?>',
-                percent: <?php echo $cs['percent']; ?>
-                // animation: false
-              },
-            <?php } ?>]
-          }]
-        });
+        <?php if ($type !== 'local' && in_array($race, $races_statewide)) { ?>
+          new Highcharts.Chart({
+            chart: { renderTo: 'state<?php echo $race; ?>', defaultSeriesType: 'bar' },
+            credits: {enabled: false},
+            title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Statewide Results)", useHTML: true },
+            <?php if ($contests[$match[0][0][0]][$race]['number'] > 1) { ?>
+              subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['number']; ?> Winners", useHTML: true },
+            <?php } ?>
+            <?php if (isset($contests[$match[0][0][0]][$race]['question'])) { ?>
+              subtitle: { text: "<?php echo $contests[$match[0][0][0]][$race]['question']; ?>", useHTML: true },
+            <?php } ?>
+            xAxis: { type: 'category', tickWidth: 0, labels: { useHTML: true } },
+            yAxis: { title: {enabled: false}, gridLineWidth: 0, labels: {enabled: false} },
+            plotOptions: { bar: { dataLabels: { enabled: true, format: '{point.y:,.0f} votes ({point.percent:.2f}%)', inside: true, align: 'left', useHTML: true } } },
+            legend: { enabled: false },
+            tooltip: { enabled: false },
+            series: [{ data: [<?php foreach ($count_state as $cs) { ?>
+                {
+                  name: '<?php echo str_replace(' & ', '<br />', $cs['name']); ?><?php if (!empty($cs['party'])) { echo '<br />(' . $cs['party'] . ')'; } ?>',
+                  y: <?php echo $cs['count']; ?>,
+                  className: '<?php if (isset($cs['party'])) echo sanitize_title($cs['party']); ?>',
+                  percent: <?php echo $cs['percent']; ?>
+                  // animation: false
+                },
+              <?php } ?>]
+            }]
+          });
+        <?php } ?>
       </script>
       <?php
     }

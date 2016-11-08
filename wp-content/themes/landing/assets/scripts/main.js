@@ -37,11 +37,6 @@
     'audit': {
       init: function() {
 
-        // Set up variables to show progress
-        window.pollingPeriod = 1000;
-        window.updatePeriod  = 250;
-        window.lastData = null;
-
         // Update progress bar
         function updateDisplay(data){
           if ( $('#progress-bar').length < 1 ) {
@@ -53,43 +48,14 @@
             console.log("Created Status Bars");
           }
 
-          var percent = data.percentComplete;
+          // var percent = data.percentComplete;
+          var percent = data.start / data.total;
 
           $('#progress-bar')
             .attr('aria-valuenow', percent*100)
             .css('width', Math.ceil(percent*100) + "%");
           $('#progress-bar span').text(Math.ceil(percent*100) + "%");
 
-        }
-
-        // Check progress of long php script
-        function checkProgress(createStatusBars){
-          if(typeof createStatusBars === "undefined") {createStatusBars = false;}
-          if(window.finished === true) {return;}
-
-          url = countAjax.uploads + "/count-progress.json";
-
-          var d = new Date();
-          var n = d.getTime();
-
-          if((n - window.lastUpdate) > window.pollingPeriod || window.lastData == null) {
-            // Refetch progress
-            $.getJSON(url, function(data){
-              var d = new Date();
-              window.lastUpdate = d.getTime();
-              window.lastData = data;
-              updateDisplay(data);
-              return null;
-            }).fail(function(){
-              clearInterval(window.progressInterval);
-            });
-
-          } else {
-            // Use most recent data
-            var data = $.extend({},window.lastData);
-            updateDisplay(data);
-
-          }
         }
 
         // Ajax call to count
@@ -104,22 +70,13 @@
             },
             success: function(response) {
               console.log(response);
+              updateDisplay(response);
               if (response.start < response.total) {
                 // Do next batch of counting
                 doCount(response.start);
               } else {
-                // Stop polling for progress
-                clearInterval(window.progressInterval);
-
-                // Set progress bar to full
-                $('#progress-bar')
-                  .attr('aria-valuenow', '100')
-                  .css('width', "100%");
-                $('#progress-bar span').text("100%");
-
                 // All done!
                 $('#script-progress').append('All done! <a href="/2016-general-election-results">Now see the results!</a>');
-
                 $('#btn-close').show();
               }
             },
@@ -131,13 +88,8 @@
 
         // Count votes when button is clicked
         $('#count-votes').on('click', function() {
-
           // Start counting at 0
           doCount(0);
-
-          // Show progress
-          window.progressInterval = setInterval(checkProgress, window.updatePeriod);
-
         });
 
       }
