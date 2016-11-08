@@ -23,13 +23,38 @@
   }
 
   .page-header {
-    background: none;
+    background: $steel;
+    margin-bottom: 50px;
+
+    &:after {
+      display: none !important;
+    }
   }
 
   .precinct .col-centered {
     background: $white;
     padding-top: 1em;
     padding-bottom: 5em;
+  }
+
+  .nav-tabs {
+    a {
+      text-decoration: none;
+      color: $jet;
+
+      &:hover, &:active, &:focus {
+        color: $jet;
+        background: $pearl;
+        border-color: $steel;
+      }
+    }
+
+    .active {
+      a {
+        background: $white;
+        color: $jet;
+      }
+    }
   }
 
   .global-footer {
@@ -39,22 +64,33 @@
 }
 
 .result-chart {
-  margin-bottom: 1em;
-
   .highcharts-color-0 {
     fill: $plum;
+    color: $plum;
   }
 
-  .republican {
+  .republican, ._cmb_party-republican {
     fill: $scarlet;
+
+    span {
+      color: $scarlet !important;
+    }
   }
 
-  .democrat {
+  .democrat, ._cmb_party-democrat {
     fill: $navy;
+
+    span {
+      color: $navy !important;
+    }
   }
 
-  .libertarian, .independent {
+  .libertarian, .independent, ._cmb_party-libertarian {
     fill: $gold;
+
+    span {
+      color: $gold-darker !important;
+    }
   }
 
   .highcharts-axis-labels.highcharts-xaxis-labels {
@@ -79,9 +115,83 @@
   }
 
   .highcharts-subtitle {
-    // left: 115px !important;
-    // width: calc(100% - 120px) !important;
-    // white-space: normal !important;
+    // left: 20px !important;
+  }
+
+  .highcharts-halo {
+    display: none;
+  }
+
+  ._cmb_adults_vote-dont-know, ._cmb_party-dont-know {
+    fill: $pearl;
+
+    span {
+      color: $raven !important;
+    }
+  }
+
+  ._cmb_grade-elementary, ._cmb_race-asianpacific-islander {
+    fill: $sterling;
+
+    span {
+      color: $gray !important;
+    }
+  }
+
+  ._cmb_grade-middle, ._cmb_race-black, ._cmb_news-friends-and-family, ._cmb_religious-more-than-once-per-week {
+    fill: $gray;
+
+    span {
+      color: $gray !important;
+    }
+  }
+
+  ._cmb_grade-9, ._cmb_race-hispanic, ._cmb_adults_vote-no, ._cmb_register-no, ._cmb_party-unaffiliated, ._cmb_news-newspapers-and-magazines, ._cmb_religious-weekly {
+    fill: $stone;
+
+    span {
+      color: $stone !important;
+    }
+  }
+
+  ._cmb_grade-10, ._cmb_race-white, ._cmb_adults_vote-yes, ._cmb_register-yes, ._cmb_news-social-media, ._cmb_religious-infrequently {
+    fill: $ash;
+
+    span {
+      color: $ash !important;
+    }
+  }
+
+  ._cmb_grade-11, ._cmb_race-native-american, ._cmb_news-television, ._cmb_religious-never {
+    fill: $raven;
+
+    span {
+      color: $raven !important;
+    }
+  }
+
+  ._cmb_grade-12, ._cmb_race-other {
+    fill: $jet;
+
+    span {
+      color: $jet !important;
+    }
+  }
+
+  ._cmb_gender-male {
+    fill: $sky-lighter;
+
+    span {
+      color: $sky-darker !important;
+    }
+  }
+
+  ._cmb_gender-female {
+    fill: lighten($scarlet-lighter, 15%);
+
+    span {
+      color: $scarlet !important;
+    }
   }
 }
 

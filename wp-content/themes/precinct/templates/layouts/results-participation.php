@@ -1,18 +1,3 @@
-<?php
-
-use Roots\Sage\Extras;
-
-include(locate_template('/lib/fields-exit-poll.php'));
-
-$uploads = network_site_url('wp-content/uploads');
-$results = json_decode(get_option('precinct_votes'), true);
-$contests = json_decode(get_option('precinct_contests'), true);
-$statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
-
-$total = count($results);
-$total_state = count($statewide);
-?>
-
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
@@ -26,6 +11,18 @@ $total_state = count($statewide);
   });
 </script>
 
+<?php
+include(locate_template('/lib/fields-exit-poll.php'));
+
+$uploads = network_site_url('wp-content/uploads');
+$results = json_decode(get_option('precinct_votes'), true);
+$contests = json_decode(get_option('precinct_contests'), true);
+$statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
+
+$total = count($results);
+$total_state = count($statewide);
+?>
+
 <div class="row">
   <div class="col-sm-12">
     <h2 class="h3">Total Ballots Cast</h2>
@@ -34,14 +31,14 @@ $total_state = count($statewide);
   <div class="col-sm-6 extra-bottom-margin">
     <div class="panel text-center">
       <div class="h6">Your Precinct</div>
-      <div class="h1"><?php echo $total; ?></div>
+      <div class="h1"><?php echo number_format($total, 0, '.', ','); ?></div>
     </div>
   </div>
 
   <div class="col-sm-6 extra-bottom-margin">
     <div class="panel text-center">
       <div class="h6">Statewide</div>
-      <div class="h1"><?php echo $total_state; ?></div>
+      <div class="h1"><?php echo number_format($total_state, 0, '.', ','); ?></div>
     </div>
   </div>
 </div>

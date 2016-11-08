@@ -76,7 +76,7 @@ if (isset($_GET['contest'])) {
             'name' => $candidate['name'],
             'party' => $candidate['party'],
             'count' => $tally,
-            'percent' => round(($tally / $total) * 100, 1)
+            'percent' => round(($tally / $total) * 100, 2)
           );
 
           // Statewide count
@@ -84,7 +84,7 @@ if (isset($_GET['contest'])) {
             'name' => $candidate['name'],
             'party' => $candidate['party'],
             'count' => $tally_state,
-            'percent' => round(($tally_state / $total_state) * 100, 1)
+            'percent' => round(($tally_state / $total_state) * 100, 2)
           );
         }
       } else {

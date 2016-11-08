@@ -22,4 +22,14 @@
       background: $navy-darker !important;
     }
   }
+
+  &.btn-gray {
+    background-color: $stone;
+    color: $white;
+
+    &:hover, &:focus, &:active {
+      background-color: $gray;
+      color: $white;
+    }
+  }
 }
