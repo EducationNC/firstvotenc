@@ -403,10 +403,10 @@ foreach ($ep_fields as $ep_field) {
           <tr class="total">
               <th scope="row">Total Votes</th>
             <?php foreach ($footer as $ep_total) { ?>
-              <td class="precinct">100% <small><?php echo $ep_total; ?></small></td>
+              <td class="precinct"><?php echo $ep_total; ?></td>
             <?php } ?>
             <?php if ($type !== 'local' && in_array($race, $races_statewide)) { foreach ($footer_state as $ep_total_state) { ?>
-              <td class="statewide">100% <small><?php echo $ep_total_state; ?></small></td>
+              <td class="statewide"><?php echo $ep_total_state; ?></td>
             <?php } } ?>
           </tr>
         </tbody>
