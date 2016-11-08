@@ -27,7 +27,7 @@ if ( false === ( $precinct_results_table = get_transient( 'precinct_results_tabl
               if($q->have_posts()): while($q->have_posts()): $q->the_post();
                 if ($details->blogname !== 'North Carolina') { ?>
                   <tr>
-                    <td><a href="<?php echo get_the_permalink(); ?>&results=general" target="_blank"><?php echo $details->blogname; ?></a></td>
+                    <td><a href="<?php echo get_the_permalink(); ?>?results=general" target="_blank"><?php echo $details->blogname; ?></a></td>
                     <td><?php echo count(array_keys($blog_ids, $blog_id)); ?> </td>
                   </tr>
                 <?php }

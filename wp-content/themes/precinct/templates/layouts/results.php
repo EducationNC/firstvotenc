@@ -161,10 +161,10 @@ if (isset($_GET['contest'])) {
             <?php if (isset($question)) { ?>
               <small><?php echo $question; ?></small>
             <?php } ?>
-            <?php if ($number > 1) { ?>
-              <small><?php echo $number; ?> Winners</small>
-            <?php } ?>
           </h2>
+          <?php if ($number > 1) { ?>
+            <h3 class="h6"><?php echo $number; ?> Winners</h3>
+          <?php } ?>
           <a class="btn btn-gray" href="<?php echo add_query_arg('contest', $race); ?>">Explore these results by exit poll</a>
         </div>
 

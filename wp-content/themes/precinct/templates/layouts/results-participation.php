@@ -49,6 +49,8 @@ foreach ($ep_fields as $ep_field) {
   $ep_data = array_column($results, $ep_field['id']);
   $ep_data_state = array_column($statewide, $ep_field['id']);
 
+  $ep_total =   count($ep_data) - count(array_keys($ep_data, NULL));
+  $ep_total_state = count($ep_data_state) - count(array_keys($ep_data_state, NULL));
 
   // Clean html entities (quotations encoded weirdly)
   foreach ($ep_data as &$clean) {
@@ -57,7 +59,6 @@ foreach ($ep_fields as $ep_field) {
   foreach ($ep_data_state as &$clean) {
     $clean = preg_replace('/^don(.*)/i', 'Don\'t know', $clean);
   }
-
 
   // Set up array tables
   $count = array();
@@ -72,7 +73,7 @@ foreach ($ep_fields as $ep_field) {
       'id' => $ep_key,
       'name' => addslashes($ep_option),
       'count' => $tally,
-      'percent' => round(($tally / $total) * 100, 2)
+      'percent' => round(($tally / $ep_total) * 100, 2)
     );
 
     // Statewide count
@@ -80,7 +81,7 @@ foreach ($ep_fields as $ep_field) {
       'id' => $ep_key,
       'name' => addslashes($ep_option),
       'count' => $tally_state,
-      'percent' => round(($tally_state / $total_state) * 100, 2)
+      'percent' => round(($tally_state / $ep_total_state) * 100, 2)
     );
   }
 

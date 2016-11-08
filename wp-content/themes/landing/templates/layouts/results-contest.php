@@ -110,93 +110,91 @@ foreach ($ep_fields as $ep_field) {
   ?>
 
   <div class="row">
-    <div class="col-lg-10">
-      <h3>Results by <?php echo $ep_field['label']; ?></h3>
-      <h4 class="h6"><?php echo $contests[$race]['title']; ?></h4>
+    <h3>Results by <?php echo $ep_field['label']; ?></h3>
+    <h4 class="h6"><?php echo $contests[$race]['title']; ?></h4>
 
-      <div class="table-responsive table-results">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col" width="130px">&nbsp;</th>
-              <?php
-              // Get number of columns so we can calculate width
-              $count_columns = count($ep_table['headers']);
-              $headers = $ep_table['headers'];
-              unset($ep_table['headers']);
-              foreach ($headers as $header) { ?>
-                <th width="<?php echo 100/$count_columns; ?>%"><?php echo $header; ?></th>
-              <?php } ?>
-            </tr>
-          </thead>
-
-          <tbody>
+    <div class="table-responsive table-results">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" width="130px">&nbsp;</th>
             <?php
-            // Set up table for iterating through columns
-            $none = $ep_table['none'];
-            $footer = $ep_table['total'];
-            unset($ep_table['none']);
-            unset($ep_table['total']);
-
-            // Highlight winners
-            $winner = '';
-            for($i = 1; $i <= $count_columns; ++$i) {
-              // Winner is key of highest number
-              $col = array_column(array_column($ep_table, $i), 'count');
-              $winner[$i] = array_keys($col, max($col));
-            }
-
-            foreach ($ep_table as $ep_key => $row) { ?>
-              <tr>
-                <?php
-                foreach ($row as $k => $cell) {
-                  // If this is the first cell, it's a header for the row
-                  if ($k == 0) {
-                    echo '<th scope="row">';
-                  } else {
-                    if ($cell['count'] > 0 && in_array($ep_key, $winner[$k])) {
-                      echo '<td class="winner ' . sanitize_title($cell['party']) . ' statewide">';
-                    } else {
-                      echo '<td class="' . sanitize_title($cell['party']) . ' statewide" >';
-                    }
-                  }
-
-                  // Contents
-                  if (isset($cell['name'])) {
-                    echo $cell['name'];
-                    if (!empty($cell['party'])) echo "<br />({$cell['party']})";
-                  }
-                  if (isset($cell['count'])) echo "{$cell['percent']}% <small>{$cell['count']}</small>";
-
-                  // Close cell tag
-                  if ($i == 0) {
-                    echo '</th>';
-                  } else {
-                    echo '</td>';
-                  }
-                } ?>
-              </tr>
-              <?php
-            }
-            if (!empty($none)) { ?>
-            <tr>
-                <th scope="row">No Selection</th>
-              <?php foreach ($none as $blank) { ?>
-                <td class="statewide"><?php echo $blank['percent']; ?>% <small><?php echo $blank['count']; ?></small></td>
-              <?php } ?>
-            </tr>
+            // Get number of columns so we can calculate width
+            $count_columns = count($ep_table['headers']);
+            $headers = $ep_table['headers'];
+            unset($ep_table['headers']);
+            foreach ($headers as $header) { ?>
+              <th width="<?php echo 100/$count_columns; ?>%"><?php echo $header; ?></th>
             <?php } ?>
-            <tr class="total">
-                <th scope="row">Total Votes</th>
-              <?php foreach ($footer as $ep_total) { ?>
-                <td><?php echo $ep_total; ?></td>
-              <?php } ?>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          </tr>
+        </thead>
 
+        <tbody>
+          <?php
+          // Set up table for iterating through columns
+          $none = $ep_table['none'];
+          $footer = $ep_table['total'];
+          unset($ep_table['none']);
+          unset($ep_table['total']);
+
+          // Highlight winners
+          $winner = '';
+          for($i = 1; $i <= $count_columns; ++$i) {
+            // Winner is key of highest number
+            $col = array_column(array_column($ep_table, $i), 'count');
+            $winner[$i] = array_keys($col, max($col));
+          }
+
+          foreach ($ep_table as $ep_key => $row) { ?>
+            <tr>
+              <?php
+              foreach ($row as $k => $cell) {
+                // If this is the first cell, it's a header for the row
+                if ($k == 0) {
+                  echo '<th scope="row">';
+                } else {
+                  if ($cell['count'] > 0 && in_array($ep_key, $winner[$k])) {
+                    echo '<td class="winner ' . sanitize_title($cell['party']) . ' statewide">';
+                  } else {
+                    echo '<td class="' . sanitize_title($cell['party']) . ' statewide" >';
+                  }
+                }
+
+                // Contents
+                if (isset($cell['name'])) {
+                  echo $cell['name'];
+                  if (!empty($cell['party'])) echo "<br />({$cell['party']})";
+                }
+                if (isset($cell['count'])) echo "{$cell['percent']}% <small>{$cell['count']}</small>";
+
+                // Close cell tag
+                if ($i == 0) {
+                  echo '</th>';
+                } else {
+                  echo '</td>';
+                }
+              } ?>
+            </tr>
+            <?php
+          }
+          if (!empty($none)) { ?>
+          <tr>
+              <th scope="row">No Selection</th>
+            <?php foreach ($none as $blank) { ?>
+              <td class="statewide"><?php echo $blank['percent']; ?>% <small><?php echo $blank['count']; ?></small></td>
+            <?php } ?>
+          </tr>
+          <?php } ?>
+          <tr class="total">
+              <th scope="row">Total Votes</th>
+            <?php foreach ($footer as $ep_total) { ?>
+              <td><?php echo $ep_total; ?></td>
+            <?php } ?>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
   </div>
 
 <?php
