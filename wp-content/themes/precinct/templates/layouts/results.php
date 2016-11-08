@@ -160,10 +160,10 @@ if (isset($_GET['contest'])) {
             echo $contests[$match[0][0][0]][$race]['title'];
             echo $contests[$match[0][0][0]][$race]['district'];
             if (isset($question)) {
-              echo '<small>' . $question . '</small>';
+              echo ' <small>' . $question . '</small>';
             }
             if (!empty($number) && !is_numeric($number)) {
-              echo '<small>' . $number . '</small>';
+              echo ' <small>' . $number . '</small>';
             } ?>
           </h2>
           <?php if (is_numeric($number) && $number > 1) { ?>
@@ -192,8 +192,11 @@ if (isset($_GET['contest'])) {
           chart: { renderTo: '<?php echo $race; ?>', defaultSeriesType: 'bar' },
           credits: {enabled: false},
           title: { text: "<?php echo $contests[$match[0][0][0]][$race]['title'] . ' ' . $contests[$match[0][0][0]][$race]['district']; ?><br />(Precinct Results)", useHTML: true },
-          <?php if ($number > 1) { ?>
+          <?php if (is_numeric($number) && $number > 1) { ?>
             subtitle: { text: "<?php echo $number; ?> Winners", useHTML: true },
+          <?php } ?>
+          <?php if (!empty($number) && !is_numeric($number)) { ?>
+            subtitle: { text: "<?php echo $number; ?>", useHTML: true },
           <?php } ?>
           <?php if (isset($question)) { ?>
             subtitle: { text: "<?php echo $string = trim(preg_replace('/\s+/', ' ', $question)); ?>", useHTML: true },
@@ -227,7 +230,7 @@ if (isset($_GET['contest'])) {
               subtitle: { text: "<?php echo $number; ?>", useHTML: true },
             <?php } ?>
             <?php if (isset($question)) { ?>
-              subtitle: { text: "<?php echo $question; ?>", useHTML: true },
+              subtitle: { text: "<?php echo $string = trim(preg_replace('/\s+/', ' ', $question)); ?>", useHTML: true },
             <?php } ?>
             xAxis: { type: 'category', tickWidth: 0, labels: { useHTML: true } },
             yAxis: { title: {enabled: false}, gridLineWidth: 0, labels: {enabled: false} },
