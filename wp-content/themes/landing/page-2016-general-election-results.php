@@ -10,6 +10,8 @@ get_template_part('templates/components/title', get_post_type());
   <?php
     if (isset($_GET['contest'])) {
       get_template_part('templates/layouts/results', 'contest');
+    } elseif ($_GET['results'] == 'precincts') {
+      get_template_part('templates/layouts/results', 'precincts');
     } elseif ($_GET['results'] == 'participation') {
       get_template_part('templates/layouts/results', 'participation');
     } else {

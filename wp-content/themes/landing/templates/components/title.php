@@ -32,6 +32,7 @@ $featured_image_lg = wp_get_attachment_image_src($image_id, 'large');
                 <li role="presentation" <?php if ($type == 'nonpartisan') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'nonpartisan'); ?>">Nonpartisan Contest Results</a></li>
                 <li role="presentation" <?php if ($type == 'issues') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'issues'); ?>">Issue-Based Question Results</a></li>
                 <li role="presentation" <?php if ($type == 'participation') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'participation'); ?>">Participation Data</a></li>
+                <li role="presentation" <?php if ($type == 'precincts') echo 'class="active"'; ?>><a href="<?php echo add_query_arg('results', 'precincts'); ?>">Precinct Results</a></li>
               </ul>
             <?php }
           } ?>
