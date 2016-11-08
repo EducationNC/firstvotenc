@@ -39,10 +39,14 @@ foreach ($ep_fields as $ep_field) {
   // Answers for this exit poll
   $ep_data = array_column($results, $ep_field['id']);
 
+  echo '<pre class="hidden">';
   // Clean html entities (quotations encoded weirdly)
   foreach ($ep_data as &$clean) {
     $clean = html_entity_decode($clean);
+    var_dump($clean);
   }
+  print_r($ep_data;
+  echo '</pre>';
 
   // Set up array tables
   $count = array();
