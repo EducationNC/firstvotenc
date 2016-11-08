@@ -17,6 +17,11 @@ foreach ($ep_fields as $ep_field) {
   // Answers for this exit poll
   $ep_data = array_column($results, $ep_field['id']);
 
+  // Clean html entities (quotations encoded weirdly)
+  foreach ($ep_data as &$clean) {
+    $clean = html_entity_decode($clean);
+  }
+
   // Total number of ballots cast
   $total = count($data) - count(array_keys($data, NULL));
 
