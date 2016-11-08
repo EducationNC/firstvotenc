@@ -34,8 +34,8 @@ if (isset($_GET['contest'])) {
   $statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
 
 // echo '<pre>';
-// print_r($contests);
-// // print_r(array_keys($results[150]));
+// print_r($results);
+// print_r(array_keys($results[150]));
 // echo '</pre>';
 
   $races = array_keys($results[0]);
@@ -192,7 +192,7 @@ if (isset($_GET['contest'])) {
             subtitle: { text: "<?php echo $number; ?> Winners", useHTML: true },
           <?php } ?>
           <?php if (isset($question)) { ?>
-            subtitle: { text: "<?php echo $question; ?>", useHTML: true },
+            subtitle: { text: "<?php echo $string = trim(preg_replace('/\s+/', ' ', $question)); ?>", useHTML: true },
           <?php } ?>
           xAxis: { type: 'category', tickWidth: 0, labels: { useHTML: true } },
           yAxis: { title: {enabled: false}, gridLineWidth: 0, labels: {enabled: false} },
