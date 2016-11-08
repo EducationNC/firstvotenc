@@ -25,4 +25,14 @@
   &:focus {
     outline: none;
   }
+
+  &.btn-gray {
+    background-color: $stone;
+    color: $white;
+
+    &:hover, &:focus, &:active {
+      background-color: $gray;
+      color: $white;
+    }
+  }
 }

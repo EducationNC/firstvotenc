@@ -3,11 +3,15 @@
 use Roots\Sage\Extras;
 use Roots\Sage\Titles;
 
+$type = $_GET['results'];
 
 if (isset($_GET['contest'])) {
   get_template_part('templates/layouts/results', 'contest');
+} elseif ($type == 'participation') {
+  get_template_part('templates/layouts/results', 'participation');
 } else {
   ?>
+
   <script src="http://code.highcharts.com/highcharts.js"></script>
   <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
   <script src="http://code.highcharts.com/modules/exporting.js"></script>
@@ -22,17 +26,35 @@ if (isset($_GET['contest'])) {
   </script>
 
   <?php
+  $uploads = network_site_url('wp-content/uploads');
   $results = json_decode(get_option('precinct_votes'), true);
   $contests = json_decode(get_option('precinct_contests'), true);
-  $statewide = json_decode(get_blog_option(1, 'election_results'), true);
+  $statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
 
-  $table = $results;
-  array_shift($table);
-  array_shift($statewide);
+  $races = array_keys($results[0]);
+  $races_statewide = array_keys($statewide[0]);
 
-  foreach ($results[0] as $race) {
+  foreach ($races as $race) {
     if (substr($race, 0, 11) == '_cmb_ballot') {
-      $data = array_column($table, $race);
+
+      $match = Extras\array_find_deep($contests, $race);
+
+      // Only show type of results for the tab we're on
+      if ($type == 'general') {
+        if (!in_array($race, $races_statewide) || isset($contests[$match[0][0][0]][$race]['question'])) {
+          continue;
+        }
+      } elseif ($type == 'local') {
+        if (in_array($race, $races_statewide)) {
+          continue;
+        }
+      } elseif ($type == 'issues') {
+        if (!isset($contests[$match[0][0][0]][$race]['question'])) {
+          continue;
+        }
+      }
+
+      $data = array_column($results, $race);
       $data_state = array_column($statewide, $race);
 
       // Total number of ballots cast
@@ -42,8 +64,6 @@ if (isset($_GET['contest'])) {
       // Set up arrays
       $count = array();
       $count_state = array();
-
-      $match = Extras\array_find_deep($contests, $race);
 
       // Count number of votes per contestant
       if (isset($contests[$match[0][0][0]][$race]['candidates'])) {
@@ -98,7 +118,7 @@ if (isset($_GET['contest'])) {
               <small><?php echo $contests[$match[0][0][0]][$race]['question']; ?></small>
             <?php } ?>
           </h2>
-          <a class="btn btn-default" href="<?php echo add_query_arg('contest', $race); ?>">Explore results by exit poll</a>
+          <a class="btn btn-gray" href="<?php echo add_query_arg('contest', $race); ?>">Explore these results by exit poll</a>
         </div>
 
         <div class="col-sm-6 extra-bottom-margin">

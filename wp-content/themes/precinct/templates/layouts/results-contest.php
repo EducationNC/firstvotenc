@@ -11,20 +11,17 @@ $contests = json_decode(get_option('precinct_contests'), true);
 $match = Extras\array_find_deep($contests, $race);
 
 // Results
+$uploads = network_site_url('wp-content/uploads');
 $results = json_decode(get_option('precinct_votes'), true);
-$statewide = json_decode(get_blog_option(1, 'election_results'), true);
-
-$table = $results;
-array_shift($table);
-array_shift($statewide);
+$statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
 
 foreach ($ep_fields as $ep_field) {
   // Results for this race
-  $data = array_column($table, $race);
+  $data = array_column($results, $race);
   $data_state = array_column($statewide, $race);
 
   // Answers for this exit poll
-  $ep_data = array_column($table, $ep_field['id']);
+  $ep_data = array_column($results, $ep_field['id']);
   $ep_data_state = array_column($statewide, $ep_field['id']);
 
   // Total number of ballots cast
@@ -224,7 +221,8 @@ foreach ($ep_fields as $ep_field) {
   ?>
 
   <div class="row">
-    <h3><?php echo $ep_field['name']; ?></h3>
+      <h3>Results by <?php echo $ep_field['label']; ?></h3>
+      <h4 class="h6"><?php echo $contests[$match[0][0][0]][$race]['title']; ?></h4>
 
     <div class="table-responsive table-results">
       <table class="table">
