@@ -50,6 +50,14 @@ foreach ($ep_fields as $ep_field) {
   $ep_data = array_column($results, $ep_field['id']);
   $ep_data_state = array_column($statewide, $ep_field['id']);
 
+  // Clean html entities (quotations encoded weirdly)
+  foreach ($ep_data as &$clean) {
+    $clean = html_entity_decode($clean);
+  }
+  foreach ($ep_data_state as &$clean) {
+    $clean = html_entity_decode($clean);
+  }
+
   // Total number of ballots cast
   $total = count($data) - count(array_keys($data, NULL));
   $total_state = count($data_state) - count(array_keys($data_state, NULL));
@@ -223,6 +231,7 @@ foreach ($ep_fields as $ep_field) {
             unset($ep_table_state[$key][1]);
           }
           $ep_table[$key] = array_values($ep_table[$key]);
+          $ep_table_state[$key] = array_values($ep_table_state[$key]);
         }
       }
     }
@@ -281,8 +290,8 @@ foreach ($ep_fields as $ep_field) {
     }
 
   // echo '<pre>';
-  // print_r($ep_table);
-  // print_r($winner);
+  // print_r($ep_table_state);
+  // print_r($winner_state);
   // echo '</pre>';
 
   ?>
