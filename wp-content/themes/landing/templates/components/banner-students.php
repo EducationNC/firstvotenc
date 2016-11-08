@@ -7,8 +7,8 @@ use Roots\Sage\Assets;
   <div class="parallax-img hidden-xs" style="background-image:url('<?php echo Assets\asset_path('images/banner-precinct.jpg'); ?>')"></div>
   <div class="container">
     <img class="visible-xs-block" src="<?php echo Assets\asset_path('images/banner-xs.jpg'); ?>" alt="" />
-    <h1>Today is election day</h1>
-    <p><em>Make your voice heard!</em></p>
+    <h1>Welcome to the polls</h1>
+    <p><em>Today is election day. Make your voice heard!</em></p>
     <p><a class="btn btn-primary btn-lg" href="<?php the_permalink(); ?>?lookup" role="button">Students, find your precinct</a></p>
   </div>
 </section>
