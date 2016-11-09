@@ -49,7 +49,7 @@ add_action( 'init', function() {
 				'parent_item_colon' => ''
 			), /* end of arrays */
 			'exclude_from_search' => true,
-			'publicly_queryable' => false,
+			'publicly_queryable' => true,
 			'show_ui' => true,
 			'show_in_nav_menus' => false,
 			'menu_position' => 8,
@@ -79,7 +79,7 @@ add_action( 'init', function() {
 				'parent_item_colon' => ''
 			), /* end of arrays */
 			'exclude_from_search' => true,
-			'publicly_queryable' => false,
+			'publicly_queryable' => true,
 			'show_ui' => true,
 			'show_in_nav_menus' => false,
 			'menu_position' => 8,
@@ -92,7 +92,7 @@ add_action( 'init', function() {
 			'query_var' => true
 		)
 	);
-});
+}, 5);
 
 
 /**

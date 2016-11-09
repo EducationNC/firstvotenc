@@ -28,13 +28,6 @@ function do_count() {
     file_put_contents($uploads['basedir'] . '/election_contests.json', '');
     file_put_contents($uploads['basedir'] . '/election_results.json', '');
 
-    // write our progress file
-    file_put_contents(
-      $uploads['basedir'] . '/count-progress.json',
-      json_encode([
-        'percentComplete' => 0
-      ])
-    );
   }
 
   // Iterate through all sites in batches
@@ -45,12 +38,12 @@ function do_count() {
 
       // How many blogs do we need to go through?
       $totalItems = count($blogs);
-      if ($max > $totalItems - 1) {
-        $max = $totalItems - 1;
+      if ($max > $totalItems) {
+        $max = $totalItems;
       }
 
       // Iterate in batches to prevent timeout
-      for (; $i <= $max; $i++) {
+      for (; $i < $max; $i++) {
         $blog = $blogs[$i];
         switch_to_blog($blog->blog_id);
         $details = get_blog_details($blog->blog_id);
@@ -78,13 +71,6 @@ function do_count() {
         endwhile; endif; wp_reset_postdata();
         restore_current_blog();
 
-        // write our progress file
-        file_put_contents(
-          $uploads['basedir'] . '/count-progress.json',
-          json_encode([
-            'percentComplete' => $i/$totalItems
-          ])
-        );
       }
     }
   }

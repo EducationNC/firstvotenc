@@ -70,11 +70,8 @@
                           </td>
                           <td>
                             <?php
-                            $n = new WP_Query([
-                              'post_type' => 'ballot',
-                              'posts_per_page' => -1
-                            ]);
-                            echo $n->found_posts;
+                            $ballot_count = $wpdb->get_results($wpdb->prepare("SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s", 'ballot'));
+                            echo $ballot_count[0]->num_posts;
                             ?>
                           </td>
                           <td>

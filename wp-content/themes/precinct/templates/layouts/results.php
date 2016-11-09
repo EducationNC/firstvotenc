@@ -3,6 +3,11 @@
 use Roots\Sage\Extras;
 use Roots\Sage\Titles;
 
+if (isset($_GET['count'])) {
+  include(locate_template('/lib/count.php'));
+  return false;
+}
+
 $type = $_GET['results'];
 
 if (isset($_GET['contest'])) {
@@ -13,6 +18,10 @@ if (isset($_GET['contest'])) {
   get_template_part('templates/layouts/results', 'participation');
 } else {
   ?>
+
+  <p class="text-center extra-padding">
+    <button type="button" class="btn btn-primary btn-lg" id="count-votes" data-toggle="modal" data-target="#tally-modal" data-backdrop="static" data-keyboard="false">Count Votes!</button>
+  </p>
 
   <script src="http://code.highcharts.com/highcharts.js"></script>
   <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>

@@ -19,6 +19,62 @@
     'common': {
       init: function() {
         // JavaScript to be fired on all pages
+
+        // Update progress bar
+        function updateDisplay(data){
+          if ( $('#progress-bar').length < 1 ) {
+            $('#script-progress').append($('<div id="progress" class="progress"><div id="progress-bar" class="progress-bar"><span></span></div></div>'));
+            $('#progress-bar').css('width', '0%')
+              .attr('aria-valuenow', 0)
+              .attr('aria-valuemin', 0)
+              .attr('aria-valuemax', 100);
+            console.log("Created Status Bars");
+          }
+
+          // var percent = data.percentComplete;
+          var percent = data.start / data.total;
+
+          $('#progress-bar')
+            .attr('aria-valuenow', percent*100)
+            .css('width', Math.ceil(percent*100) + "%");
+          $('#progress-bar span').text(Math.ceil(percent*100) + "%");
+
+        }
+
+        // Ajax call to count
+        function doCount(start) {
+          $.ajax({
+            type:"POST",
+            url: countAjax.ajaxurl,
+            data: {
+              action: 'do-count',
+              countNonce: countAjax.ajaxNonce,
+              start: start
+            },
+            success: function(response) {
+              console.log(response);
+              updateDisplay(response);
+              if (response.start < response.total) {
+                // Do next batch of counting
+                doCount(response.start);
+              } else {
+                // All done!
+                $('#script-progress').append('All done!');
+                $('#btn-close').show();
+              }
+            },
+            error: function(errorThrown){
+              console.log(errorThrown);
+            }
+          });
+        }
+
+        // Count votes when button is clicked
+        $('#count-votes').on('click', function() {
+          // Start counting at 0
+          doCount(0);
+        });
+
       },
       finalize: function() {
         // JavaScript to be fired on all pages, after page specific JS is fired
