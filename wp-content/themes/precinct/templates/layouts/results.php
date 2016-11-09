@@ -141,6 +141,24 @@ if (isset($_GET['contest'])) {
         }
       }
 
+      if ($type !== 'issues') {
+        // Total number of 'no selection' votes
+        $tally_none = count(array_keys($data, 'none'));
+        $tally_none_state = count(array_keys($data_state, 'none'));
+        $count[] = array(
+          'name' => 'No Selection',
+          'party' => 'no-selection',
+          'count' => $tally_none,
+          'percent' => round(($tally_none / $total) * 100, 2)
+        );
+        $count_state[] = array(
+          'name' => 'No Selection',
+          'party' => 'no-selection',
+          'count' => $tally_none_state,
+          'percent' => round(($tally_none_state / $total_state) * 100, 2)
+        );
+      }
+
       if (isset($contests[$match[0][0][0]][$race]['number'])) {
         $number = $contests[$match[0][0][0]][$race]['number'];
       } else {
@@ -150,7 +168,6 @@ if (isset($_GET['contest'])) {
       if (isset($contests[$match[0][0][0]][$race]['question'])) {
         $question = $contests[$match[0][0][0]][$race]['question'];
       }
-
       ?>
 
       <div class="row">

@@ -39,6 +39,8 @@ foreach ($ep_fields as $ep_field) {
   // Answers for this exit poll
   $ep_data = array_column($results, $ep_field['id']);
 
+  $ep_total = count($ep_data) - count(array_keys($ep_data, NULL));
+
   // Clean html entities (quotations encoded weirdly) - but html_entity_decode() isn't working on prod server. Also weird.
   foreach ($ep_data as &$clean) {
     $clean = preg_replace('/^don(.*)/i', 'Don\'t know', $clean);
@@ -55,7 +57,7 @@ foreach ($ep_fields as $ep_field) {
       'id' => $ep_key,
       'name' => addslashes($ep_option),
       'count' => $tally,
-      'percent' => round(($tally / $total) * 100, 2)
+      'percent' => round(($tally / $ep_total) * 100, 2)
     );
   }
   ?>

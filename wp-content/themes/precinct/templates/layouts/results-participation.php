@@ -49,7 +49,7 @@ foreach ($ep_fields as $ep_field) {
   $ep_data = array_column($results, $ep_field['id']);
   $ep_data_state = array_column($statewide, $ep_field['id']);
 
-  $ep_total =   count($ep_data) - count(array_keys($ep_data, NULL));
+  $ep_total = count($ep_data) - count(array_keys($ep_data, NULL));
   $ep_total_state = count($ep_data_state) - count(array_keys($ep_data_state, NULL));
 
   // Clean html entities (quotations encoded weirdly)

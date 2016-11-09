@@ -27,10 +27,9 @@ $races = array_keys($results[0]);
 foreach ($races as $race) {
   if (substr($race, 0, 11) == '_cmb_ballot') {
     $data = array_column($results, $race);
-    $all = count($data);
-    $none = count(array_keys($data, 'none'));
-    $null = count(array_keys($data, NULL));
-    $total = $all-$none-$null;
+
+    // Total number of ballots cast
+    $total = count($data) - count(array_keys($data, NULL));
 
     $counts = array();
 
@@ -69,6 +68,17 @@ foreach ($races as $race) {
           'percent' => round(($tally / $total) * 100, 2)
         );
       }
+    }
+
+    if ($type !== 'issues') {
+      // Total number of 'no selection' votes
+      $tally_none = count(array_keys($data, 'none'));
+      $counts[] = array(
+        'name' => 'No Selection',
+        'party' => 'no-selection',
+        'count' => $tally_none,
+        'percent' => round(($tally_none / $total) * 100, 2)
+      );
     }
     ?>
 
