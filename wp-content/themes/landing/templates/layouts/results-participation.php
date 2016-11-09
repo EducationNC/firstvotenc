@@ -19,7 +19,8 @@ $uploads = wp_upload_dir();
 $results = json_decode(file_get_contents($uploads['basedir'] . '/election_results.json'), true);
 $contests = json_decode(file_get_contents($uploads['basedir'] . '/election_contests.json'), true);
 
-$total = count($results);
+$total = count($results) - count(array_keys(array_column($results, '_cmb_ballot_president-and-vice-president-of-the-united-states'), NULL));
+
 ?>
 
 <div class="row extra-bottom-margin">

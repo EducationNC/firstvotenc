@@ -20,7 +20,7 @@ $contests = json_decode(get_option('precinct_contests'), true);
 $statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
 
 $total = count($results);
-$total_state = count($statewide);
+$total_state = count($statewide) - count(array_keys(array_column($statewide, '_cmb_ballot_president-and-vice-president-of-the-united-states'), NULL));
 ?>
 
 <div class="row">
