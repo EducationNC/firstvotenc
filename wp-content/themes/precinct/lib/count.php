@@ -33,15 +33,18 @@
   // Otherwise, append this data to existing statewide data
   // if ($i == 0) {
     // Remove this site's results from global results
-    $saved_er = array(
-      json_decode(file_get_contents($uploads . '/election_results-' . $blog_id . '-1.json'), true),
-      json_decode(file_get_contents($uploads . '/election_results-' . $blog_id . '-2.json'), true),
-      json_decode(file_get_contents($uploads . '/election_results-' . $blog_id . '-3.json'), true),
-      json_decode(file_get_contents($uploads . '/election_results-' . $blog_id . '-4.json'), true),
-      json_decode(file_get_contents($uploads . '/election_results-' . $blog_id . '-5.json'), true)
-    );
-    $clean_er = json_decode(file_get_contents($uploads . '/election_results_clean.json'), true);
-    // echo count($clean_er);
+    // $saved_er = array(
+    //   json_decode(file_get_contents($uploads . '/election_results-104-1.json'), true),
+    //   json_decode(file_get_contents($uploads . '/election_results-104-2.json'), true),
+    //   json_decode(file_get_contents($uploads . '/election_results-104-3.json'), true),
+    //   json_decode(file_get_contents($uploads . '/election_results-104-4.json'), true),
+    //   json_decode(file_get_contents($uploads . '/election_results-104-5.json'), true)
+    // );
+    // $clean_er = json_decode(file_get_contents($uploads . '/election_results_clean.json'), true);
+    // echo count($clean_er) . '<br />'
+    // foreach ($saved_er as $er) {
+    //   echo count($er) . '<br />';
+    // }
     // var_dump($clean_er);
     // file_put_contents($uploads['basedir'] . '/election_contests.json', '');
     // file_put_contents($uploads['basedir'] . '/election_results.json', '');
@@ -65,11 +68,11 @@
     // var_dump($election_results);
     // echo '</pre>';
 
-    $new_er = array_merge(array_values($clean_er), array_values($saved_er[0]), array_values($saved_er[1]), array_values($saved_er[2]), array_values($saved_er[3]), array_values($saved_er[4]));
-    file_put_contents(
-      $upload_save . '/election_results_full.json',
-      json_encode($new_er)
-    );
+    // $new_er = array_merge(array_values($clean_er), array_values($saved_er[0]), array_values($saved_er[1]), array_values($saved_er[2]), array_values($saved_er[3]), array_values($saved_er[4]));
+    // file_put_contents(
+    //   $upload_save . '/election_results_full.json',
+    //   json_encode($new_er)
+    // );
 
   // Iterate through all sites in batches
   /*if(is_multisite()){
