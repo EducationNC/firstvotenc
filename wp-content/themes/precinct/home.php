@@ -7,18 +7,25 @@ use Roots\Sage\Assets;
 <?php
 get_template_part('templates/components/title');
 
-// Display form to add new election
-if (isset($_GET['add'])) {
-  // Check if the user has permissions to add elections
-  if ( ! current_user_can( 'editor' ) ) {
-    wp_redirect( get_bloginfo('url') );
-    exit;
-  }
+  /**
+   * When election is live
+   *
+   *
+   *
+   */
 
-  get_template_part('/templates/layouts/add-election');
-
-  return false;
-}
+// // Display form to add new election
+// if (isset($_GET['add'])) {
+//   // Check if the user has permissions to add elections
+//   if ( ! current_user_can( 'editor' ) ) {
+//     wp_redirect( get_bloginfo('url') );
+//     exit;
+//   }
+//
+//   get_template_part('/templates/layouts/add-election');
+//
+//   return false;
+// }
 
 // Display teacher dashboard
 if ( isset( $_GET['manage'] ) ) {

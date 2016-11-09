@@ -62,11 +62,11 @@
             <tr>
               <td colspan="2">
                 <div class="well well-sm">
-                  <p><em>No simulation elections have been created for your precinct yet.</em></p>
+                  <p><em>No simulation elections have been created for your precinct.</em></p>
 
-                  <?php if ( current_user_can( 'editor' ) ) { ?>
+                  <?php /*if ( current_user_can( 'editor' ) ) { ?>
                     <a class="btn btn-default" href="?add">Add Simulation Election</a>
-                  <?php } ?>
+                  <?php }*/ ?>
 
                 </div>
               </td>
