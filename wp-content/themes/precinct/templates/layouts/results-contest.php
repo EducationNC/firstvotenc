@@ -15,7 +15,11 @@ $match = Extras\array_find_deep($contests, $race);
 $uploads = wp_upload_dir();
 $uploads_global = network_site_url('wp-content/uploads');
 $results_json = wp_remote_get($uploads['baseurl'] . '/precinct_results.json');
-$results = json_decode($results_json['body'], true);
+if ( false === ( $results_json = get_option( 'precinct_votes' ) ) ) {
+  $results_file = wp_remote_get($uploads['baseurl'] . '/precinct_results.json');
+  $results_json = $results_file['body'];
+}
+$results = json_decode($results_json, true);
 $statewide = json_decode(file_get_contents($uploads_global . '/election_results.json'), true);
 
 $races = array_keys($results[0]);
