@@ -14,7 +14,8 @@ $match = Extras\array_find_deep($contests, $race);
 // Results
 $uploads = wp_upload_dir();
 $uploads_global = network_site_url('wp-content/uploads');
-$results = json_decode(file_get_contents($uploads['baseurl'] . '/precinct_results.json'), true);
+$results_json = wp_remote_get($uploads['baseurl'] . '/precinct_results.json');
+$results = json_decode($results_json['body'], true);
 $statewide = json_decode(file_get_contents($uploads_global . '/election_results.json'), true);
 
 $races = array_keys($results[0]);
