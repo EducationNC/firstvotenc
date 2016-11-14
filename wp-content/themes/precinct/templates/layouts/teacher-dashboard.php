@@ -76,6 +76,28 @@
           </tbody>
         </table>
 
+
+        <?php if (is_super_admin()) { ?>
+          <p class="text-center extra-padding">
+            <button type="button" class="btn btn-primary btn-lg" id="count-votes" data-toggle="modal" data-target="#tally-modal" data-backdrop="static" data-keyboard="false">Count Votes!</button>
+          </p>
+
+          <div class="modal fade" id="tally-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Hang tight! We're counting votes at each precinct:</h4>
+                </div>
+                <div class="modal-body">
+                  <div id="script-progress"></div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" id="btn-close" style="display: none;" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
       </div>
 
       <div class="col-md-6">

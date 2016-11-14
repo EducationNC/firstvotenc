@@ -28,15 +28,37 @@
     'home': {
       init: function() {
         // JavaScript to be fired on the home page
+
+        // Ajax call to count
+        $('#count-votes').on('click', function() {
+          $.ajax({
+            type:"POST",
+            url: countAjax.ajaxurl,
+            data: {
+              action: 'do-count',
+              countNonce: countAjax.ajaxNonce
+            },
+            success: function(response) {
+              console.log(response);
+              $('#script-progress').append('All done!');
+              $('#btn-close').show();
+            },
+            error: function(errorThrown){
+              console.log(errorThrown);
+            }
+          });
+        });
+
       },
       finalize: function() {
         // JavaScript to be fired on the home page, after the init JS
       }
     },
     // About us page, note the change from about-us to about_us.
-    'about_us': {
+    'edit-election': {
       init: function() {
         // JavaScript to be fired on the about us page
+
       }
     }
   };

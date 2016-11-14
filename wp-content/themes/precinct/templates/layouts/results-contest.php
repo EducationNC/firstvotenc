@@ -12,9 +12,10 @@ $contests = json_decode(get_option('precinct_contests'), true);
 $match = Extras\array_find_deep($contests, $race);
 
 // Results
-$uploads = network_site_url('wp-content/uploads');
-$results = json_decode(get_option('precinct_votes'), true);
-$statewide = json_decode(file_get_contents($uploads . '/election_results.json'), true);
+$uploads = wp_upload_dir();
+$uploads_global = network_site_url('wp-content/uploads');
+$results = json_decode(file_get_contents($uploads['baseurl'] . '/precinct_results.json'), true);
+$statewide = json_decode(file_get_contents($uploads_global . '/election_results.json'), true);
 
 $races = array_keys($results[0]);
 $races_statewide = array_keys($statewide[0]);

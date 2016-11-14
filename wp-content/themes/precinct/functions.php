@@ -13,6 +13,7 @@ $sage_includes = [
   'lib/assets.php',    // Scripts and stylesheets
   'lib/custom-post-types.php', // Custom post types
   'lib/customizer.php',// Theme customizer
+  'lib/count.php',    // Count precinct votes individually
   'lib/extras.php',    // Custom functions
   'lib/form-ballot.php', // Dynamically construct ballot for each election
   'lib/form-election.php',      // CMB fields and functions for elections
